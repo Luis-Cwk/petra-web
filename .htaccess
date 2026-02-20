@@ -1,0 +1,12 @@
+# Ocultar extensión .html de las URLs
+RewriteEngine On
+
+# Redirigir URLs sin .html al archivo correspondiente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L,QSA]
+
+# Redirigir URLs con .html a la versión sin .html (para SEO)
+RewriteCond %{THE_REQUEST} \s/+([^?\s/]+)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]

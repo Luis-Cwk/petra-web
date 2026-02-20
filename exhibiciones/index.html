@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petra - Exhibiciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: rgba(255, 255, 255, 0.9);
+            --secondary-color: rgba(255, 255, 255, 0.6);
+            --accent-color: #ffffff;
+            --bg-color: #000000;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            color: #fff !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            padding-top: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilos para la barra de navegación */
+        .navbar {
+            background: transparent !important;
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.5s ease;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            min-width: 24rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                min-width: 16rem;
+            }
+        }
+
+        .navbar-brand.brand-small {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #fff !important;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Eliminar viñetas de la lista de navegación */
+        .navbar-nav {
+            list-style: none;
+            align-items: center;
+        }
+
+        #exhibiciones {
+            min-height: auto;
+            padding: 2rem 0 0 0;
+            flex: 1;
+        }
+
+        .nav-link {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .nav-link::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            width: auto;
+            height: auto;
+            bottom: auto;
+            left: auto;
+            background-color: transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .nav-link:hover::before,
+        .nav-link:focus::before,
+        .nav-link.active::before,
+        .nav-link:hover::after,
+        .nav-link:focus::after,
+        .nav-link.active::after {
+            opacity: 1;
+        }
+
+        /* Estilos para el botón de menú en móviles */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Estilo minimalista para botones de filtro (Colecciones) */
+        .filter-btn-minimalist {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .filter-btn-minimalist::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist:hover,
+        .filter-btn-minimalist:focus,
+        .filter-btn-minimalist.active {
+            color: rgba(255, 255, 255, 1) !important;
+            background: transparent;
+        }
+
+        .filter-btn-minimalist:hover::before,
+        .filter-btn-minimalist:focus::before,
+        .filter-btn-minimalist.active::before,
+        .filter-btn-minimalist:hover::after,
+        .filter-btn-minimalist:focus::after,
+        .filter-btn-minimalist.active::after {
+            opacity: 1;
+        }
+
+        .filter-buttons-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .filter-buttons-container {
+                border-top: none;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 0;
+                padding-left: 15px;
+            }
+        }
+
+        /* Media queries para zoom alto y pantallas pequeñas */
+        @media (max-width: 1400px) {
+            .navbar-brand {
+                min-width: 16rem;
+                font-size: clamp(1.2rem, 4vw, 2rem);
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .navbar-brand {
+                min-width: 12rem;
+                font-size: clamp(1rem, 3.5vw, 1.6rem);
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+                letter-spacing: 0.2px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+            }
+        }
+
+        /* Para zoom muy alto (200%) - Asegurar que todos los botones sean visibles */
+        @media (max-width: 1100px) {
+            .navbar-brand {
+                min-width: 10rem;
+                font-size: clamp(0.9rem, 3vw, 1.4rem);
+                letter-spacing: 1px;
+            }
+
+            .nav-link {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+                letter-spacing: 0.1px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+            }
+
+            /* Asegurar que el contenedor de navegación no se corte */
+            .navbar-collapse {
+                flex-basis: auto !important;
+                flex-grow: 1 !important;
+            }
+
+            .navbar .container {
+                max-width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        /* ========== MENÚ MÓVIL INTEGRADO EN LA BARRA ========== */
+        @media (max-width: 991.98px) {
+            .navbar {
+                padding: 10px 0 !important;
+                flex-wrap: wrap !important;
+                position: relative !important;
+            }
+
+            .navbar > .container {
+                flex-wrap: wrap !important;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .navbar-brand {
+                min-width: auto;
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+                order: 1;
+            }
+
+            .navbar-toggler {
+                order: 2;
+                padding: 8px;
+                margin-left: auto;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 4px;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-toggler:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-toggler-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            /* Menú desplegable - PARTE DEL FLUJO NATURAL DEL DOCUMENTO */
+            .navbar-collapse {
+                order: 3;
+                flex-basis: 100% !important;
+                flex-grow: 1 !important;
+                width: 100% !important;
+                background: rgba(0, 0, 0, 0.98) !important;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                margin-top: 10px;
+                padding: 20px 0;
+                position: relative;
+                display: none;
+            }
+
+            .navbar-collapse.show {
+                display: block;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Contenedor principal de navegación - organizado en 2 filas */
+            .navbar-collapse .d-flex.flex-column.flex-lg-row {
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 0;
+                width: 100%;
+                padding: 0 15px;
+            }
+
+            /* Contenedor de enlaces principales */
+            .navbar-collapse .d-flex.flex-nowrap {
+                flex-wrap: wrap !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                transition: all 0.2s ease;
+                border-radius: 4px;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .nav-link:hover,
+            .navbar-collapse .nav-link:focus,
+            .navbar-collapse .nav-link.active {
+                color: #ffffff !important;
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            /* Contenedor de botones de filtro - ahora es parte de la misma fila */
+            .navbar-collapse .filter-buttons-container {
+                border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+                border-top: none !important;
+                padding-left: 10px !important;
+                padding-top: 0 !important;
+                margin-top: 0 !important;
+                margin-left: 6px !important;
+                display: flex;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .filter-btn-minimalist:hover {
+                color: #ffffff !important;
+            }
+        }
+
+        /* Ajustes para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .navbar-collapse {
+                padding: 15px 0;
+            }
+
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 4px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 8px !important;
+                margin-left: 4px !important;
+                gap: 4px;
+            }
+        }
+
+        /* Ajustes para pantallas extremadamente pequeñas */
+        @media (max-width: 360px) {
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 3px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 6px !important;
+                margin-left: 3px !important;
+                gap: 3px;
+            }
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        .filter-btn-minimalist {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        /* Estilos para la sección de exhibiciones */
+        .exhibitions-section {
+            padding: 4rem 0;
+        }
+
+        .exhibitions-section h3,
+        .festivals-section h3,
+        .participations-section h3 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .exhibitions-section h4,
+        .festivals-section h4,
+        .participations-section h4 {
+            font-weight: 300;
+            opacity: 0.8;
+            margin-top: 3rem !important;
+            padding-left: 1rem;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .exhibition-item {
+            background: transparent;
+            border-radius: 0;
+            padding: 1.5rem 1rem;
+            margin-bottom: 0 !important;
+            box-shadow: none;
+            transition: all 0.3s ease;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 2px solid transparent;
+        }
+
+        .exhibition-item:first-of-type {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .exhibition-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom-color: transparent;
+            border-left-color: var(--accent-color);
+        }
+
+        .exhibition-item h5 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color) !important;
+            font-weight: 500;
+        }
+
+        .exhibition-item p {
+            margin-bottom: 0.25rem;
+            color: var(--secondary-color) !important;
+            font-weight: 300;
+        }
+
+        .exhibition-item a {
+            color: var(--primary-color) !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .exhibition-item a:hover {
+            opacity: 0.8;
+            color: var(--accent-color) !important;
+        }
+
+        .back-to-home,
+        .back-to-top {
+            display: inline-block;
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7) !important;
+            text-decoration: none;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .back-to-home::before,
+        .back-to-top::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home::after,
+        .back-to-top::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transform: translateX(5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home:hover,
+        .back-to-top:hover {
+            color: #fff !important;
+            background: transparent;
+        }
+
+        .back-to-home:hover::before,
+        .back-to-top:hover::before,
+        .back-to-home:hover::after,
+        .back-to-top:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer Unified Style */
+        .footer-unified {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 10px;
+            opacity: 0.6;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .back-to-home {
+                padding: 10px 24px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .back-to-home {
+                padding: 8px 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Estilos para el Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preloader-dots {
+            display: flex;
+            gap: 20px;
+        }
+
+        .preloader-dots span {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(1px);
+            animation: dot-glow 3s infinite ease-in-out;
+        }
+
+        .preloader-dots span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .preloader-dots span:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes dot-glow {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* Evitar scroll mientras carga */
+        body.loading {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="loading">
+    <!-- Pantalla de Carga -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand" href="../" id="petra-logo">
+                PETRA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="d-flex flex-column flex-lg-row w-100 justify-content-lg-between">
+                    <div class="d-flex flex-nowrap">
+                        <a class="nav-link" href="../">Arte</a>
+                        <a class="nav-link" href="../about/">Bio</a>
+                        <a class="nav-link active" href="../exhibiciones/">Exhibiciones</a>
+                        <a class="nav-link" href="../articulos/">Artículos</a>
+                        <a class="nav-link" href="../noticias/">Noticias</a>
+                        <a class="nav-link" href="../talleres/">Talleres</a>
+                        <a class="nav-link" href="../cryptoart/">CryptoArt</a>
+                    </div>
+                    <div class="d-flex flex-nowrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
+                        <a href="../colecciones/" class="filter-btn-minimalist">Colecciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección de Exhibiciones -->
+    <section id="exhibiciones" class="section">
+        <div class="container">
+            <!-- Contenido principal -->
+            <div id="main-content" class="py-4 py-md-5">
+                <!-- El contenido se cargará dinámicamente desde exhibiciones.js -->
+                <div id="exhibitions-container" class="px-2 px-md-0"></div>
+
+                <!-- Navegación de pie de página -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+                    <a href="#" class="back-to-home"
+                        onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                        Subir
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>
+        // Función para generar el HTML de la sección de exhibiciones
+        function generarExhibiciones() {
+            return `
+            <div class="exhibitions-section">
+                
+                <h5 class="mt-4 mb-3">2026</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                    <h5><a href="https://www.instagram.com/p/DUdhKZvkVPQ/?img_index=1" target="_blank" style="color: inherit; text-decoration: none;">Performance In Flux</a></h5>
+                        <p class="text-muted">Mad Arts, Miami, USA</p>
+                    </div>
+                </div>
+                
+                <h5 class="mt-4 mb-3">2025</h5>
+                <div class="exhibition-item mb-3">
+                    <h5><a href="https://www.makinadt.com/materiaviva-1" target="_blank" style="color: inherit; text-decoration: none;">Materia Viva ScreenDance Festival</a></h5>
+                    <p class="text-muted">Makinadt - Yucatan, Mexico</p>
+                </div>
+
+                     <div class="exhibition-item mb-3">
+                    <h5><a href="https://www.instagram.com/p/DPsG7HLDcLC/?img_index=1" target="_blank" style="color: inherit; text-decoration: none;">DigiLab in CCD by Semimuticas X Mutek</a></h5>
+                    <p class="text-muted">“Inteligencias Naturales” Lab of Development of Hybrid Art Projects</p>
+                </div>
+
+                   <div class="exhibition-item mb-3">
+                    <h5><a href="https://www.instagram.com/p/DPYx7cViC3P/?img_index=3" target="_blank" style="color: inherit; text-decoration: none;">International Videodance and Videoperformance Competition</a></h5>
+                    <p class="text-muted">Interfaccia Digitale, Italy</p>
+                </div>
+
+                 <div class="exhibition-item mb-3">
+                    <h5><a href="https://danza.inba.gob.mx/eventos-end-2025/1993-h3mbr4.html?date=2025-11-22-17-00" target="_blank" style="color: inherit; text-decoration: none;">Museo de Arte Moderno Mx</a></h5>
+                    <p class="text-muted">Presented "H3mbra" at the Encuentro Nacional de Danza 2025, in collaboration with Ophidia Colectivo</p>
+                </div>
+                
+                  <div class="exhibition-item mb-3">
+                    <h5><a href="https://www.instagram.com/p/DPzIcL-jRIO/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" style="color: inherit; text-decoration: none;">Resistencias Naturales during Congreso Semantico 2.0</a></h5>
+                    <p class="text-muted">Salón de la plástica mexicana, CDMX</p>
+                </div>
+
+                <div class="exhibition-item mb-3">
+                    <h5><a href="https://objkt.com/tokens/open_objkt/4985?ref=tz1cSxrvsct9FC33dCMwQGQkcwwHirHV1DzX" target="_blank" style="color: inherit; text-decoration: none;">Pop-up de Unfold Gallery X objkt durante NFT NYC</a></h5>
+                    <p class="text-muted">Hack the latent space, Curada por Raquel Gaudard</p>
+                </div>
+
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://thecvf-art.com/project/melancolia-de-un-no-especie-organismos-imaginarios-observadas-por-maquinas/" target="_blank" style="color: inherit; text-decoration: none;">CVPR AI Art Gallery</a></h5>
+                        <p class="text-muted">Curated by Lube Elliot</p>
+                    </div>
+
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://www.artcrush.gallery/artists/Petra" target="_blank" style="color: inherit; text-decoration: none;">ArtCrush X Phoenix Media</a></h5>
+                        <p class="text-muted">Romania (mar - abr 2025)</p>
+                    </div>
+
+                    <div class="exhibition-item mb-3">
+                        <h5>Dance on Camera Festival</h5>
+                        <p class="text-muted">Symphony Space NYC (EUA)</p>
+                    </div>
+                </div>
+
+
+                <h4 class="mt-4 mb-3">2024</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Ciclo de Artes Mediales</h5>
+                        <p class="text-muted">Canal Alpha, Santiago</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Absurd Film Festival</h5>
+                        <p class="text-muted">Milán, Italia - Best AI Movie</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Las Flores, Web3 Film Festival</h5>
+                        <p class="text-muted">CDMX & Canadá</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>China Dragon Awards</h5>
+                        <p class="text-muted">Shenzhen, China</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://daily.xyz/artwork/petra-daily-program-season-1-about-the-other-us/0xf6d60f7b7b43fd992b583464c2090eb15de71dd8/1510000" target="_blank" style="color: inherit; text-decoration: none;">The Daily .xyz Online Auction</a></h5>
+                        <p class="text-muted">Participation in digital art auction</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Ania: le retour - Théâtre de la AI en Paris @nowfreetocreate</h5>
+                        <p class="text-muted">Curated by @nftgothsa</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>NFT NYC</h5>
+                        <p class="text-muted">New York City, USA</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>CONTACT ATTEMPT, Planetarium Bochum</h5>
+                        <p class="text-muted">50th Anniversary of the Arecibo Message, Hamburg, Germany</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Congreso Latinoamericano de Ciencias Sociales 2024</h5>
+                        <p class="text-muted">@clepso_flacso</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>CICSEP</h5>
+                        <p class="text-muted">China International Conference of Science and Education Producers</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Muestra de Video & Experimental VARTEX12 (COL)</h5>
+                        <p class="text-muted">Colombia</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Museo Chiapas de Ciencia y Tecnología (MUCH) #HUNAB2024</h5>
+                        <p class="text-muted">Chiapas, Mexico</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://www.plexusprojects.org/gui-gooey-flow" target="_blank" style="color: inherit; text-decoration: none;">GUI/GOOEY Exhibition - Plexus Projects, curada por Laura Splan</a></h5>
+                        <p class="text-muted">Online y Gallery Screening, Brooklyn, NY (oct - dic 2024)</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Organic Structures - Selected Artist</h5>
+                        <p class="text-muted">M2 Miami, Inscribing Miami</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>ASVOFF Festival</h5>
+                        <p class="text-muted">Dover Street Market, Paris, France (nov 2024)</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Gamma x Nolcha Shows</h5>
+                        <p class="text-muted">Miami Art Week (dec 2024)</p>
+                    </div>
+
+                    <div class="exhibition-item mb-3">
+                        <h5>ASVOFF16 Fashion Film Festival</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Festival Las Flores Web3</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Festival Absurd</h5>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3">2023</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Miami Art Week</h5>
+                        <p class="text-muted">Sagamore, Art Hotel (USA)</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Exhibición colectiva "Lo que brilla / lo que arde"</h5>
+                        <p class="text-muted">Alianza Francesa en México</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Gamma Prints First Edition Art Book</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Nadya Riot call x Feminist Art</h5>
+                        <p class="text-muted">NFTNYC at LUME Studios (USA)</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>London Fashion Week, Meta\Sens Trilogy Collective (ENG)</h5>
+                    </div>
+
+                    <div class="exhibition-item mb-3">
+                        <h5>Free the Kitsch Festival (GRC)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>IMARP Festival (BRA)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Cuerpo Transparente Festival (ARG)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Syry Streaming Festival (MEX)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Cinettica Fashion & Art Film Festival (MEX)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>MIVA Festival (ECU)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Festival a Cielo Abierto (ECU)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Mes de la Danza Riviera Maya (MEX)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Movement Offerings (CAN)</h5>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3">2022</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Super Chief Gallery NFT (USA)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Monaverse (Metaverse)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Colectivo Experiencia 18 (ARG)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Move MINT NFT Gallery (USA)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>NFT Festa (JPN)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>NFT Liverpool (USA)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>SYRY Streaming festival (MEX)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>DanzFagia Festival (MEX)</h5>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3">2021</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Festival Internacional de Danza Jalisco</h5>
+                        <p class="text-muted">En colaboración con Nadère, Arts Vivants / Andréane Leclerc</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Muestra Jalisquilla de Videodanza</h5>
+                        <p class="text-muted">Antropósfera Festival, Guadalajara, México</p>
+                    </div>
+                     <div class="exhibition-item mb-3">
+                        <h5><a href="https://www.facebook.com/watch/live/?ref=watch_permalink&v=1407515086260280" target="_blank" style="color: inherit; text-decoration: none;">Muestra de Movimiento Audiovisual</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Participante del Laboratorio "Ideokinetica" de Laura Ríos en IDOCDE.net, Diplomado en Coreo-Cine UNAM y Diplomado en Poética de la Danza en la Universidad de Pachuca (MEX)</h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Dancing in the Park (CAN)</h5>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3">2020</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://www.facebook.com/watch/live/?ref=watch_permalink&v=222406315934488" target="_blank" style="color: inherit; text-decoration: none;">Festival de creación coreográfica en tiempo real</a></h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://www.lauraandersonbarbata.com/work/intervention-indigo" target="_blank" style="color: inherit; text-decoration: none;">Colaborador en "Indigo Intervention" de Laura Anderson Barbata</a></h5>
+                        <p class="text-muted">MUCA-ROMA</p>
+                    </div>
+                     <div class="exhibition-item mb-3">
+                        <h5>Encuentro de creación coreográfica en tiempo real (MEX)</h5>
+                    </div>
+                </div>
+
+                    <h4 class="mt-4 mb-3">2019</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://www.facebook.com/watch/?v=807550762936067" target="_blank" style="color: inherit; text-decoration: none;">Encuentro Danza + Norte</a></h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://vimeo.com/282048462" target="_blank" style="color: inherit; text-decoration: none;">Tercer Encuentro Internacional de Creación Coreográfica En Tiempo Real</a></h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="#" target="_blank" style="color: inherit; text-decoration: none;">Intervención escénica en Smartfilms CDMX</a></h5>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="" target="_blank" style="color: inherit; text-decoration: none;">Talento en producciones de Jorge Michel Grau & Michel Franco</a></h5>
+                    </div>
+                </div>
+                
+                <h4 class="mt-4 mb-3">2018</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Foro Periplo</h5>
+                        <p class="text-muted">Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Teatro Alarife Martín Casillas</h5>
+                        <p class="text-muted">Programa Vive el Arte</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Laboratorio Coreográfico Multidisciplinario</h5>
+                        <p class="text-muted">Resultado de residencia artística</p>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3">2017</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Jueves de Danza SCJ</h5>
+                        <p class="text-muted">Teatro Alarife Martín Casillas, Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Encuentro Nacional de Danza</h5>
+                        <p class="text-muted">Ex-esmeralda, Ciudad de México</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Galería Ajolote Arte Contemporáneo</h5>
+                        <p class="text-muted">Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Galería Airesis</h5>
+                        <p class="text-muted">Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Foro LARVA</h5>
+                        <p class="text-muted">Guadalajara</p>
+                    </div>
+                     <div class="exhibition-item mb-3">
+                        <h5><a href="" target="_blank" style="color: inherit; text-decoration: none;">"Canela Fina" Compañía de flamenco experimental</a></h5>
+                        <p class="text-muted">Intérprete en giras nacionales</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Festival Internacional de Danza Contemporánea FICCDMX</h5>
+                        <p class="text-muted">Compañía 8ADN</p>
+                    </div>
+                </div>
+
+                <h4 class="mt-4 mb-3">2016</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://drive.google.com/file/d/16Z5e6rOc4t3VzqBgzK1kkztXseT5HQab/view" target="_blank" style="color: inherit; text-decoration: none;">Proyecto Red Norte Guadalajara</a></h5>
+                        <p class="text-muted">Secretaría de Cultura de Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://drive.google.com/file/d/1-7gC3F99kwPCALXqE2wTPwg_mWx7uyOv/view" target="_blank" style="color: inherit; text-decoration: none;">Crotch, Compañía Baal (España)</a></h5>
+                        <p class="text-muted">Festival de danza Bailar a pantalla</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://flickr.com/photos/129638176@N07/albums/72157652701412046/" target="_blank" style="color: inherit; text-decoration: none;">50 sombras de la UDG</a></h5>
+                        <p class="text-muted">Universidad de Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5><a href="https://youtu.be/Cladc9BHp7c?t=631" target="_blank" style="color: inherit; text-decoration: none;">Temporada Jueves de Danza</a></h5>
+                        <p class="text-muted">Compañía 8ADN - Teatro Alarife Martín Casillas</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Encuentro Cuerpo y Urbe </h5>
+                        <p class="text-muted">Plaza Liberación, Guadalajara</p>
+                    </div>
+                    <div class="exhibition-item mb-3"> 
+                        <h5><a href="https://chemoludo.wordpress.com/tag/marianela-villa/" target="_blank" style="color: inherit; text-decoration: none;">El matrimonio Palavrakis de Laura Uribe</a></h5>
+                        <p class="text-muted">Festival Onésimo Gonzalez (MEX)</p>
+                    </div>
+                    <div class="exhibition-item mb-3">
+                        <h5>Festival de Danza Extremadura (MEX)</h5>
+                    </div>
+                </div>
+
+                
+                <h4 class="mt-4 mb-3">2015</h4>
+                <div class="exhibition-list">
+                    <div class="exhibition-item mb-3">
+                        <h5>Programa de actividades de Jueves de Danza Teatro Alarife Martín Casillas</h5>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Hacer la función disponible globalmente
+        window.generarExhibiciones = generarExhibiciones;
+
+        // Cargar el contenido de las exhibiciones cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('exhibitions-container');
+            if (container) {
+                container.innerHTML = generarExhibiciones();
+            }
+
+            // Efecto de scroll en el header
+            window.addEventListener('scroll', function () {
+                const header = document.getElementById('mainNav');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Actualizar la clase activa en la navegación
+            const currentPage = window.location.pathname.split('/').pop() || 'Petra-Pagina-Glass.html';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPage ||
+                    (currentPage === 'exhibiciones.html' && link.getAttribute('href').includes('exhibiciones'))) {
+                    link.classList.add('active');
+                    link.setAttribute('aria-current', 'page');
+                } else {
+                    link.classList.remove('active');
+                    link.removeAttribute('aria-current');
+                }
+            });
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer-unified">
+        <p class="mb-0" id="footer-text">©2026 Petra. All rights reserved</p>
+    </footer>
+
+    <!-- Script de animación del footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.textContent;
+                footerText.innerHTML = '';
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(10px)';
+                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
+                    footerText.appendChild(span);
+                });
+
+                // Usar Intersection Observer para activar la animación cuando el footer sea visible
+                const footerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            footerText.querySelectorAll('span').forEach(span => {
+                                span.style.opacity = '1';
+                                span.style.transform = 'translateY(0)';
+                            });
+                            footerObserver.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.5 // Activar cuando al menos 50% del footer sea visible
+                });
+
+                footerObserver.observe(footerText);
+            }
+        });
+    </script>
+
+    <!-- Logo Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const logo = document.getElementById('petra-logo');
+            const originalText = "PETRA";
+            const letters = originalText.split('');
+            logo.innerHTML = '';
+
+            letters.forEach((letter, index) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(20px)';
+                span.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                logo.appendChild(span);
+            });
+
+            setTimeout(() => {
+                logo.querySelectorAll('span').forEach(span => {
+                    span.style.opacity = '1';
+                    span.style.transform = 'translateY(0)';
+                });
+            }, 500);
+        });
+    </script>
+
+    <!-- Script para ocultar extensiones .html -->
+    <script src="../clean-urls.js"></script>
+    <!-- Lógica para el preloader -->
+    <script>
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+
+            // Damos un pequeño margen para asegurar que todo esté renderizado
+            setTimeout(() => {
+                preloader.classList.add('loaded');
+                body.classList.remove('loading');
+            }, 800);
+        });
+    </script>
+</body>
+
+</html>

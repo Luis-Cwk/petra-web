@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PETRA - Noticias</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: rgba(255, 255, 255, 0.9);
+            --secondary-color: rgba(255, 255, 255, 0.6);
+            --accent-color: #ffffff;
+            --bg-color: #000000;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover-bg: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            padding-top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2,
+        h3,
+        h4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        a,
+        a:hover,
+        a:focus {
+            text-decoration: none;
+            color: #fff !important;
+        }
+
+        /* Estilos para la barra de navegación */
+        .navbar {
+            background: transparent !important;
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.5s ease;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            min-width: 24rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                min-width: 16rem;
+            }
+        }
+
+        .navbar-brand.brand-small {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #fff !important;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Eliminar viñetas de la lista de navegación */
+        .navbar-nav {
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .nav-link::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            width: auto;
+            height: auto;
+            bottom: auto;
+            left: auto;
+            background-color: transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .nav-link:hover::before,
+        .nav-link:focus::before,
+        .nav-link.active::before,
+        .nav-link:hover::after,
+        .nav-link:focus::after,
+        .nav-link.active::after {
+            opacity: 1;
+        }
+
+        /* Estilos para el botón de menú en móviles */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Estilo minimalista para botones de filtro (Colecciones) */
+        .filter-btn-minimalist {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .filter-btn-minimalist::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist:hover,
+        .filter-btn-minimalist:focus,
+        .filter-btn-minimalist.active {
+            color: rgba(255, 255, 255, 1) !important;
+            background: transparent;
+        }
+
+        .filter-btn-minimalist:hover::before,
+        .filter-btn-minimalist:focus::before,
+        .filter-btn-minimalist.active::before,
+        .filter-btn-minimalist:hover::after,
+        .filter-btn-minimalist:focus::after,
+        .filter-btn-minimalist.active::after {
+            opacity: 1;
+        }
+
+        .filter-buttons-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .filter-buttons-container {
+                border-top: none;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 0;
+                padding-left: 15px;
+            }
+        }
+
+        /* Media queries para zoom alto y pantallas pequeñas */
+        @media (max-width: 1400px) {
+            .navbar-brand {
+                min-width: 16rem;
+                font-size: clamp(1.2rem, 4vw, 2rem);
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .navbar-brand {
+                min-width: 12rem;
+                font-size: clamp(1rem, 3.5vw, 1.6rem);
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+                letter-spacing: 0.2px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+            }
+        }
+
+        /* Para zoom muy alto (200%) - Asegurar que todos los botones sean visibles */
+        @media (max-width: 1100px) {
+            .navbar-brand {
+                min-width: 10rem;
+                font-size: clamp(0.9rem, 3vw, 1.4rem);
+                letter-spacing: 1px;
+            }
+
+            .nav-link {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+                letter-spacing: 0.1px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+            }
+
+            /* Asegurar que el contenedor de navegación no se corte */
+            .navbar-collapse {
+                flex-basis: auto !important;
+                flex-grow: 1 !important;
+            }
+
+            .navbar .container {
+                max-width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        /* ========== MENÚ MÓVIL INTEGRADO EN LA BARRA ========== */
+        @media (max-width: 991.98px) {
+            .navbar {
+                padding: 10px 0 !important;
+                flex-wrap: wrap !important;
+                position: relative !important;
+            }
+
+            .navbar > .container {
+                flex-wrap: wrap !important;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .navbar-brand {
+                min-width: auto;
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+                order: 1;
+            }
+
+            .navbar-toggler {
+                order: 2;
+                padding: 8px;
+                margin-left: auto;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 4px;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-toggler:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-toggler-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            /* Menú desplegable - PARTE DEL FLUJO NATURAL DEL DOCUMENTO */
+            .navbar-collapse {
+                order: 3;
+                flex-basis: 100% !important;
+                flex-grow: 1 !important;
+                width: 100% !important;
+                background: rgba(0, 0, 0, 0.98) !important;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                margin-top: 10px;
+                padding: 20px 0;
+                position: relative;
+                display: none;
+            }
+
+            .navbar-collapse.show {
+                display: block;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Contenedor principal de navegación - organizado en 2 filas */
+            .navbar-collapse .d-flex.flex-column.flex-lg-row {
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 0;
+                width: 100%;
+                padding: 0 15px;
+            }
+
+            /* Contenedor de enlaces principales */
+            .navbar-collapse .d-flex.flex-nowrap {
+                flex-wrap: wrap !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                transition: all 0.2s ease;
+                border-radius: 4px;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .nav-link:hover,
+            .navbar-collapse .nav-link:focus,
+            .navbar-collapse .nav-link.active {
+                color: #ffffff !important;
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            /* Contenedor de botones de filtro - ahora es parte de la misma fila */
+            .navbar-collapse .filter-buttons-container {
+                border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+                border-top: none !important;
+                padding-left: 10px !important;
+                padding-top: 0 !important;
+                margin-top: 0 !important;
+                margin-left: 6px !important;
+                display: flex;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .filter-btn-minimalist:hover {
+                color: #ffffff !important;
+            }
+        }
+
+        /* Ajustes para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .navbar-collapse {
+                padding: 15px 0;
+            }
+
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 4px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 8px !important;
+                margin-left: 4px !important;
+                gap: 4px;
+            }
+        }
+
+        /* Ajustes para pantallas extremadamente pequeñas */
+        @media (max-width: 360px) {
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 3px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 6px !important;
+                margin-left: 3px !important;
+                gap: 3px;
+            }
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        .filter-btn-minimalist {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        /* Estilos para la sección de noticias */
+        .section {
+            padding: 2rem 0 1rem 0;
+            flex: 1;
+        }
+
+        #noticias {
+            min-height: auto;
+            padding: 2rem 0 1rem 0;
+        }
+
+        .content-section {
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            padding: 0;
+            margin: 20px 0 30px;
+            /* Reducido margen inferior */
+            box-shadow: none;
+            transition: all 0.3s ease;
+            border: none;
+            min-height: auto;
+            /* Eliminado min-height fijo para evitar scroll innecesario */
+            position: relative;
+        }
+
+        .content-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: transparent;
+        }
+
+        /* Estilos para el carrusel de noticias */
+        .news-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .news-carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 540px;
+            height: auto;
+            overflow: visible;
+            margin: 20px auto;
+            background: transparent;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+            user-select: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .news-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .news-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            background: transparent !important;
+        }
+
+        .news-content {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .news-slide img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            background: transparent !important;
+        }
+
+        .news-slide img:hover,
+        .news-slide img:focus {
+            background: transparent !important;
+            outline: none;
+        }
+
+        /* Estilos para el embed de Instagram */
+        .instagram-embed {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+        }
+
+        .back-to-home i {
+            margin-right: 8px;
+        }
+
+        .back-to-home,
+        .back-to-top {
+            display: inline-block;
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7) !important;
+            text-decoration: none;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .back-to-home::before,
+        .back-to-top::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home::after,
+        .back-to-top::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transform: translateX(5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home:hover,
+        .back-to-top:hover {
+            color: #fff !important;
+            background: transparent;
+        }
+
+        .back-to-home:hover::before,
+        .back-to-top:hover::before,
+        .back-to-home:hover::after,
+        .back-to-top:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer Unified Style */
+        .footer-unified {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 10px;
+            opacity: 0.6;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .back-to-home {
+                padding: 10px 24px;
+                font-size: 0.85rem;
+                bottom: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .back-to-home {
+                padding: 8px 20px;
+                font-size: 0.8rem;
+                bottom: 15px;
+            }
+        }
+
+        /* Estilos para el Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preloader-dots {
+            display: flex;
+            gap: 20px;
+        }
+
+        .preloader-dots span {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(1px);
+            animation: dot-glow 3s infinite ease-in-out;
+        }
+
+        .preloader-dots span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .preloader-dots span:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes dot-glow {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* Evitar scroll mientras carga */
+        body.loading {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="loading">
+    <!-- Pantalla de Carga -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand" href="../" id="petra-logo">
+                PETRA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="d-flex flex-column flex-lg-row w-100 justify-content-lg-between">
+                    <div class="d-flex flex-nowrap">
+                        <a class="nav-link" href="../">Arte</a>
+                        <a class="nav-link" href="../about/">Bio</a>
+                        <a class="nav-link" href="../exhibiciones/">Exhibiciones</a>
+                        <a class="nav-link" href="../articulos/">Artículos</a>
+                        <a class="nav-link active" href="../noticias/">Noticias</a>
+                        <a class="nav-link" href="../talleres/">Talleres</a>
+                        <a class="nav-link" href="../cryptoart/">CryptoArt</a>
+                    </div>
+                    <div class="d-flex flex-nowrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
+                        <a href="../colecciones/" class="filter-btn-minimalist">Colecciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección de Noticias -->
+    <section id="noticias" class="section">
+        <div class="container pt-4 pb-2">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="content-section">
+                        <div class="text-center mb-5">
+                            <div class="divider mx-auto"></div>
+                        </div>
+
+                        <!-- Contenedor del carrusel -->
+                        <div class="news-container">
+                            <div class="news-carousel-container">
+                                <div class="news-carousel">
+
+                                    <!-- Imagen 1 - Museo López Portillo -->
+                                    <div class="news-slide">
+                                        <div class="news-content">
+                                            <img src="../imagenesOBRA/MuseoLopezPortillo.jpg" alt="Museo López Portillo"
+                                                class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Texto informativo -->
+                            <div class="news-info" style="display: none;">
+                                <p class="subtitle"></p>
+                                <h2 class="title"></h2>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para inicializar el carrusel de noticias
+        // Variables globales para el manejo táctil
+        let touchStartY = 0;
+        let touchEndY = 0;
+        let isTouchMoving = false;
+        let autoScrollInterval;
+
+        function initNoticiasCarousel() {
+            const carousel = document.querySelector('.news-carousel');
+            if (!carousel) {
+                console.log('No se encontró el elemento .news-carousel en esta página');
+                return;
+            }
+
+            const slides = document.querySelectorAll('.news-slide');
+            if (slides.length === 0) {
+                console.error('No se encontraron slides en el carrusel');
+                return;
+            }
+
+            const totalSlides = slides.length;
+            let currentIndex = 0;
+            let isScrolling = false;
+
+            // Configurar el tamaño del carrusel
+            function setupCarousel() {
+                const slides = document.querySelectorAll('.news-slide');
+                // Ajustar la posición de cada slide
+                slides.forEach((slide, index) => {
+                    slide.style.transform = `translateY(${index * 100}%)`;
+                    slide.style.opacity = index === 0 ? '1' : '0';
+                    slide.style.transition = 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out';
+                });
+
+                // Asegurar que el contenedor tenga la altura correcta
+                const container = document.querySelector('.news-carousel-container');
+                if (container) {
+                    container.style.height = '60vh';
+                }
+
+                // Iniciar la animación
+                startAutoScroll();
+            }
+
+            // Función para mover al slide específico
+            function goToSlide(index) {
+                if (isScrolling) return;
+
+                isScrolling = true;
+                const prevIndex = currentIndex;
+                currentIndex = (index + totalSlides) % totalSlides;
+
+                // Ocultar el slide actual
+                const prevSlide = document.querySelectorAll('.news-slide')[prevIndex];
+                if (prevSlide) {
+                    prevSlide.style.opacity = '0';
+                }
+
+                // Mostrar el nuevo slide
+                const newSlide = document.querySelectorAll('.news-slide')[currentIndex];
+                if (newSlide) {
+                    newSlide.style.opacity = '1';
+                }
+
+                // Mover cada slide individualmente
+                document.querySelectorAll('.news-slide').forEach((slide, i) => {
+                    const newPosition = (i - currentIndex) * 100;
+                    slide.style.transform = `translateY(${newPosition}%)`;
+                });
+
+                // Reiniciar la posición después de la transición
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 500);
+            }
+
+            // Auto-scroll
+            function startAutoScroll() {
+                stopAutoScroll();
+                autoScrollInterval = setInterval(() => {
+                    goToSlide(currentIndex + 1);
+                }, 3000); // Cambia cada 3 segundos
+            }
+
+            function stopAutoScroll() {
+                if (autoScrollInterval) {
+                    clearInterval(autoScrollInterval);
+                }
+            }
+
+            // Pausar auto-scroll al hacer hover
+            const container = document.querySelector('.news-carousel-container');
+            if (container) {
+                container.addEventListener('mouseenter', stopAutoScroll);
+                container.addEventListener('mouseleave', startAutoScroll);
+
+                // Manejar scroll con rueda del mouse
+                container.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    if (isScrolling) return;
+
+                    if (e.deltaY > 0) {
+                        // Scroll hacia abajo
+                        goToSlide(currentIndex + 1);
+                    } else {
+                        // Scroll hacia arriba
+                        goToSlide(currentIndex - 1);
+                    }
+                });
+
+                // Configurar manejadores de eventos táctiles
+                container.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    touchStartY = e.touches[0].clientY;
+                    isTouchMoving = true;
+                    stopAutoScroll();
+                }, { passive: false });
+
+                container.addEventListener('touchmove', (e) => {
+                    if (!isTouchMoving) return;
+                    e.preventDefault();
+                    touchEndY = e.touches[0].clientY;
+                }, { passive: false });
+
+                container.addEventListener('touchend', (e) => {
+                    if (!isTouchMoving) return;
+                    e.preventDefault();
+                    isTouchMoving = false;
+
+                    // Si no hubo movimiento significativo, no hacer nada
+                    if (Math.abs(touchStartY - touchEndY) < 10) {
+                        startAutoScroll();
+                        return;
+                    }
+
+                    handleSwipe();
+                    startAutoScroll();
+                }, { passive: false });
+
+                // Cancelar el toque si el usuario sale del contenedor
+                container.addEventListener('touchcancel', () => {
+                    isTouchMoving = false;
+                    startAutoScroll();
+                });
+            }
+
+            function handleSwipe() {
+                // Asegurarse de que tenemos valores válidos
+                if (typeof touchStartY === 'undefined' || typeof touchEndY === 'undefined') {
+                    console.log('Valores táctiles no inicializados');
+                    return;
+                }
+
+                const diff = touchStartY - touchEndY;
+                const threshold = 30; // Reducido el umbral para mayor sensibilidad
+
+                console.log('Deslizamiento detectado:', { diff, threshold });
+
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        console.log('Deslizamiento hacia arriba - siguiente slide');
+                        goToSlide(currentIndex + 1);
+                    } else {
+                        console.log('Deslizamiento hacia abajo - slide anterior');
+                        goToSlide(currentIndex - 1);
+                    }
+                }
+            }
+
+            // Inicializar
+            setupCarousel();
+        }
+
+        // Iniciar el carrusel cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM cargado, inicializando carrusel...');
+            initNoticiasCarousel();
+        });
+
+        // Verificar si el DOM ya está listo
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            // El DOM ya está listo, inicializar el carrusel después de un pequeño retraso
+            setTimeout(initNoticiasCarousel, 100);
+        }
+    </script>
+    <script>
+        // Efecto de scroll en el header
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Inicializar el carrusel
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof initNoticiasCarousel === 'function') {
+                initNoticiasCarousel();
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer-unified">
+        <p class="mb-0" id="footer-text">©2026 Petra. All rights reserved</p>
+    </footer>
+
+    <!-- Script de animación del footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.textContent;
+                footerText.innerHTML = '';
+
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(10px)';
+                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
+                    footerText.appendChild(span);
+                });
+
+                setTimeout(() => {
+                    footerText.querySelectorAll('span').forEach(span => {
+                        span.style.opacity = '1';
+                        span.style.transform = 'translateY(0)';
+                    });
+                }, 800);
+            }
+        });
+    </script>
+
+    <!-- Logo Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const logo = document.getElementById('petra-logo');
+            const originalText = "PETRA";
+            const letters = originalText.split('');
+            logo.innerHTML = '';
+
+            letters.forEach((letter, index) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(20px)';
+                span.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                logo.appendChild(span);
+            });
+
+            setTimeout(() => {
+                logo.querySelectorAll('span').forEach(span => {
+                    span.style.opacity = '1';
+                    span.style.transform = 'translateY(0)';
+                });
+            }, 500);
+        });
+    </script>
+
+    <!-- Script para ocultar extensiones .html -->
+    <script src="../clean-urls.js"></script>
+    <!-- Lógica para el preloader -->
+    <script>
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+
+            // Damos un pequeño margen para asegurar que todo esté renderizado
+            setTimeout(() => {
+                preloader.classList.add('loaded');
+                body.classList.remove('loading');
+            }, 800);
+        });
+    </script>
+</body>
+
+</html>

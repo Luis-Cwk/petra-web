@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petra Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --text-color: #000;
+            --secondary-text: #808080;
+            --border-color: #e5e5e5;
+            --margin-side: 8%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            display: flex;
+            justify-content: flex-end;
+            padding: 40px var(--margin-side);
+            gap: 30px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- SECCIÓN BIOGRAFÍA (GRID) --- */
+        .bio-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Columna pequeña para título, grande para contenido */
+            padding: 100px var(--margin-side);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .bio-content {
+            max-width: 700px;
+        }
+
+        /* La Cita */
+        .quote {
+            font-size: 28px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        /* El nombre PETRA (El detalle que mencionabas) */
+        .signature {
+            color: var(--secondary-text);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 80px;
+            display: block;
+        }
+
+        /* Bloque de Detalles y Texto */
+        .bio-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .details {
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--secondary-text);
+        }
+
+        .details a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+        }
+
+        .bio-text {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .bio-image {
+            width: 150px;
+            height: 150px;
+            background: #f0f0f0; /* Placeholder */
+            filter: grayscale(1);
+            margin-bottom: 20px;
+        }
+
+        /* --- SECCIÓN ARTWORKS --- */
+        .artworks-section {
+            padding: 60px var(--margin-side);
+        }
+
+        @media (max-width: 768px) {
+            .bio-section, .bio-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <span>Artists</span>
+        <span>Exhibitions</span>
+        <span>Films</span>
+        <span>About</span>
+    </nav>
+
+    <section class="bio-section">
+        <h2 class="section-title">Biography</h2>
+        
+        <div class="bio-content">
+            <p class="quote">
+                “…the machines express themselves by means of algorithms that I direct, they would be like bodies investigating a quality, deforming, abstracting...”
+            </p>
+            <span class="signature">- Petra</span>
+
+            <div class="bio-details-grid">
+                <div class="details">
+                    <p>DETAILS</p>
+                    <p>b. 1993, Mexico</p>
+                    <a href="#">x.com/luisbetx9 ↗</a>
+                    <a href="#">instagram.com/petra.synthetic ↗</a>
+                </div>
+                
+                <div class="bio-main">
+                    <div class="bio-image">
+                        <img src="https://via.placeholder.com/150" alt="Artist Work" style="width:100%; height:100%; object-fit:cover; opacity: 0.5;">
+                    </div>
+                    <div class="bio-text">
+                        Petra is a performer turned digital artist whose work fuses the human form with the virtual world through eclectic visual compositions.
+                        <br><br>
+                        A self-explores themes such as transhumanism, interspecies, generative/expanded screendance...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="artworks-section">
+        <h2 class="section-title">Artworks</h2>
+        </section>
+
+</body>
+</html>

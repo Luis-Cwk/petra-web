@@ -1,0 +1,28 @@
+::1 - - [12/Feb/2026 10:37:17] "GET / HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /css/carousel-styles.css HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /css/media-controls.css HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/About-the-other-us-Petra-2024.2.png HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/Melancolia-de-un-no-especie-F1.png HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /js/InteractiveGlassMaterial.js HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/bodies1.2.gif HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/portada2.gif HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /js/video-handler.js HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /clean-urls.js HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /js/coleccion.js HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /js/talleres.js HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /js/cryptoart.js HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/Cuerpos.png HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/vectofascismo.jpg HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /imagenesOBRA/HackLatent.gif HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /shaders/glass.vert HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:17] "GET /shaders/glass.frag HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:37:18] code 404, message File not found
+::1 - - [12/Feb/2026 10:37:18] "GET /favicon.ico HTTP/1.1" 404 -
+::1 - - [12/Feb/2026 10:38:33] "GET / HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:39:17] "GET / HTTP/1.1" 304 -
+::1 - - [12/Feb/2026 10:39:45] "GET /exhibiciones/ HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:39:49] "GET / HTTP/1.1" 304 -
+::1 - - [12/Feb/2026 10:39:52] "GET /about/ HTTP/1.1" 200 -
+::1 - - [12/Feb/2026 10:39:53] code 404, message File not found
+::1 - - [12/Feb/2026 10:39:53] "GET /petravideo.mp4 HTTP/1.1" 404 -
+::1 - - [12/Feb/2026 10:40:03] "GET / HTTP/1.1" 304 -

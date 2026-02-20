@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PETRA - Talleres</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: rgba(255, 255, 255, 0.9);
+            --secondary-color: rgba(255, 255, 255, 0.6);
+            --accent-color: #ffffff;
+            --bg-color: #000000;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover-bg: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            padding-top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a,
+        a:hover,
+        a:focus {
+            text-decoration: none;
+            color: #fff !important;
+        }
+
+        /* Estilos para la barra de navegación */
+        .navbar {
+            background: transparent !important;
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.5s ease;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            min-width: 24rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                min-width: 16rem;
+            }
+        }
+
+        .navbar-brand.brand-small {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #fff !important;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Eliminar viñetas de la lista de navegación */
+        .navbar-nav {
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .nav-link::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            width: auto;
+            height: auto;
+            bottom: auto;
+            left: auto;
+            background-color: transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .nav-link:hover::before,
+        .nav-link:focus::before,
+        .nav-link.active::before,
+        .nav-link:hover::after,
+        .nav-link:focus::after,
+        .nav-link.active::after {
+            opacity: 1;
+        }
+
+        /* Estilos para el botón de menú en móviles */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Estilo minimalista para botones de filtro (Colecciones) */
+        .filter-btn-minimalist {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .filter-btn-minimalist::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist:hover,
+        .filter-btn-minimalist:focus,
+        .filter-btn-minimalist.active {
+            color: rgba(255, 255, 255, 1) !important;
+            background: transparent;
+        }
+
+        .filter-btn-minimalist:hover::before,
+        .filter-btn-minimalist:focus::before,
+        .filter-btn-minimalist.active::before,
+        .filter-btn-minimalist:hover::after,
+        .filter-btn-minimalist:focus::after,
+        .filter-btn-minimalist.active::after {
+            opacity: 1;
+        }
+
+        .filter-buttons-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .filter-buttons-container {
+                border-top: none;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 0;
+                padding-left: 15px;
+            }
+        }
+
+        /* Media queries para zoom alto y pantallas pequeñas */
+        @media (max-width: 1400px) {
+            .navbar-brand {
+                min-width: 16rem;
+                font-size: clamp(1.2rem, 4vw, 2rem);
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .navbar-brand {
+                min-width: 12rem;
+                font-size: clamp(1rem, 3.5vw, 1.6rem);
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+                letter-spacing: 0.2px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+            }
+        }
+
+        /* Para zoom muy alto (200%) - Asegurar que todos los botones sean visibles */
+        @media (max-width: 1100px) {
+            .navbar-brand {
+                min-width: 10rem;
+                font-size: clamp(0.9rem, 3vw, 1.4rem);
+                letter-spacing: 1px;
+            }
+
+            .nav-link {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+                letter-spacing: 0.1px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+            }
+
+            /* Asegurar que el contenedor de navegación no se corte */
+            .navbar-collapse {
+                flex-basis: auto !important;
+                flex-grow: 1 !important;
+            }
+
+            .navbar .container {
+                max-width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        /* ========== MENÚ MÓVIL INTEGRADO EN LA BARRA ========== */
+        @media (max-width: 991.98px) {
+            .navbar {
+                padding: 10px 0 !important;
+                flex-wrap: wrap !important;
+                position: relative !important;
+            }
+
+            .navbar > .container {
+                flex-wrap: wrap !important;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .navbar-brand {
+                min-width: auto;
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+                order: 1;
+            }
+
+            .navbar-toggler {
+                order: 2;
+                padding: 8px;
+                margin-left: auto;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 4px;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-toggler:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-toggler-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            /* Menú desplegable - PARTE DEL FLUJO NATURAL DEL DOCUMENTO */
+            .navbar-collapse {
+                order: 3;
+                flex-basis: 100% !important;
+                flex-grow: 1 !important;
+                width: 100% !important;
+                background: rgba(0, 0, 0, 0.98) !important;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                margin-top: 10px;
+                padding: 20px 0;
+                position: relative;
+                display: none;
+            }
+
+            .navbar-collapse.show {
+                display: block;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Contenedor principal de navegación - organizado en 2 filas */
+            .navbar-collapse .d-flex.flex-column.flex-lg-row {
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 0;
+                width: 100%;
+                padding: 0 15px;
+            }
+
+            /* Contenedor de enlaces principales */
+            .navbar-collapse .d-flex.flex-nowrap {
+                flex-wrap: wrap !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                transition: all 0.2s ease;
+                border-radius: 4px;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .nav-link:hover,
+            .navbar-collapse .nav-link:focus,
+            .navbar-collapse .nav-link.active {
+                color: #ffffff !important;
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            /* Contenedor de botones de filtro - ahora es parte de la misma fila */
+            .navbar-collapse .filter-buttons-container {
+                border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+                border-top: none !important;
+                padding-left: 10px !important;
+                padding-top: 0 !important;
+                margin-top: 0 !important;
+                margin-left: 6px !important;
+                display: flex;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .filter-btn-minimalist:hover {
+                color: #ffffff !important;
+            }
+        }
+
+        /* Ajustes para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .navbar-collapse {
+                padding: 15px 0;
+            }
+
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 4px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 8px !important;
+                margin-left: 4px !important;
+                gap: 4px;
+            }
+        }
+
+        /* Ajustes para pantallas extremadamente pequeñas */
+        @media (max-width: 360px) {
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 3px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 6px !important;
+                margin-left: 3px !important;
+                gap: 3px;
+            }
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        .filter-btn-minimalist {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        /* Estilos para la sección de talleres */
+        .section {
+            padding: 2rem 0 1rem 0;
+            flex: 1;
+        }
+
+        #talleres {
+            min-height: auto;
+            padding: 2rem 0 1rem 0;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: var(--card-hover-bg);
+        }
+
+        h2,
+        h3,
+        h4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Estilos para las tarjetas de talleres */
+        .taller-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            height: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .taller-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .taller-card .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .taller-card h4 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--primary-color) !important;
+        }
+
+        .taller-card p {
+            color: var(--secondary-color) !important;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .btn-taller {
+            border: 2px solid var(--accent-color);
+            color: white !important;
+            background: transparent;
+            border-radius: 50px;
+            padding: 8px 25px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .btn-taller:hover {
+            background: var(--accent-color);
+            color: #000 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Estilos para el video */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .back-to-home,
+        .back-to-top {
+            display: inline-block;
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7) !important;
+            text-decoration: none;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .back-to-home::before,
+        .back-to-top::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home::after,
+        .back-to-top::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transform: translateX(5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home:hover,
+        .back-to-top:hover {
+            color: #fff !important;
+            background: transparent;
+        }
+
+        .back-to-home:hover::before,
+        .back-to-top:hover::before,
+        .back-to-home:hover::after,
+        .back-to-top:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer Unified Style */
+        .footer-unified {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 10px;
+            opacity: 0.6;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        /* Ajustes responsivos */
+        @media (max-width: 992px) {
+            .content-section {
+                padding: 30px 20px;
+            }
+
+            .taller-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #talleres {
+                padding: 2rem 0;
+            }
+
+            .content-section {
+                padding: 20px 15px;
+            }
+
+            .taller-card {
+                padding: 15px;
+            }
+
+            .taller-card .card-body {
+                padding: 1rem;
+            }
+
+            .back-to-home {
+                margin: 20px auto;
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 20px 10px;
+            }
+
+            .video-container {
+                margin: 20px 0;
+            }
+        }
+
+        /* Estilos para el Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preloader-dots {
+            display: flex;
+            gap: 20px;
+        }
+
+        .preloader-dots span {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(1px);
+            animation: dot-glow 3s infinite ease-in-out;
+        }
+
+        .preloader-dots span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .preloader-dots span:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes dot-glow {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* Evitar scroll mientras carga */
+        body.loading {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="loading">
+    <!-- Pantalla de Carga -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand" href="../" id="petra-logo">
+                PETRA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="d-flex flex-column flex-lg-row w-100 justify-content-lg-between">
+                    <div class="d-flex flex-nowrap">
+                        <a class="nav-link" href="../">Arte</a>
+                        <a class="nav-link" href="../about/">Bio</a>
+                        <a class="nav-link" href="../exhibiciones/">Exhibiciones</a>
+                        <a class="nav-link" href="../articulos/">Artículos</a>
+                        <a class="nav-link" href="../noticias/">Noticias</a>
+                        <a class="nav-link active" href="../talleres/">Talleres</a>
+                        <a class="nav-link" href="../cryptoart/">CryptoArt</a>
+                    </div>
+                    <div class="d-flex flex-nowrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
+                        <a href="../colecciones/" class="filter-btn-minimalist">Colecciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Talleres -->
+    <section id="talleres" class="section">
+        <div class="container pt-4 pb-2">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="content-section">
+                        <div class="text-center mb-5">
+                            <h3 class="mt-4">Entrenamiento para danza contemporánea</h3>
+                            <h4 class="mb-4">"Cuerpo Tridimensional"</h4>
+                        </div>
+
+                        <!-- Video destacado -->
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-lg-10">
+                                <div class="video-container">
+                                    <iframe src="https://player.vimeo.com/video/372892366?h=49aefbf094"
+                                        title="Taller Cuerpo Tridimensional"
+                                        allow="autoplay; fullscreen; picture-in-picture">
+                                    </iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clases y Talleres -->
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="taller-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-dance mb-3"
+                                                    style="font-size: 2.5rem; color: #4cc9f0;"></i>
+                                                <h4>Clases de Danza</h4>
+                                                <p>Aprende nuevos estilos de danza, mejora tu confianza, flexibilidad y
+                                                    coordinación con clases personalizadas. Nuestras clases están
+                                                    diseñadas para todos los niveles, desde principiantes hasta
+                                                    avanzados.</p>
+                                                <a href="https://www.superprof.mx/aprende-nuevos-estilos-danza-mejora-confianza-flexibilidad-coordinacion-con-clases-personalizadas.html"
+                                                    class="btn-taller" target="_blank">
+                                                    <i class="fas fa-info-circle me-2"></i>Más información
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="taller-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas mb-3" style="font-size: 2.5rem; color: #4cc9f0;"></i>
+                                                <h4>Programación Creativa</h4>
+                                                <p>Descubre el mundo de la programación creativa. Aprende a crear tu
+                                                    propia página web desde cero y desarrolla habilidades digitales que
+                                                    te permitirán dar vida a tus ideas.</p>
+                                                <a href="https://www.superprof.mx/crea-propia-pagina-web-desde-cero-aprende-sobre-programacion-creativa.html"
+                                                    class="btn-taller" target="_blank">
+                                                    <i class="fas fa-info-circle me-2"></i>Más información
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto de scroll en el header
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer-unified">
+        <p class="mb-0" id="footer-text">©2026 Petra. All rights reserved</p>
+    </footer>
+
+    <!-- Script de animación del footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.textContent;
+                footerText.innerHTML = '';
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(10px)';
+                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
+                    footerText.appendChild(span);
+                });
+                setTimeout(() => {
+                    footerText.querySelectorAll('span').forEach(span => {
+                        span.style.opacity = '1';
+                        span.style.transform = 'translateY(0)';
+                    });
+                }, 800);
+            }
+        });
+    </script>
+
+    <!-- Logo Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const logo = document.getElementById('petra-logo');
+            const originalText = "PETRA";
+            const letters = originalText.split('');
+            logo.innerHTML = '';
+
+            letters.forEach((letter, index) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(20px)';
+                span.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                logo.appendChild(span);
+            });
+
+            setTimeout(() => {
+                logo.querySelectorAll('span').forEach(span => {
+                    span.style.opacity = '1';
+                    span.style.transform = 'translateY(0)';
+                });
+            }, 500);
+        });
+    </script>
+
+    <!-- Script para ocultar extensiones .html -->
+    <script src="../clean-urls.js"></script>
+    <!-- Lógica para el preloader -->
+    <script>
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+
+            // Damos un pequeño margen para asegurar que todo esté renderizado
+            setTimeout(() => {
+                preloader.classList.add('loaded');
+                body.classList.remove('loading');
+            }, 800);
+        });
+    </script>
+</body>
+
+</html>

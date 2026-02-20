@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petra - Colecciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: rgba(255, 255, 255, 0.9);
+            --secondary-color: rgba(255, 255, 255, 0.6);
+            --accent-color: #ffffff;
+            --bg-color: #000000;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            color: #fff !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            padding-top: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilos para la barra de navegación */
+        .navbar {
+            background: transparent !important;
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.5s ease;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            min-width: 24rem;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                min-width: 16rem;
+            }
+        }
+
+        .navbar-brand.brand-small {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        /* Eliminar viñetas de la lista de navegación */
+        .navbar-nav {
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .nav-link::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-link::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            width: auto;
+            height: auto;
+            bottom: auto;
+            left: auto;
+            background-color: transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .nav-link:hover::before,
+        .nav-link:focus::before,
+        .nav-link.active::before,
+        .nav-link:hover::after,
+        .nav-link:focus::after,
+        .nav-link.active::after {
+            opacity: 1;
+        }
+
+        /* Estilos para el botón de menú en móviles */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Estilos para la sección de colecciones */
+        .colecciones-section {
+            padding: 2rem 0 0 0;
+            flex: 1;
+        }
+
+        .content-section h3 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .obra-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .obra-card:hover {
+            background: var(--card-hover-bg);
+            transform: translateY(-5px);
+        }
+
+        .obra-card h4 {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--primary-color) !important;
+        }
+
+        .obra-card p {
+            color: var(--secondary-color) !important;
+            font-weight: 300;
+        }
+
+        .obra-card a {
+            color: var(--primary-color) !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .obra-card a:hover {
+            opacity: 0.8;
+            color: var(--accent-color) !important;
+        }
+
+        .btn-coleccion {
+            display: inline-block;
+            padding: 8px 25px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7) !important;
+            text-decoration: none;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-transform: none;
+            font-size: 0.85rem;
+            position: relative;
+            font-family: 'Space Grotesk', sans-serif;
+            white-space: nowrap;
+        }
+
+        .btn-coleccion::before,
+        .btn-coleccion::after {
+            position: absolute;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+
+        .btn-coleccion::before {
+            content: '{';
+            left: 8px;
+            transform: translateX(-5px);
+        }
+
+        .btn-coleccion::after {
+            content: '}';
+            right: 8px;
+            transform: translateX(5px);
+        }
+
+        .btn-coleccion:hover {
+            color: #fff !important;
+            background: transparent;
+        }
+
+        .btn-coleccion:hover::before,
+        .btn-coleccion:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Variaciones de símbolos */
+        .btn-alt-1::before {
+            content: '[';
+        }
+
+        .btn-alt-1::after {
+            content: ']';
+        }
+
+        .btn-alt-2::before {
+            content: '<';
+        }
+
+        .btn-alt-2::after {
+            content: '>';
+        }
+
+        .btn-alt-3::before {
+            content: '(';
+        }
+
+        .btn-alt-3::after {
+            content: ')';
+        }
+
+        .back-to-home,
+        .back-to-top {
+            display: inline-block;
+            padding: 8px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7) !important;
+            text-decoration: none;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .back-to-home::before,
+        .back-to-top::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home::after,
+        .back-to-top::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transform: translateX(5px);
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .back-to-home:hover,
+        .back-to-top:hover {
+            color: #fff !important;
+            background: transparent;
+        }
+
+        .back-to-home:hover::before,
+        .back-to-top:hover::before,
+        .back-to-home:hover::after,
+        .back-to-top:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer Unified Style */
+        .footer-unified {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 10px;
+            opacity: 0.6;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        /* Estilo minimalista para botones de filtro (Arte/Colecciones) */
+        .filter-btn-minimalist {
+            font-weight: 400;
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Efecto minimalista con corchetes que aparecen en hover */
+        .filter-btn-minimalist::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-btn-minimalist:hover,
+        .filter-btn-minimalist:focus,
+        .filter-btn-minimalist.active {
+            color: rgba(255, 255, 255, 1) !important;
+            background: transparent;
+        }
+
+        .filter-btn-minimalist:hover::before,
+        .filter-btn-minimalist:focus::before,
+        .filter-btn-minimalist.active::before,
+        .filter-btn-minimalist:hover::after,
+        .filter-btn-minimalist:focus::after,
+        .filter-btn-minimalist.active::after {
+            opacity: 1;
+        }
+
+        .filter-buttons-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .filter-buttons-container {
+                border-top: none;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 0;
+                padding-left: 15px;
+            }
+        }
+
+        /* Media queries para zoom alto y pantallas pequeñas - IGUAL QUE INDEX.HTML */
+        @media (max-width: 1400px) {
+            .navbar-brand {
+                min-width: 16rem;
+                font-size: clamp(1.2rem, 4vw, 2rem);
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.75rem;
+                margin: 0 5px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .navbar-brand {
+                min-width: 12rem;
+                font-size: clamp(1rem, 3.5vw, 1.6rem);
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+                letter-spacing: 0.2px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.7rem;
+                margin: 0 3px;
+                padding: 3px 6px;
+            }
+        }
+
+        /* Para zoom muy alto (200%) - Asegurar que todos los botones sean visibles */
+        @media (max-width: 1100px) {
+            .navbar-brand {
+                min-width: 10rem;
+                font-size: clamp(0.9rem, 3vw, 1.4rem);
+                letter-spacing: 1px;
+            }
+
+            .nav-link {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+                letter-spacing: 0.1px;
+            }
+
+            .filter-btn-minimalist {
+                font-size: 0.65rem;
+                margin: 0 2px;
+                padding: 2px 5px;
+            }
+
+            /* Asegurar que el contenedor de navegación no se corte */
+            .navbar-collapse {
+                flex-basis: auto !important;
+                flex-grow: 1 !important;
+            }
+
+            .navbar .container {
+                max-width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        /* Estilos para canvas perezosos */
+        .lazy-canvas {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background: #000;
+            cursor: pointer;
+        }
+
+        .lazy-canvas .placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .lazy-canvas .placeholder:hover {
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--primary-color);
+        }
+
+        .lazy-canvas iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .lazy-canvas.active iframe {
+            opacity: 1;
+        }
+
+        .lazy-canvas.active .placeholder {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Mostrar primer frame estático */
+        .lazy-canvas .preview-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        /* Botón + Info con estilo de navegación */
+        .info-trigger {
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-btn {
+            font-weight: 400;
+            margin: 0;
+            padding: 6px 12px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-family: 'Space Grotesk', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .info-btn::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .info-btn::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .info-btn:hover,
+        .info-btn:focus {
+            color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .info-btn:hover::before,
+        .info-btn:focus::before,
+        .info-btn:hover::after,
+        .info-btn:focus::after {
+            opacity: 1;
+        }
+
+        .liminal-tooltip::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .liminal-tooltip::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .liminal-tooltip::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .liminal-tooltip h5 {
+            color: var(--primary-color) !important;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .liminal-tooltip h6 {
+            color: var(--accent-color) !important;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .liminal-tooltip p {
+            color: var(--secondary-color) !important;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            font-size: 0.95rem;
+        }
+
+        .liminal-tooltip ul {
+            color: var(--secondary-color) !important;
+            font-weight: 300;
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .liminal-tooltip li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 0.5rem;
+        }
+
+        .liminal-tooltip li::before {
+            content: "▸";
+            position: absolute;
+            left: -1rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .liminal-tooltip .emoji {
+            font-size: 1.3rem;
+            margin: 0 0.3rem;
+            vertical-align: middle;
+        }
+
+        .liminal-tooltip .drop-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-style: italic;
+            color: var(--primary-color) !important;
+        }
+
+        /* ========== MENÚ MÓVIL INTEGRADO EN LA BARRA ========== */
+        @media (max-width: 991.98px) {
+            .navbar {
+                padding: 10px 0 !important;
+                flex-wrap: wrap !important;
+                position: relative !important;
+            }
+
+            .navbar>.container {
+                flex-wrap: wrap !important;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .navbar-brand {
+                min-width: auto;
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+                order: 1;
+            }
+
+            .navbar-toggler {
+                order: 2;
+                padding: 8px;
+                margin-left: auto;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 4px;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-toggler:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-toggler-icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            /* Menú desplegable - PARTE DEL FLUJO NATURAL DEL DOCUMENTO */
+            .navbar-collapse {
+                order: 3;
+                flex-basis: 100% !important;
+                flex-grow: 1 !important;
+                width: 100% !important;
+                background: rgba(0, 0, 0, 0.98) !important;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+                margin-top: 10px;
+                padding: 20px 0;
+                position: relative;
+                display: none;
+            }
+
+            .navbar-collapse.show {
+                display: block;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Contenedor principal de navegación - organizado en 2 filas */
+            .navbar-collapse .d-flex.flex-column.flex-lg-row {
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 0;
+                width: 100%;
+                padding: 0 15px;
+            }
+
+            /* Contenedor de enlaces principales */
+            .navbar-collapse .d-flex.flex-nowrap {
+                flex-wrap: wrap !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+                width: 100%;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                transition: all 0.2s ease;
+                border-radius: 4px;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .nav-link:hover,
+            .navbar-collapse .nav-link:focus,
+            .navbar-collapse .nav-link.active {
+                color: #ffffff !important;
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            /* Contenedor de botones de filtro - ahora es parte de la misma fila */
+            .navbar-collapse .filter-buttons-container {
+                border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+                border-top: none !important;
+                padding-left: 10px !important;
+                padding-top: 0 !important;
+                margin-top: 0 !important;
+                margin-left: 6px !important;
+                display: flex;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 6px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.85rem;
+                padding: 10px 16px;
+                margin: 0;
+                white-space: nowrap;
+                color: rgba(255, 255, 255, 0.85) !important;
+                flex: 0 0 auto;
+            }
+
+            .navbar-collapse .filter-btn-minimalist:hover {
+                color: #ffffff !important;
+            }
+        }
+
+        /* Ajustes para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .navbar-collapse {
+                padding: 15px 0;
+            }
+
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 4px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 8px !important;
+                margin-left: 4px !important;
+                gap: 4px;
+            }
+        }
+
+        /* Ajustes para pantallas extremadamente pequeñas */
+        @media (max-width: 360px) {
+            .navbar-collapse .d-flex.flex-nowrap {
+                gap: 3px;
+            }
+
+            .navbar-collapse .nav-link {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-btn-minimalist {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+
+            .navbar-collapse .filter-buttons-container {
+                padding-left: 6px !important;
+                margin-left: 3px !important;
+                gap: 3px;
+            }
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        .filter-btn-minimalist {
+            font-size: 0.75rem;
+            margin: 0 5px;
+            padding: 4px 8px;
+        }
+
+        /* Estilos para el Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preloader-dots {
+            display: flex;
+            gap: 20px;
+        }
+
+        .preloader-dots span {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(1px);
+            animation: dot-glow 3s infinite ease-in-out;
+        }
+
+        .preloader-dots span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .preloader-dots span:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes dot-glow {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* Evitar scroll mientras carga */
+        body.loading {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="loading">
+    <!-- Pantalla de Carga -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand" href="../" id="petra-logo">
+                PETRA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="d-flex flex-column flex-lg-row w-100 justify-content-lg-between">
+                    <div class="d-flex flex-nowrap">
+                        <a class="nav-link" href="../">Arte</a>
+                        <a class="nav-link" href="../about/">Bio</a>
+                        <a class="nav-link" href="../exhibiciones/">Exhibiciones</a>
+                        <a class="nav-link" href="../articulos/">Artículos</a>
+                        <a class="nav-link" href="../noticias/">Noticias</a>
+                        <a class="nav-link" href="../talleres/">Talleres</a>
+                        <a class="nav-link" href="../cryptoart/">CryptoArt</a>
+                    </div>
+                    <div class="d-flex flex-nowrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
+                        <a href="../colecciones/" class="filter-btn-minimalist active">Colecciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección de Colecciones -->
+    <section id="colecciones" class="section">
+        <div class="container">
+            <div id="main-content" class="py-4 py-md-5">
+                <div id="colecciones-container" class="px-2 px-md-0"></div>
+
+                <!-- Navegación de pie de página -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+                    <a href="#" class="back-to-home"
+                        onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                        Subir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Array con las obras de la colección
+        const coleccionesObras = [
+            {
+                id: "kinetics-bodies",
+                title: "Kinetics of Bodies, Branches and Circuits",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Kinetics of Bodies</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Audiovisual</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Generative Choreography</span>
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-4">
+                        <div class="col-4">
+                            <img src="../imagenesOBRA/Makindt-2-2025.jpg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics Detail 2">
+                        </div>
+                        <div class="col-4">
+                            <img src="../imagenesOBRA/Makindt-3-2025.jpg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics Detail 3">
+                        </div>
+                        <div class="col-4">
+                            <img src="../imagenesOBRA/Makindt-2025.jpg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics Detail 1">
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración del diálogo entre el cuerpo y la tecnología a través de una partitura generativa en tiempo real. La espontaneidad física se traduce en visuales inmersivos que transforman el espacio.</p>
+                    <a href="https://manifold.xyz/@petra/p/kinetics" target="_blank" class="btn-coleccion btn-alt-1">Ver colección en Manifold</a>
+                `,
+                categories: ["arte-generativo", "ia", "coleccion", "performance"]
+            },
+            {
+                id: "liminal-life",
+                title: "Liminal Life",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Liminal Life</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">ALife</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Bitcoin Ordinals</span>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="pieza-container">
+                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/ed2aa353d70d4626993291d5422824f8b2fc5f609f4e3aa2d09a92edce64dadci0"></div>
+                                <div class="text-center mt-2">
+                                    <a href="https://gamma.io/ordinals/collections/collective-consciousness" target="_blank" class="btn-coleccion btn-alt-2" style="font-size: 0.75rem;">Collective Consciousness</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pieza-container">
+                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/dc440813412deb1d23582664a42ad6361ae340d85c373120352f74a0b5dd8aeai0"></div>
+                                <div class="text-center mt-2">
+                                    <a href="https://gamma.io/ordinals/collections/cypher-infinite-environment" target="_blank" class="btn-coleccion btn-alt-3" style="font-size: 0.75rem;">Cyper - Environment</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="pieza-container">
+                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/0a75095a9806003b9f110dee85501fe8f29ef3959be65e656a7fa850dc14740fi0"></div>
+                                <div class="text-center mt-2">
+                                    <a href="https://gamma.io/ordinals/collections/pixel-cascade" target="_blank" class="btn-coleccion btn-alt-1" style="font-size: 0.75rem;">Pixel Cascade</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración de la vida artificial y organismos digitales en la red Bitcoin. Entidades que dejan rastros de luz como memorias de su existencia técnica en el umbral entre lo inerte y lo vivo.</p>
+                `,
+                categories: ["arte-generativo", "ia", "coleccion", "bitcoin", "ordinals"]
+            },
+
+            {
+                id: "moveinprompts",
+                title: "MoveInPrompts",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">MoveInPrompts</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Body Motion</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">AI Prompts</span>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="moveinprompts-video-container">
+                                <video 
+                                    style="width: 100%; height: auto; display: block;" 
+                                    muted
+                                    loop
+                                    preload="metadata"
+                                    id="moveinprompts-video">
+                                    <source src="https://raw2.seadn.io/ethereum/0xa3cb6b250e554958c5ca1ae7e64fb746da3ea0f5/75006048c164394f795045ab79956e/7a75006048c164394f795045ab79956e.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.65rem;">Museo de Arte Moderno Mx. Presented "H3mbra" at the Encuentro Nacional de Danza 2025, in collaboration with Ophidia Colectivo.</p>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Fusión entre el movimiento corporal humano y prompts de IA para generar arte dinámico. El cuerpo se convierte en el pincel que activa la inteligencia artificial.</p>
+                    <a href="https://opensea.io/collection/moveinprompts" target="_blank" class="btn-coleccion btn-alt-2">OpenSea</a>
+                `,
+                categories: ["arte-generativo", "coleccion", "nft"]
+            },
+
+            {
+                id: "tezos-series",
+                title: "Tezos Series",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Tezos Series</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">AI Characters</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Tezos</span>
+                        </div>
+                    </div>
+                    <div class="row g-2 g-md-3 mb-3 align-items-center">
+                        <div class="col-md-5">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                                <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
+                                    <source src="imagenes/tezos.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div style="height: 100%; width: 100%;">
+                                <img src="imagenes/tezos.gif" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);" alt="Tezos character GIF">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.65rem;">Pop-up de Unfold Gallery X objkt during NFT NYC. Hack the latent space, curated by Raquel Gaudard</p>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración de identidades sintéticas y personajes generados mediante inteligencia artificial en Tezos.</p>
+                    <a href="https://objkt.com/users/tz1cSxrvsct9FC33dCMwQGQkcwwHirHV1DzX/collections/created" target="_blank" class="btn-coleccion btn-alt-1">Objkt</a>
+                `,
+                categories: ["arte-generativo", "ia", "coleccion", "nft", "tezos"]
+            },
+
+            {
+                id: "oda-paisajes-futuro",
+                title: "Oda a los paisajes del futuro",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Oda a los paisajes del futuro</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Transhumanism</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Digital Art</span>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-12">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="oda-video-container">
+                                <video 
+                                    style="width: 100%; height: auto; display: block;" 
+                                    muted
+                                    loop
+                                    preload="metadata"
+                                    id="oda-video">
+                                    <source src="https://magic.decentralized-content.com/ipfs/bafybeiezdedyfvphziatllht35az4pzzb5mczw3w4dxk4rdxql7jgujfwq" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.65rem;">Commissioned by Refraction DAO Fellowship x Lens Protocol 2023</p>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Reflexión visual sobre los paisajes del mañana y la metamorfosis de los cuerpos en entornos post-humanos. Una oda a la simbiosis entre naturaleza y digitalización.</p>
+                    <a href="https://zora.co/@betapetra" target="_blank" class="btn-coleccion btn-alt-2">Explore in Zora</a>
+                `,
+                categories: ["fotografía", "arte-digital", "ia", "coleccion"]
+            },
+
+            {
+                id: "genes",
+                title: "Genes",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Genes</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Bio-Digital</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">p5.js</span>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-4">
+                            <img src="https://dhffkw3tumeugmj6fo3m22vfqyrzlxhkrz4irazgpszlqgwl2grq.arweave.net/GcpVW3OjCUMxPiu2zWqlhiOV3OqOeIiDJnyyuBrL0aM" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Obra 1">
+                        </div>
+                        <div class="col-4">
+                            <img src="https://22ozlj72thq2xou3zbekn5tkbxaoaxsnsv3ojvkhwjmj3oxch4ua.arweave.net/1p2Vp_qZ4au6m8hIpvZqDcDgXk2VduTVR7JYnbriPyg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Obra 2">
+                        </div>
+                        <div class="col-4">
+                            <img src="https://ln2j27x7amriwhb2gekqtu5kraqybwmkyoxhm5bpjhuax3ytq5ia.arweave.net/W3Sdfv8DIoscOjEVCdOqiCGA2YrDrnZ0L0noC-8Th1A" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Obra 3">
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">La intersección entre la biología y el código. Secuencias genéticas transformadas en algoritmos visuales que exploran la vida digital como una extensión orgánica.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="https://manifold.xyz/@petra/p/genart" target="_blank" class="btn-coleccion btn-alt-3">Manifold</a>
+                        <a href="https://opensea.io/collection/genes-v3" target="_blank" class="btn-coleccion btn-alt-1">OpenSea Full Collection</a>
+                    </div>
+                `,
+                categories: ["arte-generativo", "ia", "coleccion", "nft", "performance"]
+            },
+
+
+            {
+                id: "cosmic-entities-in-landscapes-of-silence",
+                title: "Cosmic Entities in Landscapes of Silence",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Cosmic Entities in Landscapes of Silence</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">AI Generative</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Base Network</span>
+                        </div>
+                    </div>
+                    <div class="row g-2 g-md-3 mb-4 align-items-center">
+                        <div class="col-md-7">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                                <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
+                                    <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/2ecf8c30c65fb74acb0f25b531cf05/2e2ecf8c30c65fb74acb0f25b531cf05.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row g-2 g-md-3">
+                                <div class="col-6 col-md-12">
+                                    <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                                        <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
+                                            <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/be64365cc19c3d0d0388aaa854ad63/1ebe64365cc19c3d0d0388aaa854ad63.mov" type="video/quicktime">
+                                            <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/be64365cc19c3d0d0388aaa854ad63/1ebe64365cc19c3d0d0388aaa854ad63.mov" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-12">
+                                    <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                                        <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
+                                            <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/9ed65b90e139634742cf11b2f86273/719ed65b90e139634742cf11b2f86273.mov" type="video/quicktime">
+                                            <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/9ed65b90e139634742cf11b2f86273/719ed65b90e139634742cf11b2f86273.mov" type="video/mp4">
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.65rem;">Exhibition with ArtCrush X Phoenix Media. Romania (mar - abr 2025)</p>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración de las profundidades creativas de la inteligencia artificial, donde el movimiento y el código convergen para crear paisajes visuales hipnóticos. Esta serie representa los límites fluidos entre el sueño de la máquina y la intención humana.</p>
+                    <div class="d-flex justify-content-start">
+                        <a href="https://opensea.io/collection/ai-672" target="_blank" class="btn-coleccion btn-alt-3">OpenSea</a>
+                    </div>
+                `,
+                categories: ["arte-generativo", "ia", "coleccion", "nft"]
+            },
+
+            {
+                id: "yapayaso",
+                title: "Yapayaso",
+                description: `
+                    <div class="mb-4">
+                        <h4 style="color: var(--primary-color) !important; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">Yapayaso</h4>
+                        <div class="d-flex gap-2 mb-3">
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">Experimental</span>
+                            <span style="font-size: 0.65rem; color: var(--secondary-color) !important; border: 1px solid rgba(255,255,255,0.1); padding: 2px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px;">NFT</span>
+                        </div>
+                    </div>
+                    <div class="row row-cols-2 row-cols-md-5 g-2 mb-4">
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/f2746532acccb34b937edf371016af/b1f2746532acccb34b937edf371016af.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 1">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/94bee05ba828633ca52f7ea7b70a0c/2194bee05ba828633ca52f7ea7b70a0c.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 2">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/668ed19b258840e2ff456497394a5b/d8668ed19b258840e2ff456497394a5b.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 3">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/ffb781d6bd1f2161e534cdcd3f07a1/6affb781d6bd1f2161e534cdcd3f07a1.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 4">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/6cd6146feeee3e9d64032c6e40fb2e/c06cd6146feeee3e9d64032c6e40fb2e.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 5">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/fcf1faf462c7190eb01040b395ab40/8efcf1faf462c7190eb01040b395ab40.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 6">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/3691b2929b699c3347a863584d260f/563691b2929b699c3347a863584d260f.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 7">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/19ebb488cd10e3118737e800e89a8f/9d19ebb488cd10e3118737e800e89a8f.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 8">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/polygon/0x2953399124f0cbb46d2cbacd8a89cf0599974963/442f87d08905c9f446e4bf24966fe6/9e442f87d08905c9f446e4bf24966fe6.png?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 9">
+                        </div>
+                        <div class="col">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/40a2213b327f6d9bc3c795bee3ad37/7440a2213b327f6d9bc3c795bee3ad37.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 10">
+                        </div>
+                    </div>
+                    <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración de la estética del payaso digital a través de algoritmos experimentales y arte generativo.</p>
+                    <a href="https://opensea.io/collection/yapayaso" target="_blank" class="btn-coleccion btn-alt-1">OpenSea</a>
+                `,
+                categories: ["arte-generativo", "coleccion", "nft"]
+            }
+        ];
+
+        function generateColecciones() {
+            const container = document.getElementById('colecciones-container');
+
+            let html = `
+            <div class="colecciones-section content-section">
+            `;
+
+            coleccionesObras.forEach(obra => {
+                html += `
+                <div class="obra-card" id="${obra.id}">
+                    ${obra.description}
+                </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', generateColecciones);
+
+        // Canvas perezosos - activar solo con hover
+        document.addEventListener('DOMContentLoaded', function () {
+            const lazyCanvases = document.querySelectorAll('.lazy-canvas');
+
+            lazyCanvases.forEach((canvas, index) => {
+                let iframe = null;
+                let isActive = false;
+
+                // Mapeo de imágenes locales
+                const imageMap = {
+                    0: 'imagenes/Collective_C.gif',
+                    1: 'imagenes/Cypher-IE-Petra (22).png',
+                    2: 'imagenes/PixelCasade.gif'
+                };
+
+                // Crear preview frame estático
+                function createPreviewFrame() {
+                    const preview = document.createElement('img');
+                    preview.className = 'preview-frame';
+                    preview.src = imageMap[index];
+                    preview.style.position = 'absolute';
+                    preview.style.top = '0';
+                    preview.style.left = '0';
+                    preview.style.width = '100%';
+                    preview.style.height = '100%';
+                    preview.style.objectFit = 'cover';
+                    preview.style.opacity = '0.3';
+                    canvas.appendChild(preview);
+                }
+
+                // Crear iframe cuando sea necesario
+                function createIframe() {
+                    if (!iframe) {
+                        iframe = document.createElement('iframe');
+                        iframe.src = canvas.dataset.src;
+                        iframe.style.width = '100%';
+                        iframe.style.height = '100%';
+                        iframe.style.border = 'none';
+                        iframe.style.background = '#000';
+                        iframe.frameBorder = '0';
+                        iframe.allowFullscreen = true;
+                        canvas.appendChild(iframe);
+                    }
+                }
+
+                // Activar canvas
+                function activateCanvas() {
+                    if (!isActive) {
+                        createIframe();
+                        setTimeout(() => {
+                            canvas.classList.add('active');
+                            isActive = true;
+                        }, 100);
+                    }
+                }
+
+                // Desactivar canvas
+                function deactivateCanvas() {
+                    if (isActive) {
+                        canvas.classList.remove('active');
+                        isActive = false;
+                    }
+                }
+
+                // Inicializar
+                createPreviewFrame();
+
+                // Event listeners
+                canvas.addEventListener('mouseenter', activateCanvas);
+                canvas.addEventListener('mouseleave', deactivateCanvas);
+
+                // Touch support para móviles
+                canvas.addEventListener('touchstart', function (e) {
+                    e.preventDefault();
+                    if (!isActive) {
+                        activateCanvas();
+                    } else {
+                        deactivateCanvas();
+                    }
+                });
+            });
+        });
+
+        // Video auto-reproducción con hover para todos los contenedores de video
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoContainers = document.querySelectorAll('.video-container');
+
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+
+                if (video) {
+                    let isPlaying = false;
+
+                    // Activar video con hover
+                    container.addEventListener('mouseenter', function () {
+                        video.play().then(() => {
+                            isPlaying = true;
+                        }).catch(err => {
+                            console.log('Video play failed:', err);
+                        });
+                    });
+
+                    // Pausar video al salir
+                    container.addEventListener('mouseleave', function () {
+                        video.pause();
+                        isPlaying = false;
+                    });
+
+                    // Touch support para móviles
+                    container.addEventListener('touchstart', function (e) {
+                        e.preventDefault();
+                        if (!isPlaying) {
+                            video.play().then(() => {
+                                isPlaying = true;
+                            });
+                        } else {
+                            video.pause();
+                            isPlaying = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        // Scroll effect for navbar
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Animación del logo PETRA
+        document.addEventListener('DOMContentLoaded', function () {
+            const logo = document.getElementById('petra-logo');
+            if (logo) {
+                const text = logo.textContent;
+                logo.innerHTML = '';
+
+                // Crear spans para cada letra
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(10px)';
+                    span.style.transition = `opacity 0.5s ease ${index * 0.08}s, transform 0.5s ease ${index * 0.08}s`;
+                    logo.appendChild(span);
+                });
+
+                // Trigger animation
+                setTimeout(() => {
+                    const spans = logo.querySelectorAll('span');
+                    spans.forEach(span => {
+                        span.style.opacity = '1';
+                        span.style.transform = 'translateY(0)';
+                    });
+                }, 100);
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer-unified">
+        <p class="mb-0" id="footer-text">©2026 Petra. All rights reserved</p>
+    </footer>
+
+    <!-- Script de animación del footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.textContent;
+                footerText.innerHTML = '';
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(10px)';
+                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
+                    footerText.appendChild(span);
+                });
+
+                // Usar Intersection Observer para activar la animación cuando el footer sea visible
+                const footerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            footerText.querySelectorAll('span').forEach(span => {
+                                span.style.opacity = '1';
+                                span.style.transform = 'translateY(0)';
+                            });
+                            footerObserver.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.5 // Activar cuando al menos 50% del footer sea visible
+                });
+
+                footerObserver.observe(footerText);
+            }
+        });
+    </script>
+
+    <!-- Script para ocultar extensiones .html -->
+    <script src="../clean-urls.js"></script>
+    <!-- Lógica para el preloader -->
+    <script>
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+
+            // Damos un pequeño margen para asegurar que todo esté renderizado
+            setTimeout(() => {
+                preloader.classList.add('loaded');
+                body.classList.remove('loading');
+            }, 800);
+        });
+    </script>
+</body>
+
+</html>

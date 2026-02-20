@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petra</title>
+    <!-- Hojas de estilo CSS -->
+    <link rel="stylesheet" href="css/carousel-styles.css">
+    <link rel="stylesheet" href="css/media-controls.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Anime.js -->
+    <script
+        src="https://ordinals.com/content/23ad98a190933e5c238b57e05814acc154d55928edf02d298cc82f4fac0313fei0"></script>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <style>
+        :root {
+            --primary-color: rgba(255, 255, 255, 0.95);
+            --secondary-color: rgba(255, 255, 255, 0.7);
+            --accent-color: #ffffff;
+            --bg-color: #000000;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-hover-bg: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --max-width: 1200px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: #ffffff;
+            min-height: 100vh;
+            padding-top: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            overflow-x: hidden;
+        }
+
+
+        /* Estilo para los botones de filtro */
+        .btn-outline-light {
+            color: #fff !important;
+            border-color: #fff !important;
+            transition: all 0.3s ease;
+        }
+
+        .filter-buttons-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+
+        @media (min-width: 992px) {
+            .filter-buttons-container {
+                border-top: none;
+                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 0;
+                padding-left: 15px;
+            }
+        }
+
+        .btn-outline-light:hover,
+        .btn-outline-light.active {
+            color: #000 !important;
+            background-color: #fff !important;
+        }
+
+        .video-container,
+        .media-hover-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 0 1.5rem 2rem 1.5rem !important;
+            background: #000;
+            border-radius: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: calc(100% - 3rem) !important;
+            max-width: calc(100% - 3rem) !important;
+        }
+
+        .media-hover-container iframe,
+        .media-hover-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container.playing iframe {
+            opacity: 1;
+        }
+
+        .video-container.playing .video-thumbnail {
+            opacity: 0;
+        }
+
+        .video-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* Controles de medios movidos a css/media-controls.css */
+
+
+
+        #home {
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Separar el Swiper de los botones */
+        #artworks .swiper-container {
+            margin-top: 40px !important;
+        }
+
+
+
+        /* Estilos para el scrollbar del Swiper */
+        .swiper-container-vertical>.swiper-scrollbar {
+            position: absolute;
+            right: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+        }
+
+        .swiper-container-vertical>.swiper-scrollbar-drag {
+            width: 100%;
+            background: var(--accent-color);
+            border-radius: 0;
+            cursor: pointer;
+        }
+
+        .swiper-container-vertical>.swiper-wrapper {
+            height: 100%;
+        }
+
+        .swiper-container-vertical>.swiper-slide {
+            height: auto !important;
+            padding: 15px 0;
+        }
+
+        .content-section {
+            display: none;
+            width: 100%;
+            background: transparent;
+            z-index: 100;
+            padding: 40px 0;
+            overflow: visible !important;
+            height: auto !important;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilos del Carrusel de Portada */
+        .hero-carousel-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(50vh - 40px);
+            margin-top: 100px;
+            overflow: hidden;
+            background: transparent;
+            z-index: 999;
+        }
+
+        /* Sobrescribir estilos externos para indicadores del hero carousel */
+        .hero-carousel-container .carousel-indicators {
+            position: absolute !important;
+            bottom: 50px !important;
+            left: 50% !important;
+            right: auto !important;
+            top: auto !important;
+            transform: translateX(-50%) !important;
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 3px !important;
+            z-index: 10;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            background: transparent;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: #ffffff;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-size: 32px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+            width: auto;
+            height: auto;
+            line-height: 1;
+        }
+
+        .carousel-control:hover {
+            color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .carousel-control.prev {
+            left: 20px;
+        }
+
+        .carousel-control.next {
+            right: 20px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: row;
+            gap: 3px;
+            z-index: 10;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 55%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .indicator.active,
+        .indicator:hover {
+            background: #ffffff;
+            transform: scale(1.2);
+        }
+
+        .fade-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.6) 0%,
+                    rgba(0, 0, 0, 0.4) 20%,
+                    rgba(0, 0, 0, 0.2) 50%,
+                    rgba(0, 0, 0, 0.1) 80%,
+                    transparent 100%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Responsive para el carrusel */
+        @media (max-width: 768px) {
+            .hero-carousel-container {
+                height: 50vh;
+            }
+
+            .carousel-control {
+                padding: 0;
+                font-size: 24px;
+            }
+
+            .carousel-control.prev {
+                left: 10px;
+            }
+
+            .carousel-control.next {
+                right: 10px;
+            }
+
+            .hero-carousel-container .carousel-indicators {
+                bottom: 40px !important;
+                gap: 10px !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .indicator {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-carousel-container {
+                height: 50vh;
+            }
+
+            .hero-carousel-container .carousel-indicators {
+                bottom: 35px !important;
+                gap: 2px !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .indicator {
+                width: 8px;
+                height: 8px;
+            }
+        }
+
+        .project-card {
+            background: transparent !important;
+            border: none;
+            margin: 2.5rem 1.5rem;
+            transition: var(--transition);
+            padding: 0;
+            border-radius: 0 !important;
+            width: calc(100% - 3rem) !important;
+            max-width: calc(100% - 3rem) !important;
+            margin-left: 1.5rem !important;
+            margin-right: 1.5rem !important;
+        }
+
+        .project-title {
+            color: #ffffff;
+            margin: 15px 0 30px 0;
+            font-size: 1.7rem;
+            font-weight: 200;
+            text-align: center;
+            width: 100%;
+        }
+
+        .video-container {
+            margin: 0 1.5rem 30px 1.5rem !important;
+            width: calc(100% - 3rem) !important;
+            max-width: calc(100% - 3rem) !important;
+        }
+
+        .video-container .card-body {
+            padding: 5px 0 30px 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-body p.mt-2 {
+            margin: 20px 0 0 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Estilo para el botón "Más de la obra" */
+        .more-artwork-btn {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .more-artwork-btn:hover {
+            opacity: 0.7;
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-body a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .card-body a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .project-card p {
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .project-card a {
+            color: #ffffff !important;
+            text-decoration: underline;
+        }
+
+        /* Estilos para los card-body independientes */
+        .card-body:not(.project-card .card-body) {
+            padding: 1rem 1.5rem;
+            margin: 0 1.5rem 2rem 1.5rem;
+            width: calc(100% - 3rem);
+            text-align: center;
+        }
+
+        .project-card .card-body {
+            text-align: center;
+            padding: 0.5rem 1.5rem;
+            margin: 0 1.5rem;
+            width: calc(100% - 3rem);
+        }
+
+        .project-card .project-title {
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+
+        /* Estilos responsive para márgenes en dispositivos móviles */
+        @media (max-width: 768px) {
+            .project-card {
+                margin: 2rem 1rem !important;
+                width: calc(100% - 2rem) !important;
+                max-width: calc(100% - 2rem) !important;
+                margin-left: 1rem !important;
+                margin-right: 1rem !important;
+            }
+
+            .video-container,
+            .media-hover-container {
+                margin: 0 1rem 2rem 1rem !important;
+                width: calc(100% - 2rem) !important;
+                max-width: calc(100% - 2rem) !important;
+            }
+
+            .video-container {
+                margin: 0 1rem 30px 1rem !important;
+                width: calc(100% - 2rem) !important;
+                max-width: calc(100% - 2rem) !important;
+            }
+
+            .card-body:not(.project-card .card-body) {
+                padding: 1rem 1rem;
+                margin: 0 1rem 2rem 1rem !important;
+                width: calc(100% - 2rem) !important;
+                max-width: calc(100% - 2rem) !important;
+            }
+
+            .project-card .card-body {
+                padding: 0.5rem 1rem;
+                margin: 0 1rem !important;
+                width: calc(100% - 2rem) !important;
+                max-width: calc(100% - 2rem) !important;
+            }
+        }
+
+        /* Estilos para la barra de navegación */
+        .navbar {
+            background: transparent !important;
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            /* Responsive font size */
+            font-weight: 800;
+            /* More emphasis */
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.5s ease;
+            color: #fff !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            /* Glass glowing effect */
+            min-width: 24rem;
+            /* Espacio reservado fijo para evitar saltos */
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                min-width: 16rem;
+            }
+        }
+
+        .navbar-brand.brand-small {
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            /* Smaller font for long text */
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+            /* Slight zoom on hover */
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #fff !important;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Eliminar viñetas de la lista de navegación */
+        .navbar-nav {
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            margin: 0 10px;
+            padding: 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus,
+        .nav-link.active {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        /* Efecto de subrayado al pasar el mouse */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link:focus::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Estilos para el botón de menú en móviles */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand" href="https://petrasynthetic.com/" id="petra-logo">
+                PETRA
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="d-flex flex-column flex-lg-row w-100">
+                    <div class="d-flex flex-wrap">
+                        <a class="nav-link active" href="#" data-section="artworks">Inicio</a>
+                        <a class="nav-link" href="about/about.html">Bio</a>
+                        <a class="nav-link" href="exhibiciones/exhibiciones.html">Exhibiciones</a>
+                        <a class="nav-link" href="articulos/articulos.html">Artículos</a>
+                        <a class="nav-link" href="noticias/noticias.html">Noticias</a>
+                        <a class="nav-link" href="talleres/talleres.html">Talleres</a>
+                        <a class="nav-link" href="cryptoart/cryptoart.html">CryptoArt</a>
+                    </div>
+                    <div class="d-flex flex-wrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
+                        <button type="button" class="btn btn-sm btn-outline-light me-2 mb-2 filter-btn active"
+                            data-filter="all">Arte</button>
+                        <button type="button" class="btn btn-sm btn-outline-light me-2 mb-2 filter-btn"
+                            data-filter="coleccion">Colecciones</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Artworks (Página Principal) -->
+    <section id="artworks" class="section active content-section" style="padding: 0; margin: 0; width: 100%;">
+        <div class="container-fluid p-0" style="width: 100%; max-width: 100%; overflow-x: hidden;">
+            <h2 class="text-center mb-5" style="height: 0; margin: 0; padding: 0; visibility: hidden;"></h2>
+
+            <!-- Carrusel de Portada Interactivo -->
+            <div class="hero-carousel-container"
+                style="width: 100%; position: relative; overflow: hidden; background: transparent;">
+                <div class="hero-carousel" id="heroCarousel">
+                    <div class="carousel-slide active">
+                        <img src="imagenesOBRA/About-the-other-us-Petra-2024.2.png" alt="Petra - Obra 1">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="imagenesOBRA/Melancolia-de-un-no-especie-F1.png" alt="Petra - Obra 2">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="imagenesOBRA/bodies1.2.gif" alt="Petra - Obra 3">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="imagenesOBRA/portada2.gif" alt="Petra - Obra 4">
+                    </div>
+                </div>
+
+                <!-- Controles del carrusel -->
+                <button class="carousel-control prev" onclick="changeSlide(-1)">⋖</button>
+                <button class="carousel-control next" onclick="changeSlide(1)">⋗</button>
+                <div class="carousel-indicators">
+                    <span class="indicator active" onclick="goToSlide(0)"></span>
+                    <span class="indicator" onclick="goToSlide(1)"></span>
+                    <span class="indicator" onclick="goToSlide(2)"></span>
+                    <span class="indicator" onclick="goToSlide(3)"></span>
+                </div>
+
+                <!-- Gradiente de desvanecido hacia la semblanza -->
+                <!-- <div class="fade-gradient"></div> -->
+            </div>
+
+            <!-- Semblanza con efecto de fundido -->
+            <section class="artist-bio"
+                style="width: 100%; padding: 40px 20px; background: transparent; position: relative;">
+                <div class="container" style="position: relative; padding-bottom: 15px; margin-bottom: 20px;">
+                    <p class="mt-2 animation: fadeInUp 1.5s ease forwards 0.5s;">
+                        Petra es una artista de nuevos medios cuya obra se sitúa en el cruce entre danza contemporánea,
+                        arte digital y tecnologías emergentes. Su investigación aborda la relación entre cuerpo y
+                        virtualidad, proponiendo sistemas coreográficos donde el movimiento humano dialoga con procesos
+                        algorítmicos, inteligencia artificial y entornos interactivos.
+                    </p>
+                    <p class="mt-2 animation: fadeInUp 1.5s ease forwards 1s;">
+                        Formada en danza y coreografía, y con una práctica sostenida en la programación creativa, su
+                        trabajo explora nociones de coreografía expandida, danza generativa y meta-improvisación. A
+                        través de performance, animación y video-movimiento, Petra construye paisajes sensibles donde el
+                        cuerpo funciona como interfaz y archivo vivo.
+                    </p>
+                    <p class="mt-2 animation: fadeInUp 1.5s ease forwards 1s;">
+                        Su obra ha sido presentada en contextos internacionales de arte contemporáneo y nuevos medios,
+                        incluyendo el Museo de Arte Moderno MX, el Salón de la Plástica Mexicana, CVPR AI Art Gallery,
+                        ASVOFF, Miami Art Week, Superchief Gallery, Art Crush Gallery, Bright Moments Gallery, Free The
+                        Kitsch Festival, London Fashion Week, NFT NYC, NFT Festa, IDOCDE y Plexus Projects, así como en
+                        plataformas de investigación artística y cultura digital.
+                    </p>
+                </div>
+            </section>
+
+            <div id="artworks-container" style="width: 100%; margin-top: -20px;">
+
+                <!-- Obra: Kinetics of Bodies, Circuits and Branches -->
+                <div class="card-body" style="margin-top: 20px;">
+                    <h3 class="project-title" style="position: relative; padding-bottom: 15px; margin-bottom: 20px;">
+                        Kinetics of Bodies, Circuits and Branches
+                        <span
+                            style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 2px; background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0.3));"></span>
+                    </h3>
+                    <p class="mt-2">Proponemos una serie de coreografías expandidas como un ecosistema vivo. Los gestos
+                        espontáneos en tiempo real de la cuerpa interactuando con los sistemas digitales, generando
+                        paisajes visuales poderosos. Esta serie es una meditación sobre la conexión: entre el cuerpo y
+                        el código, entre lo orgánico y lo artificial, entre lo que controlamos y lo que permitimos que
+                        emerge.</p>
+                    <a href="#" class="more-artwork-btn"
+                        onclick="window.mostrarObraEnColeccion('kinetics-bodies'); return false;">Más de la obra</a>
+                </div>
+                <div class="project-card" data-category="all">
+                    <div class="media-hover-container"
+                        style="width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <a href="#" onclick="window.mostrarObraEnColeccion('kinetics-bodies'); return false;"
+                            title="Kinetics of Bodies, Circuits and Branches"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
+                            <img src="https://f7fdeiujfesdmget3es3y7m7y5hwwayozobyxzadjkpco7jt5ima.arweave.net/L8oyIokpJDYYk9klvH2fx09rAw7Lg4vkA0qeJ30z6hg"
+                                alt="Kinetics of Bodies, Circuits and Branches - Obra  "
+                                style="width: 100%; height: auto; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; display: block; margin: 0 auto;">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Obra: About the Other Use -->
+                <div class="card-body">
+                    <h3 class="project-title">About the Other Us</h3>
+                    <p class="project-description">In a world where human and digital converge, identity is reshaped,
+                        challenging the body's boundaries. This artwork delves into that intersection, crafting an
+                        intimate
+                        cyborg dance that redefines perceptions of authenticity, the organic, and the real in the
+                        synthetic
+                        age.</p>
+                    <p class="mt-2"><a
+                            href="https://daily.xyz/artwork/petra-daily-program-season-1-about-the-other-us/0xf6d60f7b7b43fd992b583464c2090eb15de71dd8/1510000"
+                            target="_blank" class="more-artwork-btn">Digital art auction at The Daily .xyz</a>
+                    </p>
+                </div>
+                <div class="video-container" data-vimeo-id="1018089056">
+                    <iframe data-src="https://player.vimeo.com/video/1018089056?h=839fd9b167" title="About the Other Us"
+                        frameborder="0" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+                </div>
+
+
+                <!-- Obra: Bodies that dance alone, Screen Dance AI -->
+                <div class="card-body">
+                    <h3 class="project-title">Bodies that dance alone</h3>
+                    <p class="programmer-notes">
+                        <strong>Notas de Blas Payri</strong><br>
+                        Esta obra utiliza los errores de la IA como material creativo, generando figuras grotescas e
+                        híbridas con anatomías distorsionadas y movimientos que desafían la gravedad. Las
+                        transformaciones surgen del video con IA aplicado a imágenes de danza real, produciendo
+                        interpolaciones surreales que revelan tanto el potencial como la inestabilidad de las
+                        herramientas actuales de aprendizaje automático. La banda sonora ruidosa y basada en glitches
+                        refuerza esta distorsión visual y sonora, capturando un momento histórico donde la imperfección
+                        tecnológica se vuelve expresiva.
+                    </p>
+                    <p class="recognitions">
+                        • <strong>Finalista</strong> del premio Interfaccia Digitale en <a
+                            href="https://hangartfest.it/interfaccia-digitale-screendance-competition/"
+                            target="_blank">@Hangartfest</a>, Italia - Proyectada en Maddalena
+                        Performing Art Center<br>
+                        • <strong>Seleccionada</strong> en el <a href="https://videodance.webs.upv.es/"
+                            target="_blank">EIVV 2025 (Encontre Internacional de Videodansa i
+                            Videoperformance)</a> - Plataforma dedicada a la exploración y celebración de la
+                        videodanza.<br>
+                    </p>
+                </div>
+                <div class="video-container auto-aspect-ratio" data-youtube-id="wxqxBP96E80"
+                    data-cover-src="imagenesOBRA/Cuerpos.png"
+                    style="position: relative; overflow: hidden; width: 100%;">
+                    <div class="video-cover"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('imagenesOBRA/Cuerpos.png'); background-size: cover; background-position: center; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; z-index: 1;">
+                    </div>
+                    <iframe data-src="https://www.youtube.com/embed/wxqxBP96E80"
+                        title="Bodies that dance alone, Screen Dance AI" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 0;"></iframe>
+                </div>
+
+
+                <!-- Obra: Vectofascismo -->
+                <div class="card-body">
+                    <h3 class="project-title">Vectofascismo</h3>
+                    <p class="mt-2"><a href="https://manifold.xyz/@petra/contract/1763383536/16" target="_blank"
+                            class="text-accent">El fascismo moderno no opera bajo ideologías claras como "raza"
+                            o "nación", sino a través de mecanismos ocultos: vectores, fuerzas invisibles como
+                            algoritmos, presión económica, o manipulación mediática, actuando en un "campo digital"
+                            donde los datos pierden su significado original y solo su poder para influir.</a></p>
+                    <p class="mt-2"><a href="https://manifold.xyz/@petra/contract/1763383536/16" target="_blank"
+                            class="text-accent">Performance collage y texto inspirado en el término "Vectofascismo" de
+                            G. Chatonsky. Creado con danza, Avatares de IA, y Touchdesigner.</a></p>
+                    <a href="#" class="more-artwork-btn"
+                        onclick="window.mostrarObraEnColeccion('vectofascismo'); return false;">Más de la obra</a>
+                </div>
+                <div class="video-container" data-youtube-id="gN4r5myaQks"
+                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <div class="video-cover"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('imagenesOBRA/vectofascismo.jpg'); background-size: cover; background-position: center; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; z-index: 1;">
+                    </div>
+                    <iframe data-src="https://www.youtube.com/embed/gN4r5myaQks" title="Vectofascismo" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 0;">
+                    </iframe>
+                </div>
+
+
+                <!-- Obra: Hack the latent space -->
+                <div class="card-body">
+                    <h3 class="project-title">Hack the latent space</h3>
+                    <p class="mt-2"><a target="_blank" class="text-accent">Hay un océano digital donde las ideas duermen
+                            y sueñan
+                            con existir. En sus profundidades, nacen y mueren formas sin nombre; criaturas de luz
+                            líquida y paisajes que respiran con un pulso iridiscente. Son los sueños de algo no humano.
+                    </p>
+                    <p> Esta es una exploración visual de la colisión. Es asomarse a la belleza nacida del error,
+                        del malentendido. Es espiar a través de una grieta en el código, justo en ese instante en
+                        que una máquina sueña y otra, tratando de descifrarlo, revela sin saberlo una nueva forma de
+                        poesía.</p>
+                    <a href="https://objkt.com/tokens/open_objkt/4985?ref=tz1cSxrvsct9FC33dCMwQGQkcwwHirHV1DzX"
+                        target="_blank" class="more-artwork-btn">Más de la obra</a>
+                </div>
+                <div class="video-container auto-aspect-ratio" data-youtube-id="swN_C3Pj4Qw"
+                    data-cover-src="imagenesOBRA/HackLatent.gif"
+                    style="position: relative; overflow: hidden; width: 100%;">
+                    <div class="video-cover"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('imagenesOBRA/HackLatent.gif'); background-size: cover; background-position: center; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; z-index: 1;">
+                    </div>
+                    <iframe
+                        data-src="https://assets.objkt.media/file/assets-003/bafybeihvaxhcuhbnaey6arpnt4at2xr7ot3u6iagza6ngsaow4cluo3rnm/artifact"
+                        title="Hack the latent space" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 0;"></iframe>
+                </div>
+
+
+                <!-- Obra: Melancolía de un no especie -->
+                <div class="card-body">
+                    <h3 class="project-title">Melancolía de un no especie</h3>
+                    <p class="project-description">Esta pieza explora la intersección entre la tecnología y el arte,
+                        cuestionando nuestra percepción e interacción con entornos sintéticos mientras especula sobre
+                        seres que habitarán el Antropoceno y sus implicaciones para la existencia humana en la era
+                        digital. Se crea utilizando técnicas avanzadas de visión por computadora, como el modelo YOLO,
+                        para detectar y visualizar objetos en tiempo real. La obra despliega un complejo ecosistema
+                        visual de entidades sintéticas, cuadrículas procedimentales, partículas y efectos láser que
+                        crean una experiencia dinámica e inmersiva.</p>
+                    <p class="mt-2"><a href="https://manifold.xyz/@petra/id/4198512880" target="_blank"
+                            class="more-artwork-btn">Disponible en Manifold</a></p>
+                </div>
+                <div class="video-container" data-youtube-id="nByyAdR-A1I">
+                    <iframe data-src="https://www.youtube.com/embed/nByyAdR-A1I"
+                        title="Melancolía de un no especie - Organismos imaginarios observados por máquinas"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+
+
+                <!-- Obra: Fase REM de una IA -->
+                <div class="card-body">
+                    <h3 class="project-title">Fase REM de una IA</h3>
+                    <p class="project-description">Performance inmersiva - videoarte - ritual - delirio - pieza en
+                        exploración que fusiona música electrónica experimental con performance y visuales generados en
+                        tiempo real principalmente mediante IA. La pieza propone una exploración del inconsciente
+                        digital, creando un "sueño" en el que la máquina dotada de visión y procesamiento creativo
+                        interpreta la realidad a través de sus propias alucinaciones visuales.</p>
+                    <p class="project-description">Una colaboración de @kinetic4i X @oidaetnb___</p>
+                </div>
+                <div class="video-container" data-youtube-id="jAMkxd6YxIk">
+                    <iframe data-src="https://www.youtube.com/embed/jAMkxd6YxIk" title="Fase REM de una IA"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+
+            </div>
+
+            <!-- Obra: Atractor BioPerformance 2024 -->
+            <div class="card-body">
+                <h3 class="project-title">Atractor - Bio performance</h3>
+                <p class="project-description">Esta pieza muestra la oposición de fuerzas en sus extremos y matices
+                    intermedios. Estas frecuencias son manipuladas por las señales de pulso de los performers mientras
+                    generan una coreografía con las manos, transformándose a la vez en tiempo real con imágenes en
+                    movimiento utilizando IA. Se exploran los conceptos de naturalidad, humanidad y cuerpo presente
+                    entre audio, imagen y bioseñales.</p>
+                <p class="project-description">Creativxs: @ale.bronski, @yessicagotcha, @fern_olivares, @zaratemarfil y
+                    @petra.synthetic</p>
+            </div>
+            <div class="video-container" data-youtube-id="pvNojm7lZCc">
+                <iframe data-src="https://www.youtube.com/embed/pvNojm7lZCc" title="Atractor BioPerformance 2024"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Luz Cósmica -->
+            <div class="card-body">
+                <h3 class="project-title">Luz Cósmica</h3>
+                <p class="project-description">La obra es una exploración generativa que visualiza el viaje del
+                    mensaje de Arecibo a través del vacío del espacio, la especulación sobre otras especies y su
+                    comunicación basada en la luz. Cada elemento visual representa una posible "respuesta" de las
+                    estrellas, un
+                    eco perdido que reverbera en la inmensidad. La obra utiliza la inteligencia artificial para imaginar
+                    especies alienígenas
+                    que, a su vez, se transforman en patrones visuales y sonoros, creando un lenguaje abstracto
+                    que especula sobre cómo podría ser la comunicación interestelar. La obra propone que cada estrella
+                    del
+                    cúmulo M13 puede verse como un observador potencial que recibe nuestro mensaje a través de la luz y
+                    lo transforma en una respuesta que nunca escucharemos, invitando a los espectadores a reflexionar
+                    sobre la soledad cósmica
+                    y el misterio del contacto interestelar.</p>
+                <p class="project-description"><a
+                        href="https://art-meets-science.io/en/contact-attempt-winners-and-finalists-foundation-herbert-w-franke/"
+                        target="_blank" class="text-accent">CONTACT ATTEMPT</a>, Planetarium Bochum, 50th Anniversary of
+                    the Arecibo Message, Hamburg, Germany, November 18, 2024.</p>
+            </div>
+            <div class="video-container" data-youtube-id="wzxlh6HMOeI">
+                <iframe data-src="https://www.youtube.com/embed/wzxlh6HMOeI" title="Luz Cósmica, AI Film"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Runway.exe -->
+            <div class="card-body">
+                <h3 class="project-title">Runway.exe</h3>
+                <p class="project-description">There is speculation about a fashion environment where models are no
+                    longer made of flesh and blood, but hybrid entities, generated by machines and artificial
+                    intelligence. What place do human bodies occupy in a future where beauty is measured in pixels and
+                    lines of code?</p>
+                <p class="mt-2"><a href="https://filmfreeway.com/Runwaydotexe" target="_blank" class="more-artwork-btn">Ver
+                        en FilmFreeway</a></p>
+            </div>
+            <div class="video-container" data-youtube-id="MlYPhTA-b1w">
+                <iframe data-src="https://www.youtube.com/embed/MlYPhTA-b1w" title="Runway.exe AI Film" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Conexiones Invisibles -->
+            <div class="card-body">
+                <h3 class="project-title">Conexiones Invisibles: entre sueños y Nouns</h3>
+                <p class="project-description">A girl discovers a pair of glasses that reveal a vibrant metaverse,
+                    guided by one Amigo who is already part of a community where dreams merge with reality to create
+                    transformative experiences.</p>
+                <p class="project-description"><strong>Screenings:</strong><br>
+                    • <strong>Best AI Film</strong> - Absurd Film Festival 2024, Milan, Italy<br>
+                    • <strong>Official Selection</strong> - China Dragon Awards 2024 (China International Conference of
+                    Science and Education Producers) #CICSEP24, Shenzen, China, November 20, 2024<br>
+                    • <strong>Official Selection</strong> - Las Flores, Web3 Film Festival, Mexico City & Canada</p>
+                <p class="mt-2"><a href="https://filmfreeway.com/conexionesinvisibles" target="_blank"
+                        class="more-artwork-btn">Ver en FilmFreeway</a></p>
+            </div>
+            <div class="video-container" data-vimeo-id="986069252">
+                <iframe data-src="https://player.vimeo.com/video/986069252?h=bfe287c51a"
+                    title="Conexiones Invisibles: entre sueños y Nouns" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: Cascada -->
+            <div class="card-body">
+                <h3 class="project-title">Cascada</h3>
+                <p class="project-description">Animaciones 3D para instalación inmersiva del proyecto Tronco Cónico, por
+                    la agencia Objeto Nulo dentro del hotel, Dreams Bahía Mita, 2023.</p>
+            </div>
+            <div class="video-container" data-youtube-id="3IzquLK5p3A"
+                style="width: 100%; height: 56.25%; position: relative;">
+                <iframe data-src="https://www.youtube.com/embed/3IzquLK5p3A" title="Cascada VR" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Ritual a la Naturaleza Sintética -->
+            <div class="card-body">
+                <h3 class="project-title">Ritual a la Naturaleza Sintética</h3>
+                <p class="project-description">Exhibición colectiva de obra digital "Lo que brilla / lo que
+                    arde"<br>Alianza Francesa en
+                    México</p>
+            </div>
+            <div class="video-container" data-youtube-id="4vsB_bZB5Uo">
+                <iframe data-src="https://www.youtube.com/embed/4vsB_bZB5Uo"
+                    title="Ritual a la Naturaleza Sintética - Performance" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Semillas de una danza híbrida -->
+            <div class="card-body">
+                <h3 class="project-title">Semillas de una danza híbrida</h3>
+                <p class="project-description">Colaboración con Jens Laugesen junto a un colectivo de artistas
+                    y obras que se exhibieron en el London Fashion Week, la pieza "Semillas de una danza híbrida" se
+                    presentó durante la charla que Jens dirige. Esta pieza fue creada con mocap, codigo, ia y
+                    música generativa.</p>
+                <p class="mt-2"><a
+                        href="https://www.linkedin.com/posts/jens-laugesen-722a138_laugesen-x-metasens-trilogy-02-lfw-2023-activity-7032447269207482368-QbUG/"
+                        target="_blank" class="more-artwork-btn">Ver en LinkedIn</a></p>
+            </div>
+            <div class="video-container" data-youtube-id="nlpqtSTFVdM">
+                <iframe data-src="https://www.youtube.com/embed/nlpqtSTFVdM" title="Semillas de una danza híbrida"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: ChingonX - Screen Dance -->
+            <div class="card-body">
+                <h3 class="project-title">ChingonX</h3>
+                <p class="project-description">A movement in favor of decentralization, born from Paisano DAO and its
+                    community of Latin American crypto-artists, I consider it an important event to communicate through
+                    <a href="https://manifold.xyz/@petra/id/1872394480" target="_blank" class="text-accent">NFT
+                        performance</a>.
+                </p>
+                <p class="project-description">This series of pieces are derivatives of cloneX #13727 from the NFT
+                    collection of RTFKT, a company recently linked to the NIKE brand within the blockchain ecosystem.
+                    These works derived from "chingona" represent an activism against the uninformative and
+                    nontransparent practices that this type of brand could have when entering the web3 ecosystem.</p>
+            </div>
+            <div class="video-container" data-youtube-id="zH--tdsEgJE">
+                <iframe data-src="https://www.youtube.com/embed/zH--tdsEgJE" title="ChingonX - Screen Dance NFT"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Faceless -->
+            <div class="card-body">
+                <h3 class="project-title">Faceless</h3>
+                <p class="project-description">This work arises from the desire to experiment with the potential of
+                    creative expression through dance and technology. To develop it, we carried out a series of physical
+                    movement laboratories, telematic ones, software editing and transmedia experimentation during 2019,
+                    a time of uncertainty, psychological agitation caused by temporary closures, unemployment, social
+                    isolation and disorder. With this project, we hope that our reflections on anxiety and depression
+                    will be recognized and transformed into something that we can share with others. Rather than trying
+                    to get rid of this, we consider them opportunities to reevaluate and rebuild our understanding of
+                    reality.</p>
+                <p class="mt-2"><a href="https://www.niftygateway.com/petra_/" target="_blank"
+                        class="more-artwork-btn">Digital Art Auction on Nifty Gateway</a></p>
+            </div>
+            <div class="video-container" data-vimeo-id="597031125">
+                <iframe data-src="https://player.vimeo.com/video/597031125?h=97db7ed81f" title="Faceless - Screen Dance"
+                    frameborder="0" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: Black Bufon, NFT Film -->
+            <div class="card-body">
+                <h3 class="project-title">Black Bufon</h3>
+                <p class="project-description">El espacio en blanco me preocupa, quiero profundizar más, ir a un lugar
+                    donde no haya luz. Me gusta moverme como ese bufón que se burla de todo, incluso de sí mismo.</p>
+                <p class="mt-2"><a
+                        href="https://foundation.app/mint/eth/0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405/120693"
+                        target="_blank" class="more-artwork-btn">Digital Art Auction on Foundation</a></p>
+            </div>
+            <div class="video-container" data-youtube-id="dMyeE3kJFfo">
+                <iframe data-src="https://www.youtube.com/embed/dMyeE3kJFfo" title="Black Bufon, NFT Film"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Incubación -->
+            <div class="card-body">
+                <h3 class="project-title">Incubación</h3>
+                <p class="project-description">Incubación es una reflexión poética sobre la conformación y evolución de
+                    los organismos vivos: desde el estado más primitivo, hasta la consolidación de la consciencia del
+                    propio ser y sus necesidades sociales. La pieza es el relato audiovisual onírico de un cúmulo de
+                    células que coinciden para la conformación de dos organismo vivos, uno femenino y el otro masculino.
+                    Estos cuerpos, desde su primer contacto con el mundo exterior, se enfrentan a una serie de procesos
+                    evolutivos: desarrollando su percepción sensorial, mecanismos de defensa y comunicación con su
+                    entorno, hasta llegar a construirse una identidad propia. Durante dicho proceso, estos cuerpos salen
+                    del anonimato para cuestionar lo que sabían sobre sí mismos, y replantear su identidad más allá de
+                    los estereotipos y juicios sociales.</p>
+            </div>
+            <div class="video-container" data-youtube-id="fiZNMi8qxak">
+                <iframe data-src="https://www.youtube.com/embed/fiZNMi8qxak"
+                    title="Incubación - Los ovíparos no le temen a la soledad" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: La forêt -->
+            <div class="card-body">
+                <h3 class="project-title">La forêt</h3>
+                <p class="project-description">En colaboración con Nadère, Arts Vivants / Andréane Leclerc y presentada
+                    en Festival Internacional de Danza Jalisco</p>
+            </div>
+            <div class="video-container" data-youtube-id="MKRlMA-6pXk">
+                <iframe data-src="https://www.youtube.com/embed/MKRlMA-6pXk" title="La forêt" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Todo esto por 67cm -->
+            <div class="card-body">
+                <h3 class="project-title">Todo esto por 67cm</h3>
+                <p class="project-description">Parte del Tercer Encuentro de Creación Coreográfica EnTIempoReal2017, un
+                    proyecto que reunió artistas de México, Ecuador, Colombia, Uruguay, España y Estados Unidos durante
+                    dos semanas para crear montajes coreográficos originales y colectivos. Creación e interpretación de
+                    Daniel Ruttet, Petra, Issabel Monge y Paula Rechtman, con música de Ariel Guzik y Nortec
+                    Collective.</p>
+            </div>
+            <div class="video-container" data-vimeo-id="285912774">
+                <iframe data-src="https://player.vimeo.com/video/285912774?h=684ceeb63a"
+                    title="Todo esto por 67cm - EnTIempoReal2017" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: Hablamos desde donde nos situamos -->
+            <div class="card-body">
+                <h3 class="project-title">Hablamos desde donde nos situamos</h3>
+                <p class="project-description">Video-danza experimental resultado del taller "3 voces" organizado por
+                    Karen de Luna, Diego Martínez Lanz y Ricardo Arzola, dentro de la Muestra de Movimiento Audiovisual
+                    en Guadalajara. Simplifican partes de sus cuerpos dibujando el movimiento al ritmo de la música,
+                    mezclando pasos, secuencias de grabación y creatividad. Colaboracion entre Jose Ernesto
+                    Zamora, Petra, Itzel Barajas y Eva Figueroa, edición de video y foley - Petra.</p>
+            </div>
+            <div class="video-container" data-vimeo-id="495547908">
+                <iframe data-src="https://player.vimeo.com/video/495547908?h=23f4e9b4d0"
+                    title="Hablamos desde donde nos situamos" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: La paradoja del ser -->
+            <div class="card-body">
+                <h3 class="project-title">La paradoja del ser</h3>
+                <p class="project-description">Laboratorio Coreográfico Multidisciplinario dirigido por Petra,
+                    con interpretación y creación colaborativa de Cinthia Garcia Ponce, Luis González Ortiz, Cesar Díaz
+                    Rodríguez, Abigail González Rodríguez, Estíbaliz Moguel, Francisco Villaseñor Martínez, Víctor
+                    Abraham Torres Díaz y Petra. Explora la cotidianidad y los espacios no explorados uniendo diferentes
+                    disciplinas artísticas para expresar las contradicciones de la vida y aceptar las diferencias e
+                    identidades, mutando en lo que ahora somos.</p>
+            </div>
+            <div class="video-container" data-vimeo-id="270021623">
+                <iframe data-src="https://player.vimeo.com/video/270021623?h=36c35d76e1"
+                    title="La paradoja del ser - Obra multidisciplinaria" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: Atmósferas -->
+            <div class="card-body">
+                <h3 class="project-title">Atmósferas</h3>
+                <p class="project-description">Propuesta coreográfica inspirada en textos del arquitecto Peter Zumthor
+                    sobre "la atmósfera como categoría estética", explorando las afinidades entre los lugares y las
+                    artes. Coreografía de Narciso Sánchez en colaboración con los intérpretes Petra, Ailyn
+                    Arellano, Lupita de Santiago, Laura Castellanos, Mayra Terán, Rossana Quezada, Melisa Esparza, Brisa
+                    Santana y Eduardo Magaña. Música original de Erick Vélez, compañía 8ADN "cuerpos en acción",
+                    video/fotografía de Zoé Rodríguez Sánchez.</p>
+            </div>
+            <div class="video-container" data-vimeo-id="194879097">
+                <iframe data-src="https://player.vimeo.com/video/194879097?h=83bb1593ba"
+                    title="Atmósferas - Intervención de danza" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: Desapego -->
+            <div class="card-body">
+                <h3 class="project-title">Desapego</h3>
+                <p class="project-description">Pieza de danza contemporánea que expone la ideología sobre los "ciclos de
+                    vida" que nos suceden como seres humanos, los que nos cambian y hacen evolucionar o trascender.
+                    Creada con la intención de exponerse en diferentes espacios no convencionales, encontrando una
+                    estructura coreográfica única en cada lugar. Dirección de Petra, con intérpretes Lupita de Santiago,
+                    Eduardo Magaña, Yare Perez, Melissa Esparza, Rossana Quezada, Laura Castellanos y Cinthia Garcia
+                    Ponce.</p>
+            </div>
+            <div class="video-container" data-vimeo-id="232074995">
+                <iframe data-src="https://player.vimeo.com/video/232074995?h=bc633a509f"
+                    title="Desapego - Coreografía de Luis Betancourt 'Petra'" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+
+            <!-- Obra: Above -->
+            <div class="card-body">
+                <h3 class="project-title">Above</h3>
+                <p class="project-description">Coreografía creada en base a la relación entre la arquitectura del
+                    espacio, la música y la improvisación de movimiento en tiempo real, inspirada en las pinturas de la
+                    galería donde se originó. Busca una simplificación de la vida percibida y sentida a través de
+                    acciones
+                    libres de los cuerpos, adaptándose a cada espacio y espectador. Se crea a partir del momento
+                    presente,
+                    del sonido ambiente y la relación con el espectador, estableciendo acciones corporales mediante
+                    improvisación que forman la coreografía y permiten el disfrute del estado presente de los
+                    intérpretes.</p>
+            </div>
+            <div class="video-container" data-youtube-id="F6ZP8iSfixg"
+                style="width: 100%; height: 56.25%; position: relative;">
+                <iframe data-src="https://www.youtube.com/embed/F6ZP8iSfixg"
+                    title="Above, Coreografía Narciso Sanchez y Luis Betancourt, ENDCDMX2017" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Crotch -->
+            <div class="card-body">
+                <h3 class="project-title">Crotch</h3>
+                <p class="project-description">Obra escénica que denuncia y da voz al acallado, creada en colaboración
+                    con la compañía española Baal durante el Festival de Bailar a Pantalla 2017. La compañía trabajó
+                    con creadores escénicos locales de Guadalajara.</p>
+            </div>
+            <div class="project-card" data-category="all">
+                <div class="media-hover-container"
+                    style="width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <a href="https://www.flickr.com/photos/culturaudg/albums/72157662440036318" title="Crotch"
+                        target="_blank" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                        <img src="https://live.staticflickr.com/4523/24420949598_349546a632_h.jpg"
+                            alt="Crotch - Obra interdisciplinaria"
+                            style="width: 100%; height: auto; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; display: block; margin: 0 auto;">
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Obra: ZOZOBRA -->
+            <div class="card-body">
+                <h3 class="project-title">Zozobra</h3>
+            </div>
+            <div class="video-container" data-youtube-id="9BVqOkEEglw">
+                <iframe data-src="https://www.youtube.com/embed/9BVqOkEEglw" title="ZOZOBRA - Screen Dance"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Ocean Archive -->
+            <div class="card-body">
+                <h3 class="project-title">Ocean Archive</h3>
+            </div>
+            <div class="video-container" data-youtube-id="WDJNleKtSpI">
+                <iframe data-src="https://www.youtube.com/embed/WDJNleKtSpI"
+                    title="Ocean Archive - 3D model + Shaders GLSL" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+
+            <!-- Obra: Colab with Alida Sun -->
+            <div class="card-body">
+                <h3 class="project-title">Colab with Alida Sun</h3>
+            </div>
+            <div class="video-container" data-youtube-id="UlRGvFsx1D8">
+                <iframe data-src="https://www.youtube.com/embed/UlRGvFsx1D8"
+                    title="Colab with Alida Sun, Bright Moments 2022" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+
+            <!-- Obra: Ojo de búho / Brand Shotting -->
+            <div class="card-body">
+                <h3 class="project-title">Ojo de búho / Brand Shotting</h3>
+            </div>
+            <div class="video-container" data-vimeo-id="844723266">
+                <iframe data-src="https://player.vimeo.com/video/844723266?h=a26e717f69"
+                    title="Ojo de búho / Brand Shotting" frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"></iframe>
+            </div>
+
+            <!-- Sección Talleres -->
+            <div id="talleres-container"></div>
+
+            <!-- Sección Exhibiciones -->
+            <div id="exhibitions-container">
+                <!-- El contenido se cargará dinámicamente desde exhibiciones.js -->
+            </div>
+
+            <style>
+                .news-carousel-container {
+                    height: 80vh;
+                    /* Ajusta la altura según necesites */
+                    overflow: hidden;
+                    position: relative;
+                }
+
+                .news-carousel {
+                    height: 100%;
+                    transition: transform 0.5s ease-in-out;
+                }
+
+                .news-slide {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .news-slide img {
+                    max-height: 100%;
+                    max-width: 100%;
+                    object-fit: contain;
+                }
+            </style>
+
+            <!-- Nueva sección para el formulario de contacto -->
+            <section id="contact" class="section content-section bg-dark text-white">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <h2 class="mb-5">Trabajemos juntos</h2>
+                            <p class="lead mb-5">¿Tienes un proyecto en mente? Envíame un mensaje y hablemos sobre cómo
+                                podemos
+                                colaborar.</p>
+                            <form id="contactForm" class="text-start">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control bg-dark text-white" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control bg-dark text-white" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Mensaje</label>
+                                    <textarea class="form-control bg-dark text-white" id="message" rows="5"
+                                        required></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-outline-light btn-lg">Enviar mensaje</button>
+                                </div>
+                            </form>
+
+                            <!-- Sección Artículos se carga dinámicamente desde articulos.js -->
+                            <div id="articulos-container"></div>
+
+                            <!-- Sección Talleres se carga dinámicamente desde talleres.js -->
+                            <div id="talleres-container"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Sección CryptoArt se carga dinámicamente desde cryptoart.js -->
+    <div id="cryptoart-container"></div>
+
+    <!-- El manejo de hover ahora está en video-handler.js -->
+
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts optimizados -->
+    <script src="js/video-handler.js" defer></script>
+    <script src="js/coleccion.js" defer></script>
+    <script src="js/talleres.js" defer></script>
+    <script src="js/cryptoart.js" defer></script>
+
+    <!-- Logo Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const logo = document.getElementById('petra-logo');
+            const originalText = "PETRA";
+            const letters = originalText.split('');
+            logo.innerHTML = '';
+
+            letters.forEach((letter, index) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(20px)';
+                span.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                logo.appendChild(span);
+            });
+
+            setTimeout(() => {
+                logo.querySelectorAll('span').forEach(span => {
+                    span.style.opacity = '1';
+                    span.style.transform = 'translateY(0)';
+                });
+            }, 500);
+        });
+    </script>
+
+    <!-- Hero Carousel Script -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+        let autoPlayInterval;
+        let resumeTimeout;
+
+        function showSlide(index) {
+            // Ocultar todas las diapositivas
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            // Mostrar la diapositiva actual
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            } else if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        // Inicializar el carrusel cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function () {
+            showSlide(0);
+
+            function startAutoPlay() {
+                autoPlayInterval = setInterval(() => {
+                    changeSlide(1);
+                }, 12000); // Cambiar cada 12 segundos
+            }
+
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+
+            // Iniciar auto-play
+            startAutoPlay();
+
+            // Pausar al pasar el mouse
+            const carouselContainer = document.querySelector('.hero-carousel-container');
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+                carouselContainer.addEventListener('mouseleave', startAutoPlay);
+            }
+
+            // Pausar al hacer clic en controles
+            document.querySelectorAll('.carousel-control, .indicator').forEach(element => {
+                element.addEventListener('click', function () {
+                    stopAutoPlay();
+                    clearTimeout(resumeTimeout); // Limpiar timeout anterior
+                    resumeTimeout = setTimeout(startAutoPlay, 12000); // Reanudar después de 12 segundos
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Solo cargar exhibiciones si estamos en la página de exhibiciones
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('exhibitions-container');
+            const isExhibitionsPage = window.location.pathname.includes('exhibiciones');
+
+            if (container && isExhibitionsPage) {
+                container.innerHTML = `
+                    <div class="exhibitions-section">
+                        <h2 class="text-center mb-5">Exhibiciones</h2>
+                        
+                        <!-- Exhibición 1 -->
+                        <div class="exhibition-item mb-5">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="exhibition-image">
+                                        <img src="../images/exhibiciones/expo1.jpg" alt="Exhibición 1" class="img-fluid rounded">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3>Exhibición 1</h3>
+                                    <p class="text-muted">Fecha: Enero 2024</p>
+                                    <p>Descripción de la exhibición 1. Incluye obras destacadas y detalles relevantes.</p>
+                                    <a href="#" class="btn btn-outline-primary">Ver más</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Exhibición 2 -->
+                        <div class="exhibition-item mb-5">
+                            <div class="row align-items-center">
+                                <div class="col-md-6 order-md-2">
+                                    <div class="exhibition-image">
+                                        <img src="../images/exhibiciones/expo2.jpg" alt="Exhibición 2" class="img-fluid rounded">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 order-md-1">
+                                    <h3>Exhibición 2</h3>
+                                    <p class="text-muted">Fecha: Marzo 2024</p>
+                                    <p>Descripción de la exhibición 2. Incluye obras destacadas y detalles relevantes.</p>
+                                    <a href="#" class="btn btn-outline-primary">Ver más</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (container) {
+                // Si hay un contenedor pero no estamos en la página de exhibiciones, lo limpiamos
+                container.innerHTML = '';
+            }
+        });
+    </script>
+
+    <!-- Cargar el shader desde archivos externos -->
+    <script src="js/InteractiveGlassMaterial.js" type="module"></script>
+
+    <!-- Script personalizado -->
+    <style>
+        /* Estilos para el carrusel de noticias */
+        .news-carousel-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .news-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-slide h3 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .news-slide p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Asegurar que el contenido esté por encima del shader */
+        body {
+            background-color: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Asegurar que las secciones tengan fondo transparente */
+        .section,
+        .content-section {
+            background-color: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Asegurar que las tarjetas sean ligeramente transparentes */
+        .project-card,
+        .card {
+            background-color: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Estilos para el filtrado de obras */
+        .artwork-item {
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+            padding: 0 15px;
+        }
+
+        .artwork-item.hidden {
+            display: none !important;
+        }
+
+        /* Estilo para las tarjetas de obras */
+        .artwork-item .project-card {
+            background: transparent;
+            border: none;
+            margin: 30px 0;
+        }
+
+        .artwork-item .project-title {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin: 0 0 8px 0;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: none;
+            opacity: 0.9;
+        }
+
+        .artwork-item p {
+            color: var(--secondary-color);
+            margin: 0 0 10px 0;
+            line-height: 1.6;
+        }
+
+        .artwork-item a {
+            color: var(--accent-color) !important;
+            text-decoration: underline;
+        }
+
+        .btn-group .btn {
+            margin: 5px 10px;
+            border-radius: 20px !important;
+            padding: 8px 20px;
+        }
+
+        .btn-group .btn.active {
+            background-color: #4cc9f0;
+            border-color: #4cc9f0;
+            color: #000 !important;
+        }
+    </style>
+
+    <!-- El código de arte.js ha sido incorporado directamente en este archivo -->
+    <script>
+        // Función para manejar la transición de un contenedor de video
+        function setupVideoContainer(container, videoElementSelector) {
+            if (!container) return;
+            const cover = container.querySelector('.video-cover');
+            const videoElement = container.querySelector(videoElementSelector);
+            let isPlaying = false;
+
+            if (cover && videoElement) {
+                videoElement.style.display = 'none';
+
+                // Función para mostrar el video
+                function showVideo() {
+                    if (isPlaying) return;
+                    isPlaying = true;
+                    cover.style.opacity = '0';
+                    setTimeout(() => {
+                        cover.style.display = 'none';
+                        videoElement.style.display = 'block';
+                        // Cargar el video solo al hacer clic
+                        if (videoElement.tagName === 'IFRAME' && videoElement.hasAttribute('data-src')) {
+                            const src = videoElement.getAttribute('data-src');
+                            const separator = src.includes('?') ? '&' : '?';
+                            videoElement.src = src + separator + 'autoplay=1';
+                        } else if (videoElement.tagName === 'VIDEO') {
+                            videoElement.play();
+                        }
+                    }, 200);
+                }
+
+                // Función para ocultar el video
+                function hideVideo() {
+                    if (!isPlaying) return;
+                    isPlaying = false;
+
+                    if (videoElement.tagName === 'IFRAME') {
+                        videoElement.src = '';
+                        videoElement.src = videoElement.getAttribute('data-src');
+                    } else if (videoElement.tagName === 'VIDEO') {
+                        videoElement.pause();
+                        videoElement.currentTime = 0;
+                    }
+
+                    videoElement.style.display = 'none';
+                    cover.style.display = 'flex';
+                    setTimeout(() => {
+                        cover.style.opacity = '1';
+                    }, 50);
+                }
+
+                // Eventos para desktop
+                cover.addEventListener('click', showVideo);
+
+                // Eventos para móvil
+                cover.addEventListener('touchend', function (e) {
+                    e.preventDefault();
+                    showVideo();
+                });
+
+                // Ocultar video al hacer clic en él o al salir del área
+                videoElement.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    hideVideo();
+                });
+
+                // Ocultar video al tocar en móvil
+                videoElement.addEventListener('touchend', function (e) {
+                    e.stopPropagation();
+                    hideVideo();
+                });
+
+                // Volver a la imagen de portada al salir del área del contenedor
+                container.addEventListener('mouseleave', function () {
+                    if (isPlaying) {
+                        hideVideo();
+                    }
+                });
+
+                // Para móviles, ocultar al hacer scroll
+                let touchStartY = 0;
+                container.addEventListener('touchstart', function (e) {
+                    touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                window.addEventListener('scroll', function () {
+                    if (isPlaying) {
+                        hideVideo();
+                    }
+                }, { passive: true });
+            }
+        }
+
+        // Manejar la transición entre imagen y video
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configurar todos los videos con sus respectivos selectores
+            const videoConfigs = [
+                // Videos con portada ya configurados
+                { selector: '.video-container[data-youtube-id="wxqxBP96E80"]', type: 'iframe' }, // Bodies that dance alone
+                { selector: '.video-container[data-youtube-id="swN_C3Pj4Qw"]', type: 'iframe' }, // Hack the latent space
+                { selector: '.video-container[data-youtube-id="natcGTz6zXQ"]', type: 'iframe' }, // It Rains Inside My Home
+                { selector: '.video-container[data-youtube-id="rspAeFc_OZ0"]', type: 'iframe' }, // 200k
+                { selector: '.video-container[data-youtube-id="gN4r5myaQks"]', type: 'iframe' }, // Vectofascismo
+
+                // Nuevos videos YouTube
+                { selector: '.video-container[data-youtube-id="jN-27oTrhgU"]', type: 'iframe' }, // Glsl Dance Pops
+                { selector: '.video-container[data-youtube-id="BvtNHLwAxLo"]', type: 'iframe' }, // Nextpage Petra 2025
+                { selector: '.video-container[data-youtube-id="nByyAdR-A1I"]', type: 'iframe' }, // Melancolía de un no especie
+                { selector: '.video-container[data-youtube-id="jAMkxd6YxIk"]', type: 'iframe' }, // Fase REM de una IA
+                { selector: '.video-container[data-youtube-id="pvNojm7lZCc"]', type: 'iframe' }, // Atractor BioPerformance 2024
+                { selector: '.video-container[data-youtube-id="wzxlh6HMOeI"]', type: 'iframe' }, // Luz Cósmica
+                { selector: '.video-container[data-youtube-id="I-KKJwehc9I"]', type: 'iframe' }, // Manito
+                { selector: '.video-container[data-youtube-id="B2A7yg44ado"]', type: 'iframe' }, // Fragmented Essence
+                { selector: '.video-container[data-youtube-id="GuSTZgqsJhk"]', type: 'iframe' }, // Code of Shadows
+                { selector: '.video-container[data-youtube-id="vHB4ct0e6yM"]', type: 'iframe' }, // Mask
+                { selector: '.video-container[data-youtube-id="_fynPL2-7D4"]', type: 'iframe' }, // Maskara2
+                { selector: '.video-container[data-youtube-id="oj-AwTpBh4Q"]', type: 'iframe' }, // Mask 3
+                { selector: '.video-container[data-youtube-id="C4V3dxclJEc"]', type: 'iframe' }, // BlobROBOT7mov
+                { selector: '.video-container[data-youtube-id="WFXTOtt2Okc"]', type: 'iframe' }, // Kinetics of Bodies
+                { selector: '.video-container[data-youtube-id="RqlakLvOIh0"]', type: 'iframe' }, // blobROBOT7 mov. 2
+                { selector: '.video-container[data-youtube-id="MlYPhTA-b1w"]', type: 'iframe' }, // Runway.exe
+                { selector: '.video-container[data-youtube-id="vaenj8hW_Lc"]', type: 'iframe' }, // Interphase, Prophase, Metaphase
+                { selector: '.video-container[data-youtube-id="g7pDoTFwJCE"]', type: 'iframe' }, // Realidades Sintéticas
+                { selector: '.video-container[data-youtube-id="UlRGvFsx1D8"]', type: 'iframe' }, // Colab with Alida Sun
+                { selector: '.video-container[data-youtube-id="3IzquLK5p3A"]', type: 'iframe' }, // Cascada
+                { selector: '.video-container[data-youtube-id="WDJNleKtSpI"]', type: 'iframe' }, // Ocean Archive
+                { selector: '.video-container[data-youtube-id="3omQdAFIHz0"]', type: 'iframe' }, // Eternal Sunshine
+                { selector: '.video-container[data-youtube-id="4vsB_bZB5Uo"]', type: 'iframe' }, // Ritual a la Naturaleza Sintética
+                { selector: '.video-container[data-youtube-id="nlpqtSTFVdM"]', type: 'iframe' }, // Semillas de una danza híbrida
+                { selector: '.video-container[data-youtube-id="zH--tdsEgJE"]', type: 'iframe' }, // ChingonX
+                { selector: '.video-container[data-youtube-id="dMyeE3kJFfo"]', type: 'iframe' }, // Black Bufon
+                { selector: '.video-container[data-youtube-id="fiZNMi8qxak"]', type: 'iframe' }, // Incubación
+                { selector: '.video-container[data-youtube-id="9BVqOkEEglw"]', type: 'iframe' }, // ZOZOBRA
+                { selector: '.video-container[data-youtube-id="MKRlMA-6pXk"]', type: 'iframe' }, // La forêt
+
+                // Videos Vimeo
+                { selector: '.video-container[data-vimeo-id="950630234"]', type: 'vimeo' }, // Danza sintética en tiempo real
+                { selector: '.video-container[data-vimeo-id="986069252"]', type: 'vimeo' }, // Conexiones Invisibles
+                { selector: '.video-container[data-vimeo-id="1018089056"]', type: 'vimeo' }, // About the Other Use
+                { selector: '.video-container[data-vimeo-id="180429663"]', type: 'vimeo' }, // Atmósferas / Extracto
+                { selector: '.video-container[data-vimeo-id="285912774"]', type: 'vimeo' }, // Todo esto por 67cm
+                { selector: '.video-container[data-vimeo-id="844723266"]', type: 'vimeo' }, // Ojo de búho
+                { selector: '.video-container[data-vimeo-id="495547908"]', type: 'vimeo' }, // Hablamos desde donde
+                { selector: '.video-container[data-vimeo-id="270021623"]', type: 'vimeo' }, // La paradoja del ser
+                { selector: '.video-container[data-vimeo-id="194879097"]', type: 'vimeo' }, // Atmósferas
+                { selector: '.video-container[data-vimeo-id="232074995"]', type: 'vimeo' }, // Desapego
+                { selector: '.video-container[data-vimeo-id="597031125"]', type: 'vimeo' }, // Faceless
+
+                // Videos HTML5 personalizados (ya tienen su propia implementación)
+                // { selector: 'video', type: 'html5' } // Descomentar si se quieren manejar los videos HTML5 con el mismo sistema
+            ];
+
+            videoConfigs.forEach(config => {
+                setupVideoContainer(
+                    document.querySelector(config.selector),
+                    config.type
+                );
+            });
+        });
+
+        // Función para pausar y reiniciar videos al hacer scroll
+        function handleScroll() {
+            const videoContainers = document.querySelectorAll('.video-container');
+            const windowHeight = window.innerHeight;
+            const scrollPosition = window.scrollY;
+
+            videoContainers.forEach((container) => {
+                const rect = container.getBoundingClientRect();
+                const isInView = (rect.top >= -rect.height * 0.5) && (rect.top <= windowHeight * 0.8);
+
+                // Si el video es de YouTube o Vimeo (iframe)
+                const iframe = container.querySelector('iframe');
+                if (iframe) {
+                    if (!isInView) {
+                        // Pausar el video
+                        const src = iframe.src;
+                        if (src.includes('youtube.com')) {
+                            // Para YouTube
+                            if (src.includes('autoplay=1')) {
+                                iframe.src = src.replace('autoplay=1', 'autoplay=0');
+                            }
+                        } else if (src.includes('vimeo.com')) {
+                            // Para Vimeo
+                            if (iframe.contentWindow) {
+                                iframe.contentWindow.postMessage('{"method":"pause"}', '*');
+                            }
+                        }
+                    }
+                }
+                // Si es un video HTML5
+                else {
+                    const video = container.querySelector('video');
+                    if (video) {
+                        if (!isInView) {
+                            video.pause();
+                            video.currentTime = 0;
+                        }
+                    }
+                }
+            });
+        }
+
+        // Función para ajustar el contenedor según las dimensiones de la imagen
+        function ajustarContenedorImagen(contenedor) {
+            const imgSrc = contenedor.dataset.coverSrc;
+            if (!imgSrc) return;
+
+            const img = new Image();
+            img.onload = function () {
+                const ancho = this.width;
+                const alto = this.height;
+                const relacionAspecto = (alto / ancho) * 100;
+
+                // Aplicar el padding-bottom basado en la relación de aspecto real
+                contenedor.style.paddingBottom = `${relacionAspecto}%`;
+                contenedor.style.height = '0';
+
+                // Asegurar que el contenedor ocupe el ancho completo
+                contenedor.style.width = '100%';
+
+                // Opcional: Centrar la imagen si es más pequeña que el contenedor
+                const cover = contenedor.querySelector('.video-cover');
+                if (cover) {
+                    cover.style.backgroundSize = 'contain';
+                    cover.style.backgroundPosition = 'center';
+                    cover.style.backgroundRepeat = 'no-repeat';
+                    cover.style.backgroundColor = 'black'; // Fondo para las áreas vacías
+                }
+            };
+            img.src = imgSrc;
+        }
+
+        // Ajustar todos los contenedores con imágenes al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.auto-aspect-ratio').forEach(ajustarContenedorImagen);
+        });
+
+        // Efecto de scroll en el header y control de videos
+        let isScrolling;
+        window.addEventListener('scroll', function () {
+            // Cancelar el temporizador anterior
+            window.clearTimeout(isScrolling);
+
+            // Configurar un nuevo temporizador
+            isScrolling = setTimeout(function () {
+                handleScroll();
+            }, 100);
+
+            const header = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Manejar la navegación suave
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Si el enlace no tiene data-section o es un enlace externo, salir
+                if (!this.hasAttribute('data-section') || this.getAttribute('href').startsWith('http') || this.getAttribute('href').includes('about/')) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                // Remover clase active de todos los enlaces
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+                // Agregar clase active al enlace clickeado
+                this.classList.add('active');
+
+                // Ocultar todas las secciones
+                document.querySelectorAll('.content-section, #home').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Mostrar la sección correspondiente
+                const targetSection = this.getAttribute('data-section');
+                if (targetSection) {
+                    const sectionElement = document.getElementById(targetSection);
+                    if (sectionElement) {
+                        sectionElement.classList.add('active');
+                    }
+                }
+
+                // Hacer scroll al inicio de la página
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Manejar el menú móvil
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navbarToggler.addEventListener('click', function () {
+                document.body.classList.toggle('menu-open');
+            });
+
+            // Cerrar el menú al hacer clic en un enlace
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth <= 991.98) {
+                        navbarToggler.click();
+                        document.body.classList.remove('menu-open');
+                    }
+                });
+            });
+
+            // Cerrar el menú al hacer clic fuera de él
+            document.addEventListener('click', function (event) {
+                if (window.innerWidth <= 991.98 &&
+                    !navbarToggler.contains(event.target) &&
+                    !navbarCollapse.contains(event.target)) {
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarToggler.click();
+                        document.body.classList.remove('menu-open');
+                    }
+                }
+            });
+
+            // Inicializar Swiper (si es necesario)
+            // new Swiper('.swiper-container', {
+            //     // opciones de configuración
+            // });
+        });
+    </script>
+
+    <!-- Script de funcionalidad para la sección de arte -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configuración de los botones de filtro
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const artworkItems = document.querySelectorAll('.artwork-item');
+            const coleccionContainer = document.getElementById('coleccion-container');
+
+            // Función para manejar el filtrado de obras
+            function filterArtworks(filterValue) {
+                // Obtener todos los elementos de obras (contenedores de video, imagen, card-body, etc.)
+                const allArtworks = document.querySelectorAll('.video-container, .image-container, .card-body, .artwork-item, [data-category]');
+
+                // Si es la categoría 'coleccion', ocultar todas las obras y mostrar solo la colección
+                if (filterValue === 'coleccion') {
+                    // Ocultar todas las obras
+                    allArtworks.forEach(artwork => {
+                        // Verificar si el elemento es un contenedor de colección
+                        if (!artwork.closest('#coleccion-container')) {
+                            artwork.style.display = 'none';
+                        }
+                    });
+
+                    // Ocultar el carrusel y la semblanza
+                    const heroCarousel = document.querySelector('.hero-carousel-container');
+                    const artistBio = document.querySelector('.artist-bio');
+                    if (heroCarousel) {
+                        heroCarousel.style.display = 'none';
+                    }
+                    if (artistBio) {
+                        artistBio.style.display = 'none';
+                    }
+
+                    // Ocultar cualquier imagen o video que pueda estar en segundo plano
+                    document.querySelectorAll('img, video, iframe').forEach(media => {
+                        if (!media.closest('#coleccion-container') && !media.closest('nav') && !media.closest('header') && !media.closest('footer')) {
+                            media.style.display = 'none';
+                        }
+                    });
+
+                    // Mostrar solo el contenedor de colección si existe
+                    if (coleccionContainer) {
+                        coleccionContainer.style.display = 'block';
+                    }
+                }
+                // Si es 'all', mostrar todas las obras y ocultar la colección
+                else if (filterValue === 'all') {
+                    // Mostrar todas las obras
+                    allArtworks.forEach(artwork => {
+                        // No mostrar elementos que estén dentro del contenedor de colección
+                        if (!artwork.closest('#coleccion-container')) {
+                            artwork.style.display = ''; // Restaurar el valor por defecto
+                        }
+                    });
+
+                    // Restaurar la visibilidad de los medios que podrían haberse ocultado
+                    document.querySelectorAll('img, video, iframe').forEach(media => {
+                        if (!media.closest('#coleccion-container')) {
+                            media.style.display = '';
+                        }
+                    });
+
+                    // Mostrar nuevamente el carrusel y la semblanza
+                    const heroCarousel = document.querySelector('.hero-carousel-container');
+                    const artistBio = document.querySelector('.artist-bio');
+                    if (heroCarousel) {
+                        heroCarousel.style.display = '';
+                    }
+                    if (artistBio) {
+                        artistBio.style.display = '';
+                    }
+
+                    // Ocultar el contenedor de colección si existe
+                    if (coleccionContainer) {
+                        coleccionContainer.style.display = 'none';
+                    }
+                }
+            }
+
+            // Función para colapsar el menú de navegación
+            function collapseNavbar() {
+                const navbarToggler = document.querySelector('.navbar-toggler');
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+
+                if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                    // Si el menú está expandido (en móvil), lo colapsamos
+                    navbarToggler.setAttribute('aria-expanded', 'false');
+                    navbarCollapse.classList.remove('show');
+                }
+            }
+
+            // Añadir event listeners a los botones de filtro
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Ocultar el menú de navegación
+                    collapseNavbar();
+
+                    // Actualizar botones activos
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filterValue = button.getAttribute('data-filter');
+                    filterArtworks(filterValue);
+                });
+            });
+
+            // Mostrar todas las obras por defecto
+            if (filterButtons.length > 0) {
+                const defaultFilter = document.querySelector('.filter-btn[data-filter="all"]');
+                if (defaultFilter) {
+                    defaultFilter.click();
+                }
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-5 border-top">
+        <p class="mb-0">©2025 Petra. All rights reserved</p>
+    </footer>
+</body>
+
+</html>
