@@ -647,6 +647,55 @@
     </footer>
 
     <script>
+        // Preloader
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                setTimeout(() => {
+                    preloader.classList.add('loaded');
+                    document.body.classList.remove('loading');
+                }, 800);
+            }
+        });
+
+        // Logo animation
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                const logo = document.getElementById('petraLogo');
+                if (logo) logo.classList.add('animate');
+            }, 500);
+        });
+
+        // Scroll effect for nav
+        window.addEventListener('scroll', function () {
+            const nav = document.getElementById('mainNav');
+            if (nav) {
+                if (window.scrollY > 50) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile nav toggle
+        function toggleNav() {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) navLinks.classList.toggle('show');
+        }
+
+        // Toggle more info
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleBtn = document.getElementById('toggleMoreBtn');
+            const moreInfoSection = document.getElementById('moreInfoSection');
+            let isExpanded = false;
+
+            if (toggleBtn && moreInfoSection) {
+                toggleBtn.addEventListener('click', function () {
+                    isExpanded = !isExpanded;
+                    moreInfoSection.classList.toggle('show', isExpanded);
+                    toggleBtn.textContent = isExpanded ? 'Mostrar menos' : 'Saber más';
+                });
+            }
+        });
+
         // Footer animation
         document.addEventListener('DOMContentLoaded', function () {
             const footerText = document.getElementById('footer-text');
