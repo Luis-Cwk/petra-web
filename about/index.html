@@ -25,7 +25,9 @@
             box-sizing: border-box;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -51,9 +53,15 @@
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        #preloader.loaded { opacity: 0; visibility: hidden; }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
 
-        .preloader-dots { display: flex; gap: 16px; }
+        .preloader-dots {
+            display: flex;
+            gap: 16px;
+        }
 
         .preloader-dots span {
             width: 6px;
@@ -64,15 +72,31 @@
             animation: dot-pulse 2s infinite ease-in-out;
         }
 
-        .preloader-dots span:nth-child(2) { animation-delay: 0.3s; }
-        .preloader-dots span:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes dot-pulse {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
+        .preloader-dots span:nth-child(2) {
+            animation-delay: 0.3s;
         }
 
-        body.loading { overflow: hidden; }
+        .preloader-dots span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes dot-pulse {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        body.loading {
+            overflow: hidden;
+        }
 
         /* Navigation */
         nav {
@@ -116,14 +140,34 @@
             transition: all 0.5s ease;
         }
 
-        .nav-brand span:nth-child(1) { transition-delay: 0s; }
-        .nav-brand span:nth-child(2) { transition-delay: 0.1s; }
-        .nav-brand span:nth-child(3) { transition-delay: 0.2s; }
-        .nav-brand span:nth-child(4) { transition-delay: 0.3s; }
-        .nav-brand span:nth-child(5) { transition-delay: 0.4s; }
+        .nav-brand span:nth-child(1) {
+            transition-delay: 0s;
+        }
 
-        .nav-brand.animate span { opacity: 1; transform: translateY(0); }
-        .nav-brand:hover { transform: scale(1.05); }
+        .nav-brand span:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .nav-brand span:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .nav-brand span:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        .nav-brand span:nth-child(5) {
+            transition-delay: 0.4s;
+        }
+
+        .nav-brand.animate span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.05);
+        }
 
         .nav-links {
             display: flex;
@@ -165,9 +209,17 @@
             color: var(--text-secondary);
         }
 
-        .nav-link:hover, .nav-link.active { color: var(--text); }
-        .nav-link:hover::before, .nav-link.active::before,
-        .nav-link:hover::after, .nav-link.active::after { opacity: 1; }
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before,
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            opacity: 1;
+        }
 
         .nav-divider {
             width: 1px;
@@ -209,8 +261,14 @@
             color: var(--text-secondary);
         }
 
-        .filter-btn:hover { color: var(--text); }
-        .filter-btn:hover::before, .filter-btn:hover::after { opacity: 1; }
+        .filter-btn:hover {
+            color: var(--text);
+        }
+
+        .filter-btn:hover::before,
+        .filter-btn:hover::after {
+            opacity: 1;
+        }
 
         .nav-toggle {
             display: none;
@@ -223,7 +281,9 @@
             border-radius: 4px;
         }
 
-        .nav-toggle:hover { background: rgba(0, 0, 0, 0.05); }
+        .nav-toggle:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
 
         /* Bio Section */
         .bio-section {
@@ -309,7 +369,9 @@
             transition: all 0.3s ease;
         }
 
-        .social-links a:hover { color: var(--text) !important; }
+        .social-links a:hover {
+            color: var(--text) !important;
+        }
 
         .toggle-more-btn {
             display: inline-block;
@@ -338,7 +400,9 @@
             display: none;
         }
 
-        .more-info-section.show { display: block; }
+        .more-info-section.show {
+            display: block;
+        }
 
         .more-info-grid {
             display: grid;
@@ -407,11 +471,20 @@
                 border-top: 1px solid var(--border);
             }
 
-            .nav-links.show { display: flex; }
-            .nav-toggle { display: block; }
-            .nav-divider { display: none; }
+            .nav-links.show {
+                display: flex;
+            }
 
-            .nav-link, .filter-btn {
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-divider {
+                display: none;
+            }
+
+            .nav-link,
+            .filter-btn {
                 padding: 12px 16px;
                 margin: 0;
                 font-size: 0.85rem;
@@ -419,7 +492,9 @@
                 color: var(--text-secondary) !important;
             }
 
-            .nav-link:hover, .nav-link.active, .filter-btn:hover {
+            .nav-link:hover,
+            .nav-link.active,
+            .filter-btn:hover {
                 background: rgba(0, 0, 0, 0.05);
                 color: var(--text) !important;
             }
@@ -430,17 +505,35 @@
                 text-align: center;
             }
 
-            .bio-image { max-width: 200px; }
+            .bio-image {
+                max-width: 200px;
+            }
 
-            .social-links { justify-content: center; }
+            .social-links {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 600px) {
-            nav { padding: 10px 0; }
-            .nav-container { padding: 0 15px; }
-            .nav-brand { font-size: clamp(1.2rem, 5vw, 1.8rem); }
-            .bio-section { padding: 100px 4vw 40px; }
-            .more-info-grid { grid-template-columns: 1fr; }
+            nav {
+                padding: 10px 0;
+            }
+
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .nav-brand {
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+            }
+
+            .bio-section {
+                padding: 100px 4vw 40px;
+            }
+
+            .more-info-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -484,11 +577,21 @@
                     -->
                 </div>
                 <div class="bio-content">
-                    <h1>Petra</h1>
                     <p class="bio-subtitle">Artista de Performance y Medios</p>
-                    <p class="bio-text">Petra es un aferradx de las artes, transita en el cruce entre danza contemporánea y tecnología. Su interés se centra en los sistemas coreográficos que permiten que el movimiento humano dialogue con procesos algorítmicos, inteligencia artificial y entornos interactivos.</p>
-                    <p class="bio-text">Formadx en danza/coreografía y con una práctica sostenida en la programación creativa, su trabajo explora nociones de coreografía expandida, danza generativa y meta-improvisación. A través de performance, animación y video-danza-experimental, Petra construye paisajes sensibles donde el cuerpo funciona como interfaz y archivo vivo. Su obra ha sido presentada en contextos internacionales de arte contemporáneo y nuevos medios, incluyendo el Museo de Arte Moderno MX, el Salón de la Plástica Mexicana, CVPR Art Gallery, Performance IN FLUX, ASVOFF, Miami Art Week, Superchief Gallery, Free The Kitsch Festival, London Fashion Week, NFT NYC, NFT Festa y Plexus Projects, así como en plataformas de investigación artística y cultura digital.</p>
-                    
+                    <p class="bio-text">Petra es un aferradx de las artes, transita en el cruce entre danza
+                        contemporánea y tecnología. Su interés se centra en los sistemas coreográficos que permiten que
+                        el movimiento humano dialogue con procesos algorítmicos, inteligencia artificial y entornos
+                        interactivos.</p>
+                    <p class="bio-text">Formadx en danza/coreografía y con una práctica sostenida en la programación
+                        creativa, su trabajo explora nociones de coreografía expandida, danza generativa y
+                        meta-improvisación. A través de performance, animación y video-danza-experimental, Petra
+                        construye paisajes sensibles donde el cuerpo funciona como interfaz y archivo vivo. Su obra ha
+                        sido presentada en contextos internacionales de arte contemporáneo y nuevos medios, incluyendo
+                        el Museo de Arte Moderno MX, el Salón de la Plástica Mexicana, CVPR Art Gallery, Performance IN
+                        FLUX, ASVOFF, Miami Art Week, Superchief Gallery, Free The Kitsch Festival, London Fashion Week,
+                        NFT NYC, NFT Festa y Plexus Projects, así como en plataformas de investigación artística y
+                        cultura digital.</p>
+
                     <div class="bio-tags">
                         <span class="bio-tag">AI</span>
                         <span class="bio-tag">Generative Dance</span>
@@ -497,11 +600,16 @@
                     </div>
 
                     <div class="social-links">
-                        <a href="https://x.com/LuisBetx9" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://instagram.com/petra.synthetic" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/in/luisbetancoourt" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="mailto:dfrmnc22@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a>
-                        <a href="https://t.me/Petr423" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://x.com/LuisBetx9" target="_blank" title="Twitter"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com/petra.synthetic" target="_blank" title="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/luisbetancoourt" target="_blank" title="LinkedIn"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="mailto:dfrmnc22@gmail.com" target="_blank" title="Email"><i
+                                class="fas fa-envelope"></i></a>
+                        <a href="https://t.me/Petr423" target="_blank" title="Telegram"><i
+                                class="fab fa-telegram"></i></a>
                     </div>
 
                     <button class="toggle-more-btn" id="toggleMoreBtn">Saber más</button>
@@ -525,11 +633,16 @@
                         <h4>Premios y Distinciones</h4>
                         <ul>
                             <li>Artista seleccionado del Refraction DAO Fellowship x Lens Protocol 2023</li>
-                            <li>Miembro del Instituto de Investigación y Difusión de la Danza Mexicana A.C. (IIDDMAC) 2010-2011</li>
-                            <li>Bailarín invitado a romper el Guinness World Records por el Baile Folclórico más grande del mundo - XXVI Encuentro Internacional del Mariachi y la Charrería, Guadalajara 2019</li>
-                            <li>Bailarín invitado por la Red Nacional de Festivales de Danza del INBAL, proyecto Red Norte-Guadalajara 2016</li>
+                            <li>Miembro del Instituto de Investigación y Difusión de la Danza Mexicana A.C. (IIDDMAC)
+                                2010-2011</li>
+                            <li>Bailarín invitado a romper el Guinness World Records por el Baile Folclórico más grande
+                                del mundo - XXVI Encuentro Internacional del Mariachi y la Charrería, Guadalajara 2019
+                            </li>
+                            <li>Bailarín invitado por la Red Nacional de Festivales de Danza del INBAL, proyecto Red
+                                Norte-Guadalajara 2016</li>
                             <li>Primer lugar en la categoría Danza del InterCecytej Estatal 2010</li>
-                            <li>Reconocimiento y recomendación por parte de Smartfilms y Secretaría de Cultura Jalisco</li>
+                            <li>Reconocimiento y recomendación por parte de Smartfilms y Secretaría de Cultura Jalisco
+                            </li>
                         </ul>
                     </div>
                     <div class="info-column">
@@ -562,19 +675,24 @@
                             <li>ETH México 2022 / ETH Global - Jul 2022</li>
                             <li>How to cultivate mystery? / IDCODE Residence & symposium - Aug 2021</li>
                             <li>Sistemas reactivos multimedia para la creación escénica / La colmena - Aug 2021</li>
-                            <li>Lab Dispositivo Memorial: Exploración / reflexión / memoria / identidad / género(s) / CCEMx - Jul 2021</li>
-                            <li>XVI Coloquio de Neurohumanidades "Transdisciplina, Creatividad y Neuroartes Escénicas" / UNACH - Jan 2021</li>
+                            <li>Lab Dispositivo Memorial: Exploración / reflexión / memoria / identidad / género(s) /
+                                CCEMx - Jul 2021</li>
+                            <li>XVI Coloquio de Neurohumanidades "Transdisciplina, Creatividad y Neuroartes Escénicas" /
+                                UNACH - Jan 2021</li>
                             <li>Screendance workshop: rituals and onirism / Agite y Sirva Festival - Jul 2020</li>
                             <li>Experiencias telemáticas audio y video en tiempo real / CCD - Jun 2021</li>
                             <li>Escenario en vivo y a la distancia: más allá de la cuadrícula / CCD - Jun 2021</li>
                             <li>ZhiNeng QiGong, impartido por Benjamín Muñoz</li>
-                            <li>Taller- Herramientas de machine learning para exploración biológica, Interspescifics / CCD - Jun 2021</li>
+                            <li>Taller- Herramientas de machine learning para exploración biológica, Interspescifics /
+                                CCD - Jun 2021</li>
                             <li>Taller- Transducción, luz y sonido / CCD - Sep 2021</li>
                             <li>Sistemas reactivos multimedia / CCD - Ago 2021</li>
                             <li>Tecnologías para la escena / UNAM - Nov 2021</li>
                             <li>Bots en la Escena / La Colmena - Jul 2021</li>
-                            <li>Sistemas tecnológicos, producción artística y experiencia estética, Centro Nacional de las Artes - Sep 2020</li>
-                            <li>Refuerzo sonoro. Altavoces, tipos y aplicaciones, Centro Cultural de España en México - Ago 2020</li>
+                            <li>Sistemas tecnológicos, producción artística y experiencia estética, Centro Nacional de
+                                las Artes - Sep 2020</li>
+                            <li>Refuerzo sonoro. Altavoces, tipos y aplicaciones, Centro Cultural de España en México -
+                                Ago 2020</li>
                             <li>Cómo iniciar tu empresa creativa y cultural / CONARTE - Jul 2020</li>
                             <li>Gestión de las artes escénicas / Universidad de Barcelona & SCJ - Aug 2018</li>
                         </ul>
