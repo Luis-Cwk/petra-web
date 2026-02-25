@@ -36,6 +36,13 @@
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
         }
 
         /* Preloader */
@@ -479,27 +486,29 @@
         </div>
     </nav>
 
-    <header class="page-header">
-    </header>
+    <div class="main-content">
+        <header class="page-header">
+        </header>
 
-    <section class="news-section">
-        <div class="news-container">
-            <div class="news-carousel-container">
-                <div class="news-carousel" id="newsCarousel">
-                    <!-- Imagen 1 - Museo López Portillo -->
-                    <div class="news-slide active">
-                        <div class="news-content">
-                            <img src="../imagenesOBRA/MuseoLopezPortillo.jpg" alt="Museo López Portillo"
-                                class="img-fluid">
+        <section class="news-section">
+            <div class="news-container">
+                <div class="news-carousel-container">
+                    <div class="news-carousel" id="newsCarousel">
+                        <!-- Imagen 1 - Museo López Portillo -->
+                        <div class="news-slide active">
+                            <div class="news-content">
+                                <img src="../imagenesOBRA/MuseoLopezPortillo.jpg" alt="Museo López Portillo"
+                                    class="img-fluid">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <footer>
-        ©2026 Petra. All rights reserved <p></p>
+    <footer id="footer-text">
+        <p>©2026 Petra. All rights reserved</p>
     </footer>
 
     <script>
@@ -615,6 +624,33 @@
         }
 
         document.addEventListener('DOMContentLoaded', initNoticiasCarousel);
+
+        // Footer animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.querySelector('p');
+                if (text) {
+                    const originalText = text.textContent;
+                    text.innerHTML = '';
+                    originalText.split('').forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.textContent = char;
+                        span.style.display = 'inline-block';
+                        span.style.opacity = '0';
+                        span.style.transform = 'translateY(10px)';
+                        span.style.transition = 'opacity 0.4s ease ' + (index * 0.03) + 's, transform 0.4s ease ' + (index * 0.03) + 's';
+                        text.appendChild(span);
+                    });
+                    setTimeout(() => {
+                        text.querySelectorAll('span').forEach(span => {
+                            span.style.opacity = '1';
+                            span.style.transform = 'translateY(0)';
+                        });
+                    }, 1000);
+                }
+            }
+        });
     </script>
 </body>
 
