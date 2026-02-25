@@ -19,7 +19,7 @@
 
     <style>
         :root {
-            --primary-color: rgba(1, 1, 1, 0.95);
+            --primary-color: rgba(255, 255, 255, 0.95);
             --secondary-color: rgba(255, 255, 255, 0.7);
             --accent-color: #ffffff;
             --bg-color: #000000;
@@ -43,17 +43,15 @@
 
         body {
             font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            color: #ffffff;
             background-color: var(--bg-color);
-            overflow-x: hidden;
-            line-height: 1.6;
-            padding-top: 0;
+            color: #ffffff;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding-top: 0;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            overflow-x: hidden;
         }
 
         h1,
@@ -549,23 +547,48 @@
         .section {
             padding: 2rem 0 1rem 0;
             flex: 1;
+            background: #000;
+            position: relative;
+            overflow: hidden;
         }
 
         .content-section {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem 3rem 0 3rem;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+            width: 100%;
+            background: transparent;
+            z-index: 100;
+            padding: 40px 0;
+            overflow: visible !important;
+            height: auto !important;
         }
 
-        .content-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            background: var(--card-hover-bg);
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Tarjetas de marketplaces */
@@ -624,6 +647,83 @@
             color: var(--secondary-color) !important;
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
+        }
+
+        .card-body {
+            padding: 1rem 1.5rem;
+            margin: 0 1.5rem 2rem 1.5rem;
+            width: calc(100% - 3rem);
+            text-align: center;
+        }
+
+        .project-card {
+            background: transparent !important;
+            border: none;
+            margin: 2.5rem 1.5rem;
+            transition: var(--transition);
+            padding: 0;
+            border-radius: 0 !important;
+            width: calc(100% - 3rem) !important;
+            max-width: calc(100% - 3rem) !important;
+            margin-left: 1.5rem !important;
+            margin-right: 1.5rem !important;
+        }
+
+        .project-title {
+            color: #ffffff;
+            margin: 15px 0 30px 0;
+            font-size: 1.7rem;
+            font-weight: 200;
+            text-align: center;
+            width: 100%;
+        }
+
+        .more-artwork-btn {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .more-artwork-btn:hover {
+            opacity: 0.7;
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-body a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .card-body a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .project-card p {
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .project-card a {
+            color: #ffffff !important;
+            text-decoration: underline;
         }
 
 
@@ -819,13 +919,14 @@
     </nav>
 
     <!-- Sección CryptoArt -->
-    <section id="cryptoart" class="section">
-        <div class="container pt-4 pb-2">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-10">
-                    <div class="content-section">
-                        <div class="text-center mb-5">
-                        </div>
+    <section id="cryptoart" class="section" style="padding-top: 120px; margin: 0; width: 100%;">
+        <div class="container-fluid p-0" style="width: 100%; max-width: 100%; overflow-x: hidden;">
+            <h2 class="text-center mb-5" style="height: 0; margin: 0; padding: 0; visibility: hidden;"></h2>
+
+            <div id="cryptoart-container" style="width: 100%; margin-top: 0;">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <div class="content-section" style="padding: 20px;">
 
                         <div class="marketplace-container">
                             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -955,8 +1056,6 @@
 
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -995,6 +1094,7 @@
             if (footerText) {
                 const text = footerText.textContent;
                 footerText.innerHTML = '';
+
                 text.split('').forEach((char, index) => {
                     const span = document.createElement('span');
                     span.textContent = char;
@@ -1004,12 +1104,23 @@
                     span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
                     footerText.appendChild(span);
                 });
-                setTimeout(() => {
-                    footerText.querySelectorAll('span').forEach(span => {
-                        span.style.opacity = '1';
-                        span.style.transform = 'translateY(0)';
+
+                // Usar Intersection Observer para activar la animación cuando el footer sea visible
+                const footerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            footerText.querySelectorAll('span').forEach(span => {
+                                span.style.opacity = '1';
+                                span.style.transform = 'translateY(0)';
+                            });
+                            footerObserver.unobserve(entry.target);
+                        }
                     });
-                }, 800);
+                }, {
+                    threshold: 0.5
+                });
+
+                footerObserver.observe(footerText);
             }
         });
     </script>

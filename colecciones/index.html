@@ -4,21 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Colecciones de arte digital, NFTs y obras generativas de Petra. Explora arte en Bitcoin Ordinals, Tezos, Base Network y más.">
     <title>Petra - Colecciones</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://ordinals.com">
+    <link rel="preconnect" href="https://i2c.seadn.io">
+    <link rel="preconnect" href="https://raw2.seadn.io">
+    <link rel="preconnect" href="https://arweave.net">
+    <link rel="preconnect" href="https://magic.decentralized-content.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
             --primary-color: rgba(255, 255, 255, 0.9);
-            --secondary-color: rgba(255, 255, 255, 0.6);
+            --secondary-color: rgba(255, 255, 255, 0.8);
             --accent-color: #ffffff;
             --bg-color: #000000;
             --card-bg: rgba(255, 255, 255, 0.05);
             --card-hover-bg: rgba(255, 255, 255, 0.1);
+            --glow-color: rgba(255, 255, 255, 0.15);
+            --focus-outline: rgba(255, 255, 255, 0.6);
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #fff;
+            color: #000 !important;
+            padding: 8px 16px;
+            z-index: 10000;
+            text-decoration: none;
+            font-weight: 600;
+            transition: top 0.3s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.4;
         }
 
         * {
@@ -94,6 +130,19 @@
             padding: 0.5rem;
         }
 
+        .navbar-toggler:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        /* Global focus-visible for accessibility */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 2px;
+        }
+
         /* Eliminar viñetas de la lista de navegación */
         .navbar-nav {
             list-style: none;
@@ -145,6 +194,12 @@
             color: rgba(255, 255, 255, 1) !important;
         }
 
+        .nav-link:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
         .nav-link:hover::before,
         .nav-link:focus::before,
         .nav-link.active::before,
@@ -161,8 +216,116 @@
 
         /* Estilos para la sección de colecciones */
         .colecciones-section {
-            padding: 2rem 0 0 0;
             flex: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        html {
+            scroll-padding-top: 100px;
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 200;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4) !important;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 4rem 0 3rem 0;
+            opacity: 0;
+            transform: scaleX(0.8);
+            transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+        }
+
+        .obra-card.visible + .section-divider,
+        .section-divider.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        .section-divider span {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.3) !important;
+            white-space: nowrap;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .obra-card .row {
+            --bs-gutter-x: 1rem;
+            --bs-gutter-y: 1rem;
+        }
+
+        .obra-card img {
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+
+        .obra-card:hover img {
+            transform: scale(1.02);
+        }
+
+        .obra-card .video-container {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .obra-card:hover .video-container {
+            transform: scale(1.01);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 768px) {
+            .obra-card:nth-child(even) .row:first-of-type {
+                flex-direction: row-reverse;
+            }
+        }
+
+        .obra-card h4 {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--primary-color) !important;
         }
 
         .content-section h3 {
@@ -173,17 +336,62 @@
         }
 
         .obra-card {
+            position: relative;
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 2rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            margin-bottom: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .obra-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .obra-card:last-child::after {
+            display: none;
+        }
+
+        .obra-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .obra-card:hover {
             background: var(--card-hover-bg);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 60px var(--glow-color),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .obra-card:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
         }
 
         .obra-card h4 {
@@ -249,6 +457,12 @@
         .btn-coleccion:hover {
             color: #fff !important;
             background: transparent;
+        }
+
+        .btn-coleccion:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
         }
 
         .btn-coleccion:hover::before,
@@ -327,6 +541,13 @@
             background: transparent;
         }
 
+        .back-to-home:focus-visible,
+        .back-to-top:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
         .back-to-home:hover::before,
         .back-to-top:hover::before,
         .back-to-home:hover::after,
@@ -388,6 +609,12 @@
         .filter-btn-minimalist.active {
             color: rgba(255, 255, 255, 1) !important;
             background: transparent;
+        }
+
+        .filter-btn-minimalist:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
         }
 
         .filter-btn-minimalist:hover::before,
@@ -500,6 +727,90 @@
             cursor: pointer;
         }
 
+        .lazy-canvas:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 2px;
+        }
+
+        .lazy-canvas .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lazy-canvas.loading .loader {
+            opacity: 1;
+        }
+
+        .lazy-canvas .loader::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .lazy-canvas .loader-text {
+            position: absolute;
+            top: calc(50% + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.5s;
+        }
+
+        .lazy-canvas.loading .loader-text {
+            opacity: 1;
+        }
+
+        .video-container {
+            position: relative;
+        }
+
+        .video-container::after {
+            content: '▶ Hover para reproducir';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 8px;
+            border-radius: 4px;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .video-container:hover::after {
+            opacity: 0;
+        }
+
+        @media (max-width: 576px) {
+            .video-container::after {
+                content: '▶ Toca para reproducir';
+            }
+        }
+
         .lazy-canvas .placeholder {
             position: absolute;
             top: 0;
@@ -507,8 +818,10 @@
             width: 100%;
             height: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 8px;
             background: rgba(0, 0, 0, 0.8);
             color: var(--secondary-color);
             font-size: 0.9rem;
@@ -516,9 +829,33 @@
             z-index: 2;
         }
 
+        .lazy-canvas .placeholder::before {
+            content: '▶';
+            font-size: 1.5rem;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .lazy-canvas .placeholder:hover::before {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .lazy-canvas .placeholder span {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
         .lazy-canvas .placeholder:hover {
             background: rgba(0, 0, 0, 0.6);
             color: var(--primary-color);
+        }
+
+        .lazy-canvas.loading .placeholder {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .lazy-canvas iframe {
@@ -599,6 +936,12 @@
         .info-btn:hover,
         .info-btn:focus {
             color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .info-btn:focus-visible {
+            outline: 2px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
         }
 
         .info-btn:hover::before,
@@ -964,6 +1307,8 @@
 </head>
 
 <body class="loading">
+    <a href="#colecciones-container" class="skip-link">Saltar al contenido principal</a>
+    <canvas id="bg-canvas"></canvas>
     <!-- Pantalla de Carga -->
     <div id="preloader">
         <div class="preloader-content">
@@ -1038,13 +1383,13 @@
                     </div>
                     <div class="row g-2 mb-4">
                         <div class="col-4">
-                            <img src="../imagenesOBRA/Makindt-2-2025.jpg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics Detail 2">
+                            <img src="../imagenesOBRA/Makindt-2-2025.jpg" class="img-fluid w-100" width="400" height="300" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics of Bodies - Performance generativa con danza y visuales en tiempo real, detalle 2">
                         </div>
                         <div class="col-4">
-                            <img src="../imagenesOBRA/Makindt-3-2025.jpg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics Detail 3">
+                            <img src="../imagenesOBRA/Makindt-3-2025.jpg" class="img-fluid w-100" width="400" height="300" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics of Bodies - Coreografía generativa con proyecciones inmersivas, detalle 3">
                         </div>
                         <div class="col-4">
-                            <img src="../imagenesOBRA/Makindt-2025.jpg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics Detail 1">
+                            <img src="../imagenesOBRA/Makindt-2025.jpg" class="img-fluid w-100" width="400" height="300" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Kinetics of Bodies - Exploración del diálogo cuerpo-tecnología, vista principal">
                         </div>
                     </div>
                     <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración del diálogo entre el cuerpo y la tecnología a través de una partitura generativa en tiempo real. La espontaneidad física se traduce en visuales inmersivos que transforman el espacio.</p>
@@ -1066,7 +1411,7 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <div class="pieza-container">
-                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/ed2aa353d70d4626993291d5422824f8b2fc5f609f4e3aa2d09a92edce64dadci0"></div>
+                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/ed2aa353d70d4626993291d5422824f8b2fc5f609f4e3aa2d09a92edce64dadci0" tabindex="0" role="img" aria-label="Collective Consciousness - Entidad de vida artificial en Bitcoin Ordinals"></div>
                                 <div class="text-center mt-2">
                                     <a href="https://gamma.io/ordinals/collections/collective-consciousness" target="_blank" class="btn-coleccion btn-alt-2" style="font-size: 0.75rem;">Collective Consciousness</a>
                                 </div>
@@ -1074,7 +1419,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="pieza-container">
-                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/dc440813412deb1d23582664a42ad6361ae340d85c373120352f74a0b5dd8aeai0"></div>
+                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/dc440813412deb1d23582664a42ad6361ae340d85c373120352f74a0b5dd8aeai0" tabindex="0" role="img" aria-label="Cypher Infinite Environment - Espicio digital infinito en Bitcoin"></div>
                                 <div class="text-center mt-2">
                                     <a href="https://gamma.io/ordinals/collections/cypher-infinite-environment" target="_blank" class="btn-coleccion btn-alt-3" style="font-size: 0.75rem;">Cyper - Environment</a>
                                 </div>
@@ -1082,7 +1427,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="pieza-container">
-                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/0a75095a9806003b9f110dee85501fe8f29ef3959be65e656a7fa850dc14740fi0"></div>
+                                <div class="lazy-canvas" data-src="https://ordinals.com/preview/0a75095a9806003b9f110dee85501fe8f29ef3959be65e656a7fa850dc14740fi0" tabindex="0" role="img" aria-label="Pixel Cascade - Cascada de pixeles generativa en Bitcoin Ordinals"></div>
                                 <div class="text-center mt-2">
                                     <a href="https://gamma.io/ordinals/collections/pixel-cascade" target="_blank" class="btn-coleccion btn-alt-1" style="font-size: 0.75rem;">Pixel Cascade</a>
                                 </div>
@@ -1107,7 +1452,7 @@
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-12">
-                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="moveinprompts-video-container">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="moveinprompts-video-container" role="img" aria-label="MoveInPrompts - Video de performance con movimiento corporal y prompts de IA">
                                 <video 
                                     style="width: 100%; height: auto; display: block;" 
                                     muted
@@ -1148,7 +1493,7 @@
                         </div>
                         <div class="col-md-7">
                             <div style="height: 100%; width: 100%;">
-                                <img src="imagenes/tezos.gif" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);" alt="Tezos character GIF">
+                                <img src="imagenes/tezos.gif" class="img-fluid w-100" width="600" height="400" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);" alt="Tezos Series - Personaje de IA con identidad sintética generada en blockchain Tezos">
                             </div>
                         </div>
                     </div>
@@ -1172,7 +1517,7 @@
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-12">
-                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="oda-video-container">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="oda-video-container" role="img" aria-label="Oda a los paisajes del futuro - Video de arte digital sobre metamorfosis post-humanas">
                                 <video 
                                     style="width: 100%; height: auto; display: block;" 
                                     muted
@@ -1205,13 +1550,13 @@
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-4">
-                            <img src="https://dhffkw3tumeugmj6fo3m22vfqyrzlxhkrz4irazgpszlqgwl2grq.arweave.net/GcpVW3OjCUMxPiu2zWqlhiOV3OqOeIiDJnyyuBrL0aM" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Obra 1">
+                            <img src="https://dhffkw3tumeugmj6fo3m22vfqyrzlxhkrz4irazgpszlqgwl2grq.arweave.net/GcpVW3OjCUMxPiu2zWqlhiOV3OqOeIiDJnyyuBrL0aM" class="img-fluid w-100" width="400" height="300" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Secuencia genética visualizada como algoritmo orgánico, variante 1">
                         </div>
                         <div class="col-4">
-                            <img src="https://22ozlj72thq2xou3zbekn5tkbxaoaxsnsv3ojvkhwjmj3oxch4ua.arweave.net/1p2Vp_qZ4au6m8hIpvZqDcDgXk2VduTVR7JYnbriPyg" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Obra 2">
+                            <img src="https://22ozlj72thq2xou3zbekn5tkbxaoaxsnsv3ojvkhwjmj3oxch4ua.arweave.net/1p2Vp_qZ4au6m8hIpvZqDcDgXk2VduTVR7JYnbriPyg" class="img-fluid w-100" width="400" height="300" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Intersección de biología y código digital, variante 2">
                         </div>
                         <div class="col-4">
-                            <img src="https://ln2j27x7amriwhb2gekqtu5kraqybwmkyoxhm5bpjhuax3ytq5ia.arweave.net/W3Sdfv8DIoscOjEVCdOqiCGA2YrDrnZ0L0noC-8Th1A" class="img-fluid w-100" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Obra 3">
+                            <img src="https://ln2j27x7amriwhb2gekqtu5kraqybwmkyoxhm5bpjhuax3ytq5ia.arweave.net/W3Sdfv8DIoscOjEVCdOqiCGA2YrDrnZ0L0noC-8Th1A" class="img-fluid w-100" width="400" height="300" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px;" alt="Genes - Vida digital como extensión orgánica, variante 3">
                         </div>
                     </div>
                     <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">La intersección entre la biología y el código. Secuencias genéticas transformadas en algoritmos visuales que exploran la vida digital como una extensión orgánica.</p>
@@ -1286,34 +1631,34 @@
                     </div>
                     <div class="row row-cols-2 row-cols-md-5 g-2 mb-4">
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/f2746532acccb34b937edf371016af/b1f2746532acccb34b937edf371016af.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 1">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/f2746532acccb34b937edf371016af/b1f2746532acccb34b937edf371016af.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Payaso digital experimental, retrato 1">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/94bee05ba828633ca52f7ea7b70a0c/2194bee05ba828633ca52f7ea7b70a0c.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 2">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/94bee05ba828633ca52f7ea7b70a0c/2194bee05ba828633ca52f7ea7b70a0c.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Estética del payaso con algoritmos generativos, retrato 2">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/668ed19b258840e2ff456497394a5b/d8668ed19b258840e2ff456497394a5b.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 3">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/668ed19b258840e2ff456497394a5b/d8668ed19b258840e2ff456497394a5b.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Personaje clown generado por IA, retrato 3">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/ffb781d6bd1f2161e534cdcd3f07a1/6affb781d6bd1f2161e534cdcd3f07a1.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 4">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/ffb781d6bd1f2161e534cdcd3f07a1/6affb781d6bd1f2161e534cdcd3f07a1.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Arte experimental de payaso digital, retrato 4">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/6cd6146feeee3e9d64032c6e40fb2e/c06cd6146feeee3e9d64032c6e40fb2e.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 5">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/6cd6146feeee3e9d64032c6e40fb2e/c06cd6146feeee3e9d64032c6e40fb2e.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Expresión clown generativa, retrato 5">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/fcf1faf462c7190eb01040b395ab40/8efcf1faf462c7190eb01040b395ab40.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 6">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/fcf1faf462c7190eb01040b395ab40/8efcf1faf462c7190eb01040b395ab40.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Payaso sintético con algoritmos, retrato 6">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/3691b2929b699c3347a863584d260f/563691b2929b699c3347a863584d260f.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 7">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/3691b2929b699c3347a863584d260f/563691b2929b699c3347a863584d260f.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Figura de clown en arte digital, retrato 7">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/19ebb488cd10e3118737e800e89a8f/9d19ebb488cd10e3118737e800e89a8f.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 8">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/19ebb488cd10e3118737e800e89a8f/9d19ebb488cd10e3118737e800e89a8f.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Retrato generativo de payaso, retrato 8">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/polygon/0x2953399124f0cbb46d2cbacd8a89cf0599974963/442f87d08905c9f446e4bf24966fe6/9e442f87d08905c9f446e4bf24966fe6.png?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 9">
+                            <img src="https://i2c.seadn.io/polygon/0x2953399124f0cbb46d2cbacd8a89cf0599974963/442f87d08905c9f446e4bf24966fe6/9e442f87d08905c9f446e4bf24966fe6.png?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Personaje clown digital estilo PNG, retrato 9">
                         </div>
                         <div class="col">
-                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/40a2213b327f6d9bc3c795bee3ad37/7440a2213b327f6d9bc3c795bee3ad37.jpeg?w=350" class="img-fluid w-100" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso 10">
+                            <img src="https://i2c.seadn.io/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/40a2213b327f6d9bc3c795bee3ad37/7440a2213b327f6d9bc3c795bee3ad37.jpeg?w=350" class="img-fluid w-100" width="200" height="200" loading="lazy" style="aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);" alt="Yapayaso - Estética de payaso experimental, retrato 10">
                         </div>
                     </div>
                     <p class="mb-4" style="color: var(--secondary-color) !important; font-weight: 300; line-height: 1.8; font-size: 0.95rem;">Exploración de la estética del payaso digital a través de algoritmos experimentales y arte generativo.</p>
@@ -1328,13 +1673,18 @@
 
             let html = `
             <div class="colecciones-section content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Colecciones</h2>
+                    <p class="section-subtitle">Arte Digital &bull; NFT &bull; Generativo</p>
+                </div>
             `;
 
-            coleccionesObras.forEach(obra => {
+            coleccionesObras.forEach((obra, index) => {
                 html += `
                 <div class="obra-card" id="${obra.id}">
                     ${obra.description}
                 </div>
+                ${index < coleccionesObras.length - 1 ? '<div class="section-divider"><span>&#9670;</span></div>' : ''}
                 `;
             });
 
@@ -1343,6 +1693,25 @@
         }
 
         document.addEventListener('DOMContentLoaded', generateColecciones);
+
+        // Smooth scroll to hash on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                setTimeout(() => {
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const navbar = document.getElementById('mainNav');
+                        const navbarHeight = navbar ? navbar.offsetHeight : 0;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 20;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 300);
+            }
+        });
 
         // Canvas perezosos - activar solo con hover
         document.addEventListener('DOMContentLoaded', function () {
@@ -1364,6 +1733,9 @@
                     const preview = document.createElement('img');
                     preview.className = 'preview-frame';
                     preview.src = imageMap[index];
+                    preview.loading = 'lazy';
+                    preview.width = 300;
+                    preview.height = 200;
                     preview.style.position = 'absolute';
                     preview.style.top = '0';
                     preview.style.left = '0';
@@ -1374,9 +1746,22 @@
                     canvas.appendChild(preview);
                 }
 
+                // Crear loader
+                function createLoader() {
+                    const loader = document.createElement('div');
+                    loader.className = 'loader';
+                    canvas.appendChild(loader);
+                    
+                    const loaderText = document.createElement('div');
+                    loaderText.className = 'loader-text';
+                    loaderText.textContent = 'Cargando...';
+                    canvas.appendChild(loaderText);
+                }
+
                 // Crear iframe cuando sea necesario
                 function createIframe() {
                     if (!iframe) {
+                        canvas.classList.add('loading');
                         iframe = document.createElement('iframe');
                         iframe.src = canvas.dataset.src;
                         iframe.style.width = '100%';
@@ -1385,6 +1770,9 @@
                         iframe.style.background = '#000';
                         iframe.frameBorder = '0';
                         iframe.allowFullscreen = true;
+                        iframe.onload = function() {
+                            canvas.classList.remove('loading');
+                        };
                         canvas.appendChild(iframe);
                     }
                 }
@@ -1395,8 +1783,9 @@
                         createIframe();
                         setTimeout(() => {
                             canvas.classList.add('active');
+                            canvas.classList.remove('loading');
                             isActive = true;
-                        }, 100);
+                        }, 500);
                     }
                 }
 
@@ -1410,10 +1799,23 @@
 
                 // Inicializar
                 createPreviewFrame();
+                createLoader();
 
                 // Event listeners
                 canvas.addEventListener('mouseenter', activateCanvas);
                 canvas.addEventListener('mouseleave', deactivateCanvas);
+
+                // Keyboard support for accessibility
+                canvas.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (!isActive) {
+                            activateCanvas();
+                        } else {
+                            deactivateCanvas();
+                        }
+                    }
+                });
 
                 // Touch support para móviles
                 canvas.addEventListener('touchstart', function (e) {
@@ -1552,6 +1954,170 @@
 
     <!-- Script para ocultar extensiones .html -->
     <script src="../clean-urls.js"></script>
+    
+    <!-- Three.js Background Shader -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+            
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                alpha: true,
+                antialias: false,
+                powerPreference: 'low-power'
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+            const vertexShader = `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = vec4(position, 1.0);
+                }
+            `;
+
+            const fragmentShader = `
+                uniform float uTime;
+                uniform vec2 uResolution;
+                varying vec2 vUv;
+
+                float random(vec2 st) {
+                    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+                }
+
+                float noise(vec2 st) {
+                    vec2 i = floor(st);
+                    vec2 f = fract(st);
+                    float a = random(i);
+                    float b = random(i + vec2(1.0, 0.0));
+                    float c = random(i + vec2(0.0, 1.0));
+                    float d = random(i + vec2(1.0, 1.0));
+                    vec2 u = f * f * (3.0 - 2.0 * f);
+                    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+                }
+
+                float fbm(vec2 st) {
+                    float value = 0.0;
+                    float amplitude = 0.5;
+                    for (int i = 0; i < 4; i++) {
+                        value += amplitude * noise(st);
+                        st *= 2.0;
+                        amplitude *= 0.5;
+                    }
+                    return value;
+                }
+
+                void main() {
+                    vec2 st = vUv;
+                    float t = uTime * 0.02;
+                    
+                    float n1 = fbm(st * 2.0 + t);
+                    float n2 = fbm(st * 3.0 - t * 0.5 + vec2(n1));
+                    float n3 = fbm(st * 1.5 + vec2(n2 * 0.5) + t * 0.3);
+                    
+                    float finalNoise = n1 * 0.5 + n2 * 0.3 + n3 * 0.2;
+                    
+                    vec3 color = vec3(finalNoise * 0.15);
+                    color += vec3(0.02, 0.02, 0.03);
+                    
+                    float scanline = sin(st.y * uResolution.y * 0.5 + t * 10.0) * 0.02;
+                    color += scanline;
+                    
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            const material = new THREE.ShaderMaterial({
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                uniforms: {
+                    uTime: { value: 0 },
+                    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+                }
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            let animationId;
+            function animate() {
+                animationId = requestAnimationFrame(animate);
+                material.uniforms.uTime.value += 0.016;
+                renderer.render(scene, camera);
+            }
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+            });
+
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                animate();
+            }
+        })();
+    </script>
+    
+    <!-- Staggered Card Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.getElementById('mainNav');
+            const section = document.getElementById('colecciones');
+            
+            function adjustContentPosition() {
+                requestAnimationFrame(() => {
+                    const navbarHeight = navbar.offsetHeight;
+                    section.style.paddingTop = navbarHeight + 'px';
+                });
+            }
+            
+            adjustContentPosition();
+            window.addEventListener('resize', adjustContentPosition);
+            
+            const resizeObserver = new ResizeObserver(adjustContentPosition);
+            resizeObserver.observe(navbar);
+            
+            const navbarCollapse = document.getElementById('navbarResponsive');
+            if (navbarCollapse) {
+                navbarCollapse.addEventListener('shown.bs.collapse', adjustContentPosition);
+                navbarCollapse.addEventListener('hidden.bs.collapse', adjustContentPosition);
+            }
+            
+            const cards = document.querySelectorAll('.obra-card');
+            const dividers = document.querySelectorAll('.section-divider');
+            
+            const intersectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        if (element.classList.contains('obra-card')) {
+                            const cardIndex = Array.from(cards).indexOf(element);
+                            setTimeout(() => {
+                                element.classList.add('visible');
+                            }, cardIndex * 100);
+                        } else if (element.classList.contains('section-divider')) {
+                            setTimeout(() => {
+                                element.classList.add('visible');
+                            }, 200);
+                        }
+                        intersectionObserver.unobserve(element);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            cards.forEach(card => intersectionObserver.observe(card));
+            dividers.forEach(divider => intersectionObserver.observe(divider));
+        });
+    </script>
     <!-- Lógica para el preloader -->
     <script>
         window.addEventListener('load', function () {
