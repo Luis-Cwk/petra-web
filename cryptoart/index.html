@@ -36,6 +36,14 @@
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
         }
 
         /* Preloader */
@@ -466,11 +474,12 @@
         </div>
     </nav>
 
-    <header class="page-header">
-    </header>
+    <div class="main-content">
+        <header class="page-header">
+        </header>
 
-    <section class="marketplace-section">
-        <div class="marketplace-grid">
+        <section class="marketplace-section">
+            <div class="marketplace-grid">
             <a href="https://beta.gamma.io/petra/" class="marketplace-card" target="_blank">
                 <div class="marketplace-icon"><i class="fab fa-bitcoin"></i></div>
                 <div class="marketplace-name">Gamma</div>
@@ -520,8 +529,9 @@
             </a>
         </div>
     </section>
+    </div>
 
-    <footer>
+    <footer id="footer-text">
         <p>©2026 Petra. All rights reserved</p>
     </footer>
 
@@ -556,6 +566,33 @@
         function toggleNav() {
             document.getElementById('navLinks').classList.toggle('show');
         }
+
+        // Footer animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.querySelector('p');
+                if (text) {
+                    const originalText = text.textContent;
+                    text.innerHTML = '';
+                    originalText.split('').forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.textContent = char;
+                        span.style.display = 'inline-block';
+                        span.style.opacity = '0';
+                        span.style.transform = 'translateY(10px)';
+                        span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
+                        text.appendChild(span);
+                    });
+                    setTimeout(() => {
+                        text.querySelectorAll('span').forEach(span => {
+                            span.style.opacity = '1';
+                            span.style.transform = 'translateY(0)');
+                        });
+                    }, 800);
+                }
+            }
+        });
     </script>
 </body>
 
