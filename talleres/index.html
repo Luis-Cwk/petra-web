@@ -540,7 +540,7 @@
         </div>
     </section>
 
-    <footer>
+    <footer id="footer-text">
         <p>©2026 Petra. All rights reserved</p>
     </footer>
 
@@ -575,6 +575,36 @@
         function toggleNav() {
             document.getElementById('navLinks').classList.toggle('show');
         }
+
+        // Footer animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.querySelector('p');
+                if (text) {
+                    const originalText = text.innerHTML;
+                    text.innerHTML = '';
+                    originalText.split('').forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                        span.style.display = 'inline-block';
+                        if (char === ' ') {
+                            span.style.width = '0.3em';
+                        }
+                        span.style.opacity = '0';
+                        span.style.transform = 'translateY(10px)';
+                        span.style.transition = 'opacity 0.4s ease ' + (index * 0.03) + 's, transform 0.4s ease ' + (index * 0.03) + 's';
+                        text.appendChild(span);
+                    });
+                    setTimeout(() => {
+                        text.querySelectorAll('span').forEach(span => {
+                            span.style.opacity = '1';
+                            span.style.transform = 'translateY(0)';
+                        });
+                    }, 1000);
+                }
+            }
+        });
     </script>
 </body>
 
