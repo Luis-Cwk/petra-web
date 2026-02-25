@@ -1869,8 +1869,8 @@
     </script>
 
     <!-- Footer -->
-    <footer class="footer-unified">
-        <p id="footer-text">©2026 Petra. All rights reserved</p>
+    <footer class="footer-unified" id="footer-text">
+        <p>©2026 Petra. All rights reserved</p>
     </footer>
 
     <!-- Script de animación del footer -->
@@ -1878,25 +1878,29 @@
         document.addEventListener('DOMContentLoaded', function () {
             const footerText = document.getElementById('footer-text');
             if (footerText) {
-                const text = footerText.textContent;
-                footerText.innerHTML = '';
-                text.split('').forEach((char, index) => {
-                    const span = document.createElement('span');
-                    span.textContent = char;
-                    span.style.display = 'inline-block';
-                    span.style.opacity = '0';
-                    span.style.transform = 'translateY(10px)';
-                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
-                    footerText.appendChild(span);
-                });
-
-                // Activar animación automáticamente después de un delay
-                setTimeout(() => {
-                    footerText.querySelectorAll('span').forEach(span => {
-                        span.style.opacity = '1';
-                        span.style.transform = 'translateY(0)';
+                const text = footerText.querySelector('p');
+                if (text) {
+                    const originalText = text.innerHTML;
+                    text.innerHTML = '';
+                    originalText.split('').forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                        span.style.display = 'inline-block';
+                        if (char === ' ') {
+                            span.style.width = '0.3em';
+                        }
+                        span.style.opacity = '0';
+                        span.style.transform = 'translateY(10px)';
+                        span.style.transition = 'opacity 0.4s ease ' + (index * 0.03) + 's, transform 0.4s ease ' + (index * 0.03) + 's';
+                        text.appendChild(span);
                     });
-                }, 1000);
+                    setTimeout(() => {
+                        text.querySelectorAll('span').forEach(span => {
+                            span.style.opacity = '1';
+                            span.style.transform = 'translateY(0)';
+                        });
+                    }, 1000);
+                }
             }
         });
     </script>
