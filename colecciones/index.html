@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Colecciones de arte digital, NFTs y obras generativas de Petra. Explora arte en Bitcoin Ordinals, Tezos, Base Network y más.">
+    <meta name="description"
+        content="Colecciones de arte digital, NFTs y obras generativas de Petra. Explora arte en Bitcoin Ordinals, Tezos, Base Network y más.">
     <title>Petra - Colecciones</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -19,21 +20,21 @@
         rel="stylesheet">
     <style>
         :root {
-            --primary-color: rgba(255, 255, 255, 0.9);
-            --secondary-color: rgba(255, 255, 255, 0.8);
-            --accent-color: #ffffff;
-            --bg-color: #000000;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-hover-bg: rgba(255, 255, 255, 0.1);
-            --glow-color: rgba(255, 255, 255, 0.15);
-            --focus-outline: rgba(255, 255, 255, 0.6);
+            --primary-color: rgba(0, 0, 0, 0.9);
+            --secondary-color: rgba(0, 0, 0, 0.6);
+            --accent-color: #000000;
+            --bg-color: #ffffff;
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --card-hover-bg: rgba(0, 0, 0, 0.05);
+            --glow-color: rgba(0, 0, 0, 0.08);
+            --focus-outline: rgba(0, 0, 0, 0.5);
         }
 
         .skip-link {
             position: absolute;
             top: -40px;
             left: 0;
-            background: #fff;
+            background: #f5f5f5;
             color: #000 !important;
             padding: 8px 16px;
             z-index: 10000;
@@ -47,18 +48,11 @@
         }
 
         #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.4;
+            display: none;
         }
 
         * {
-            color: #fff !important;
+            color: #000 !important;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -74,144 +68,307 @@
             flex-direction: column;
         }
 
-        /* Estilos para la barra de navegación */
-        .navbar {
-            background: transparent !important;
-            backdrop-filter: blur(10px);
+        /* === NAVIGATION - EXACT FROM INICIO === */
+        nav#mainNav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: transparent;
             padding: 15px 0;
             transition: all 0.3s ease;
-            z-index: 1000;
         }
 
-        .navbar.scrolled {
-            background: rgba(0, 0, 0, 0.8) !important;
+        nav#mainNav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .navbar-brand {
+        .nav-container {
+            max-width: 100%;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
             font-size: clamp(1.5rem, 5vw, 2.5rem);
             font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
             text-decoration: none;
-            transition: all 0.5s ease;
-            color: #fff !important;
+            color: var(--primary-color);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 100%;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            min-width: 24rem;
-            white-space: nowrap;
         }
 
-        @media (max-width: 991.98px) {
-            .navbar-brand {
-                min-width: 16rem;
-            }
+        .nav-brand span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
         }
 
-        .navbar-brand.brand-small {
-            font-size: clamp(0.8rem, 2vw, 1.2rem);
-            letter-spacing: 1px;
-            font-weight: 600;
+        .nav-brand span:nth-child(1) {
+            transition-delay: 0s;
         }
 
-        .navbar-brand:hover {
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+        .nav-brand span:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .nav-brand span:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .nav-brand span:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        .nav-brand span:nth-child(5) {
+            transition-delay: 0.4s;
+        }
+
+        .nav-brand.animate span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-brand:hover {
             transform: scale(1.05);
         }
 
-        .navbar-toggler {
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            padding: 0.5rem;
-        }
-
-        .navbar-toggler:focus-visible {
-            outline: 2px solid var(--focus-outline);
-            outline-offset: 4px;
-            border-radius: 4px;
-        }
-
-        /* Global focus-visible for accessibility */
-        a:focus-visible,
-        button:focus-visible {
-            outline: 2px solid var(--focus-outline);
-            outline-offset: 2px;
-        }
-
-        /* Eliminar viñetas de la lista de navegación */
-        .navbar-nav {
-            list-style: none;
+        .nav-links {
+            display: flex;
+            gap: 0;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
-        .nav-link {
-            font-weight: 400;
-            margin: 0 8px;
-            padding: 6px 12px;
-            text-transform: none;
-            letter-spacing: 0.5px;
+        .nav-links .nav-link {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7) !important;
-            transition: all 0.3s ease;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            padding: 6px 12px;
+            margin: 0 8px;
             position: relative;
             background: transparent;
             border: none;
-            font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.3s ease;
         }
 
-        /* Efecto minimalista con corchetes que aparecen en hover */
-        .nav-link::before {
+        .nav-links .nav-link::before {
             content: '[';
             position: absolute;
             left: 0;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--secondary-color);
         }
 
-        .nav-link::after {
+        .nav-links .nav-link::after {
             content: ']';
             position: absolute;
             right: 0;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-            width: auto;
-            height: auto;
-            bottom: auto;
-            left: auto;
-            background-color: transparent;
+            color: var(--secondary-color);
         }
 
-        .nav-link:hover,
-        .nav-link:focus,
-        .nav-link.active {
-            color: rgba(255, 255, 255, 1) !important;
+        .nav-links .nav-link:hover,
+        .nav-links .nav-link.active {
+            color: var(--primary-color);
         }
 
-        .nav-link:focus-visible {
-            outline: 2px solid var(--focus-outline);
-            outline-offset: 4px;
-            border-radius: 4px;
-        }
-
-        .nav-link:hover::before,
-        .nav-link:focus::before,
-        .nav-link.active::before,
-        .nav-link:hover::after,
-        .nav-link:focus::after,
-        .nav-link.active::after {
+        .nav-links .nav-link:hover::before,
+        .nav-links .nav-link.active::before,
+        .nav-links .nav-link:hover::after,
+        .nav-links .nav-link.active::after {
             opacity: 1;
         }
 
-        /* Estilos para el botón de menú en móviles */
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        .nav-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            margin: 0 6px;
+        }
+
+        .filter-btn {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            padding: 6px 12px;
+            margin: 0 8px;
+            position: relative;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--secondary-color);
+        }
+
+        .filter-btn::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--secondary-color);
+        }
+
+        .filter-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .filter-btn:hover::before,
+        .filter-btn:hover::after {
+            opacity: 1;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--primary-color);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 4px;
+        }
+
+        .nav-toggle:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Responsive Navigation - EXACT FROM INICIO */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-divider {
+                display: none;
+            }
+
+            .nav-links .nav-link,
+            .filter-btn {
+                padding: 12px 16px;
+                margin: 0;
+                font-size: 0.85rem;
+                border-radius: 4px;
+                color: var(--secondary-color) !important;
+            }
+
+            .nav-links .nav-link:hover,
+            .nav-links .nav-link.active,
+            .filter-btn:hover {
+                background: rgba(0, 0, 0, 0.05);
+                color: var(--primary-color) !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav#mainNav {
+                padding: 10px 0;
+            }
+
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .nav-brand {
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+            }
+        }
+
+        /* === SCROLL TO TOP BUTTON - EXACT FROM INICIO === */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: var(--primary-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .scroll-top-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 600px) {
+            .scroll-top-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+            }
+        }
+
+        /* === FOOTER - EXACT FROM INICIO === */
+        footer.main-footer {
+            text-align: center;
+            padding: 40px 3vw;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--secondary-color);
         }
 
         /* Estilos para la sección de colecciones */
@@ -223,7 +380,7 @@
             text-align: center;
             margin-bottom: 3rem;
             padding: 2rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         html {
@@ -242,7 +399,7 @@
             font-weight: 200;
             letter-spacing: 8px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.9) !important;
+            color: rgba(0, 0, 0, 0.9) !important;
             margin-bottom: 0.5rem;
         }
 
@@ -251,7 +408,7 @@
             font-weight: 300;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.4) !important;
+            color: rgba(0, 0, 0, 0.4) !important;
         }
 
         .section-divider {
@@ -265,7 +422,7 @@
             transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
         }
 
-        .obra-card.visible + .section-divider,
+        .obra-card.visible+.section-divider,
         .section-divider.visible {
             opacity: 1;
             transform: scaleX(1);
@@ -276,21 +433,28 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.15), transparent);
         }
 
         .section-divider span {
             font-size: 0.7rem;
             letter-spacing: 4px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.3) !important;
+            color: rgba(0, 0, 0, 0.3) !important;
             white-space: nowrap;
             animation: pulse 3s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
         }
 
         .obra-card .row {
@@ -332,13 +496,13 @@
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
-            border-color: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
         }
 
         .obra-card {
             position: relative;
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             padding: 2rem;
             margin-bottom: 3rem;
@@ -355,7 +519,7 @@
             transform: translateX(-50%);
             width: 60%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
         }
 
         .obra-card:last-child::after {
@@ -370,11 +534,11 @@
         .obra-card:hover {
             background: var(--card-hover-bg);
             transform: translateY(-8px);
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 
+            border-color: rgba(0, 0, 0, 0.25);
+            box-shadow:
                 0 20px 40px rgba(0, 0, 0, 0.4),
                 0 0 60px var(--glow-color),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                inset 0 1px 0 rgba(0, 0, 0, 0.1);
         }
 
         .obra-card:hover::before {
@@ -386,7 +550,7 @@
             bottom: 0;
             border-radius: 8px;
             padding: 1px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.1));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), transparent, rgba(0, 0, 0, 0.05));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -421,7 +585,7 @@
             padding: 8px 25px;
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.7) !important;
+            color: rgba(0, 0, 0, 0.7) !important;
             text-decoration: none;
             font-weight: 400;
             letter-spacing: 0.5px;
@@ -438,7 +602,7 @@
             position: absolute;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
             pointer-events: none;
         }
 
@@ -455,7 +619,7 @@
         }
 
         .btn-coleccion:hover {
-            color: #fff !important;
+            color: #000 !important;
             background: transparent;
         }
 
@@ -502,7 +666,7 @@
             padding: 8px 20px;
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.7) !important;
+            color: rgba(0, 0, 0, 0.7) !important;
             text-decoration: none;
             font-weight: 400;
             letter-spacing: 1px;
@@ -521,7 +685,7 @@
             opacity: 0;
             transform: translateX(-5px);
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .back-to-home::after,
@@ -532,12 +696,12 @@
             opacity: 0;
             transform: translateX(5px);
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .back-to-home:hover,
         .back-to-top:hover {
-            color: #fff !important;
+            color: #000 !important;
             background: transparent;
         }
 
@@ -575,7 +739,7 @@
             text-transform: none;
             letter-spacing: 0.5px;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7) !important;
+            color: rgba(0, 0, 0, 0.7) !important;
             transition: all 0.3s ease;
             position: relative;
             background: transparent;
@@ -592,7 +756,7 @@
             left: 0;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .filter-btn-minimalist::after {
@@ -601,13 +765,13 @@
             right: 0;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .filter-btn-minimalist:hover,
         .filter-btn-minimalist:focus,
         .filter-btn-minimalist.active {
-            color: rgba(255, 255, 255, 1) !important;
+            color: rgba(0, 0, 0, 1) !important;
             background: transparent;
         }
 
@@ -627,14 +791,14 @@
         }
 
         .filter-buttons-container {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             padding-top: 10px;
         }
 
         @media (min-width: 992px) {
             .filter-buttons-container {
                 border-top: none;
-                border-left: 1px solid rgba(255, 255, 255, 0.1);
+                border-left: 1px solid rgba(0, 0, 0, 0.1);
                 padding-top: 0;
                 padding-left: 15px;
             }
@@ -719,11 +883,11 @@
             position: relative;
             width: 100%;
             height: 300px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 1rem;
-            background: #000;
+            background: #f5f5f5;
             cursor: pointer;
         }
 
@@ -752,14 +916,16 @@
             display: block;
             width: 24px;
             height: 24px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-top-color: rgba(0, 0, 0, 0.6);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .lazy-canvas .loader-text {
@@ -770,7 +936,7 @@
             font-size: 0.7rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(0, 0, 0, 0.4);
             white-space: nowrap;
             opacity: 0;
             transition: opacity 0.3s ease 0.5s;
@@ -793,7 +959,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.4);
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(255, 255, 255, 0.6);
             padding: 4px 8px;
             border-radius: 4px;
             pointer-events: none;
@@ -822,7 +988,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             color: var(--secondary-color);
             font-size: 0.9rem;
             transition: all 0.3s ease;
@@ -849,7 +1015,7 @@
         }
 
         .lazy-canvas .placeholder:hover {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(255, 255, 255, 0.6);
             color: var(--primary-color);
         }
 
@@ -865,7 +1031,7 @@
             width: 100%;
             height: 100%;
             border: none;
-            background: #000;
+            background: #f5f5f5;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1;
@@ -905,7 +1071,7 @@
             text-transform: none;
             letter-spacing: 0.5px;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7) !important;
+            color: rgba(0, 0, 0, 0.7) !important;
             transition: all 0.3s ease;
             position: relative;
             background: transparent;
@@ -921,7 +1087,7 @@
             left: 0;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .info-btn::after {
@@ -930,12 +1096,12 @@
             right: 0;
             opacity: 0;
             transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .info-btn:hover,
         .info-btn:focus {
-            color: rgba(255, 255, 255, 1) !important;
+            color: rgba(0, 0, 0, 1) !important;
         }
 
         .info-btn:focus-visible {
@@ -956,12 +1122,12 @@
         }
 
         .liminal-tooltip::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
             border-radius: 3px;
         }
 
         .liminal-tooltip::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 3px;
         }
 
@@ -973,7 +1139,7 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
             padding-bottom: 1rem;
         }
 
@@ -1028,210 +1194,9 @@
             text-align: center;
             margin-top: 2rem;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
             font-style: italic;
             color: var(--primary-color) !important;
-        }
-
-        /* ========== MENÚ MÓVIL INTEGRADO EN LA BARRA ========== */
-        @media (max-width: 991.98px) {
-            .navbar {
-                padding: 10px 0 !important;
-                flex-wrap: wrap !important;
-                position: relative !important;
-            }
-
-            .navbar>.container {
-                flex-wrap: wrap !important;
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-
-            .navbar-brand {
-                min-width: auto;
-                font-size: clamp(1.2rem, 5vw, 1.8rem);
-                order: 1;
-            }
-
-            .navbar-toggler {
-                order: 2;
-                padding: 8px;
-                margin-left: auto;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                border-radius: 4px;
-                transition: all 0.3s ease;
-            }
-
-            .navbar-toggler:hover {
-                background: rgba(255, 255, 255, 0.1);
-            }
-
-            .navbar-toggler-icon {
-                width: 24px;
-                height: 24px;
-            }
-
-            /* Menú desplegable - PARTE DEL FLUJO NATURAL DEL DOCUMENTO */
-            .navbar-collapse {
-                order: 3;
-                flex-basis: 100% !important;
-                flex-grow: 1 !important;
-                width: 100% !important;
-                background: rgba(0, 0, 0, 0.98) !important;
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(255, 255, 255, 0.15);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-                margin-top: 10px;
-                padding: 20px 0;
-                position: relative;
-                display: none;
-            }
-
-            .navbar-collapse.show {
-                display: block;
-                animation: slideDown 0.3s ease-out;
-            }
-
-            @keyframes slideDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            /* Contenedor principal de navegación - organizado en 2 filas */
-            .navbar-collapse .d-flex.flex-column.flex-lg-row {
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 0;
-                width: 100%;
-                padding: 0 15px;
-            }
-
-            /* Contenedor de enlaces principales */
-            .navbar-collapse .d-flex.flex-nowrap {
-                flex-wrap: wrap !important;
-                flex-direction: row !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 6px;
-                width: 100%;
-            }
-
-            .navbar-collapse .nav-link {
-                font-size: 0.85rem;
-                padding: 10px 16px;
-                margin: 0;
-                white-space: nowrap;
-                color: rgba(255, 255, 255, 0.85) !important;
-                transition: all 0.2s ease;
-                border-radius: 4px;
-                flex: 0 0 auto;
-            }
-
-            .navbar-collapse .nav-link:hover,
-            .navbar-collapse .nav-link:focus,
-            .navbar-collapse .nav-link.active {
-                color: #ffffff !important;
-                background: rgba(255, 255, 255, 0.15);
-            }
-
-            /* Contenedor de botones de filtro - ahora es parte de la misma fila */
-            .navbar-collapse .filter-buttons-container {
-                border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
-                border-top: none !important;
-                padding-left: 10px !important;
-                padding-top: 0 !important;
-                margin-top: 0 !important;
-                margin-left: 6px !important;
-                display: flex;
-                flex-direction: row !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 6px;
-            }
-
-            .navbar-collapse .filter-btn-minimalist {
-                font-size: 0.85rem;
-                padding: 10px 16px;
-                margin: 0;
-                white-space: nowrap;
-                color: rgba(255, 255, 255, 0.85) !important;
-                flex: 0 0 auto;
-            }
-
-            .navbar-collapse .filter-btn-minimalist:hover {
-                color: #ffffff !important;
-            }
-        }
-
-        /* Ajustes para pantallas muy pequeñas */
-        @media (max-width: 480px) {
-            .navbar-collapse {
-                padding: 15px 0;
-            }
-
-            .navbar-collapse .d-flex.flex-nowrap {
-                gap: 4px;
-            }
-
-            .navbar-collapse .nav-link {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-
-            .navbar-collapse .filter-btn-minimalist {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-
-            .navbar-collapse .filter-buttons-container {
-                padding-left: 8px !important;
-                margin-left: 4px !important;
-                gap: 4px;
-            }
-        }
-
-        /* Ajustes para pantallas extremadamente pequeñas */
-        @media (max-width: 360px) {
-            .navbar-collapse .d-flex.flex-nowrap {
-                gap: 3px;
-            }
-
-            .navbar-collapse .nav-link {
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
-
-            .navbar-collapse .filter-btn-minimalist {
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
-
-            .navbar-collapse .filter-buttons-container {
-                padding-left: 6px !important;
-                margin-left: 3px !important;
-                gap: 3px;
-            }
-        }
-
-        .nav-link {
-            font-size: 0.75rem;
-            margin: 0 5px;
-            padding: 4px 8px;
-        }
-
-        .filter-btn-minimalist {
-            font-size: 0.75rem;
-            margin: 0 5px;
-            padding: 4px 8px;
         }
 
         /* Estilos para el Preloader */
@@ -1241,7 +1206,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background-color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1268,7 +1233,7 @@
         .preloader-dots span {
             width: 6px;
             height: 6px;
-            background-color: #fff;
+            background-color: #000;
             border-radius: 50%;
             opacity: 0.2;
             filter: blur(1px);
@@ -1289,13 +1254,13 @@
             100% {
                 opacity: 0.1;
                 transform: scale(1);
-                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+                box-shadow: 0 0 0 rgba(0, 0, 0, 0);
             }
 
             50% {
                 opacity: 1;
                 transform: scale(1.5);
-                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2);
             }
         }
 
@@ -1319,31 +1284,23 @@
             </div>
         </div>
     </div>
-    <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container d-flex align-items-center justify-content-between">
-            <a class="navbar-brand" href="../" id="petra-logo">
-                PETRA
+    <!-- Barra de navegación FROM INICIO -->
+    <nav id="mainNav">
+        <div class="nav-container">
+            <a href="../" class="nav-brand" id="petraLogo">
+                <span>P</span><span>E</span><span>T</span><span>R</span><span>A</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <div class="d-flex flex-column flex-lg-row w-100 justify-content-lg-between">
-                    <div class="d-flex flex-nowrap">
-                        <a class="nav-link" href="../">Arte</a>
-                        <a class="nav-link" href="../about/">Bio</a>
-                        <a class="nav-link" href="../exhibiciones/">Exhibiciones</a>
-                        <a class="nav-link" href="../articulos/">Artículos</a>
-                        <a class="nav-link" href="../noticias/">Noticias</a>
-                        <a class="nav-link" href="../talleres/">Talleres</a>
-                        <a class="nav-link" href="../cryptoart/">CryptoArt</a>
-                    </div>
-                    <div class="d-flex flex-nowrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
-                        <a href="../colecciones/" class="filter-btn-minimalist active">Colecciones</a>
-                    </div>
-                </div>
+            <button class="nav-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
+            <div class="nav-links" id="navLinks">
+                <a href="../" class="nav-link">Arte</a>
+                <a href="../about/" class="nav-link">Bio</a>
+                <a href="../exhibiciones/" class="nav-link">Exhibiciones</a>
+                <a href="../articulos/" class="nav-link">Artículos</a>
+                <a href="../noticias/" class="nav-link">Noticias</a>
+                <a href="../talleres/" class="nav-link">Talleres</a>
+                <a href="../cryptoart/" class="nav-link">CryptoArt</a>
+                <span class="nav-divider"></span>
+                <a href="./" class="filter-btn active">Colecciones</a>
             </div>
         </div>
     </nav>
@@ -1353,17 +1310,19 @@
         <div class="container">
             <div id="main-content" class="py-4 py-md-5">
                 <div id="colecciones-container" class="px-2 px-md-0"></div>
-
-                <!-- Navegación de pie de página -->
-                <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
-                    <a href="#" class="back-to-home"
-                        onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
-                        Subir
-                    </a>
-                </div>
             </div>
         </div>
     </section>
+
+    <!-- Scroll to top button FROM INICIO -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Ir arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer FROM INICIO -->
+    <footer class="main-footer">
+        <p>&copy;2026 Petra. All rights reserved</p>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1452,7 +1411,7 @@
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-12">
-                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="moveinprompts-video-container" role="img" aria-label="MoveInPrompts - Video de performance con movimiento corporal y prompts de IA">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="moveinprompts-video-container" role="img" aria-label="MoveInPrompts - Video de performance con movimiento corporal y prompts de IA">
                                 <video 
                                     style="width: 100%; height: auto; display: block;" 
                                     muted
@@ -1485,7 +1444,7 @@
                     </div>
                     <div class="row g-2 g-md-3 mb-3 align-items-center">
                         <div class="col-md-5">
-                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
                                 <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
                                     <source src="imagenes/tezos.mp4" type="video/mp4">
                                 </video>
@@ -1493,7 +1452,7 @@
                         </div>
                         <div class="col-md-7">
                             <div style="height: 100%; width: 100%;">
-                                <img src="imagenes/tezos.gif" class="img-fluid w-100" width="600" height="400" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2);" alt="Tezos Series - Personaje de IA con identidad sintética generada en blockchain Tezos">
+                                <img src="imagenes/tezos.gif" class="img-fluid w-100" width="600" height="400" loading="lazy" style="height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.2);" alt="Tezos Series - Personaje de IA con identidad sintética generada en blockchain Tezos">
                             </div>
                         </div>
                     </div>
@@ -1517,7 +1476,7 @@
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-12">
-                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="oda-video-container" role="img" aria-label="Oda a los paisajes del futuro - Video de arte digital sobre metamorfosis post-humanas">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; cursor: pointer;" id="oda-video-container" role="img" aria-label="Oda a los paisajes del futuro - Video de arte digital sobre metamorfosis post-humanas">
                                 <video 
                                     style="width: 100%; height: auto; display: block;" 
                                     muted
@@ -1582,7 +1541,7 @@
                     </div>
                     <div class="row g-2 g-md-3 mb-4 align-items-center">
                         <div class="col-md-7">
-                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                            <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
                                 <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
                                     <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/2ecf8c30c65fb74acb0f25b531cf05/2e2ecf8c30c65fb74acb0f25b531cf05.mp4" type="video/mp4">
                                 </video>
@@ -1591,7 +1550,7 @@
                         <div class="col-md-5">
                             <div class="row g-2 g-md-3">
                                 <div class="col-6 col-md-12">
-                                    <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                                    <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
                                         <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
                                             <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/be64365cc19c3d0d0388aaa854ad63/1ebe64365cc19c3d0d0388aaa854ad63.mov" type="video/quicktime">
                                             <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/be64365cc19c3d0d0388aaa854ad63/1ebe64365cc19c3d0d0388aaa854ad63.mov" type="video/mp4">
@@ -1599,7 +1558,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-12">
-                                    <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
+                                    <div class="video-container" style="position: relative; width: 100%; border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; cursor: pointer;">
                                         <video style="width: 100%; height: auto; display: block;" muted loop preload="metadata" playsinline>
                                             <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/9ed65b90e139634742cf11b2f86273/719ed65b90e139634742cf11b2f86273.mov" type="video/quicktime">
                                             <source src="https://raw2.seadn.io/base/0x0be781dd78247d01c4632e3d5c600ae37d71ac69/9ed65b90e139634742cf11b2f86273/719ed65b90e139634742cf11b2f86273.mov" type="video/mp4">
@@ -1695,7 +1654,7 @@
         document.addEventListener('DOMContentLoaded', generateColecciones);
 
         // Smooth scroll to hash on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             if (window.location.hash) {
                 const targetId = window.location.hash.substring(1);
                 setTimeout(() => {
@@ -1751,7 +1710,7 @@
                     const loader = document.createElement('div');
                     loader.className = 'loader';
                     canvas.appendChild(loader);
-                    
+
                     const loaderText = document.createElement('div');
                     loaderText.className = 'loader-text';
                     loaderText.textContent = 'Cargando...';
@@ -1770,7 +1729,7 @@
                         iframe.style.background = '#000';
                         iframe.frameBorder = '0';
                         iframe.allowFullscreen = true;
-                        iframe.onload = function() {
+                        iframe.onload = function () {
                             canvas.classList.remove('loading');
                         };
                         canvas.appendChild(iframe);
@@ -1806,7 +1765,7 @@
                 canvas.addEventListener('mouseleave', deactivateCanvas);
 
                 // Keyboard support for accessibility
-                canvas.addEventListener('keydown', function(e) {
+                canvas.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         if (!isActive) {
@@ -1954,16 +1913,16 @@
 
     <!-- Script para ocultar extensiones .html -->
     <script src="../clean-urls.js"></script>
-    
+
     <!-- Three.js Background Shader -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        (function() {
+        (function () {
             const canvas = document.getElementById('bg-canvas');
             if (!canvas) return;
-            
-            const renderer = new THREE.WebGLRenderer({ 
-                canvas: canvas, 
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
                 alpha: true,
                 antialias: false,
                 powerPreference: 'low-power'
@@ -2063,35 +2022,35 @@
             }
         })();
     </script>
-    
+
     <!-- Staggered Card Animation -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navbar = document.getElementById('mainNav');
             const section = document.getElementById('colecciones');
-            
+
             function adjustContentPosition() {
                 requestAnimationFrame(() => {
                     const navbarHeight = navbar.offsetHeight;
                     section.style.paddingTop = navbarHeight + 'px';
                 });
             }
-            
+
             adjustContentPosition();
             window.addEventListener('resize', adjustContentPosition);
-            
+
             const resizeObserver = new ResizeObserver(adjustContentPosition);
             resizeObserver.observe(navbar);
-            
+
             const navbarCollapse = document.getElementById('navbarResponsive');
             if (navbarCollapse) {
                 navbarCollapse.addEventListener('shown.bs.collapse', adjustContentPosition);
                 navbarCollapse.addEventListener('hidden.bs.collapse', adjustContentPosition);
             }
-            
+
             const cards = document.querySelectorAll('.obra-card');
             const dividers = document.querySelectorAll('.section-divider');
-            
+
             const intersectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
@@ -2130,6 +2089,87 @@
                 body.classList.remove('loading');
             }, 800);
         });
+
+        // === NAVIGATION FROM INICIO ===
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
+
+        // Close nav on link click
+        document.querySelectorAll('.nav-link, .filter-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('show');
+            });
+        });
+
+        // Scroll effect for navbar
+        window.addEventListener('scroll', () => {
+            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Logo animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const logo = document.getElementById('petraLogo');
+                if (logo) {
+                    logo.querySelectorAll('span').forEach((letter, index) => {
+                        setTimeout(() => {
+                            letter.style.opacity = '1';
+                            letter.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                    logo.classList.add('animate');
+                }
+            }, 600);
+        });
+
+        // === SCROLL TO TOP BUTTON FROM INICIO ===
+        let scrollTopBtn = null;
+        let isNearCorner = false;
+        let scrollTimeout;
+
+        function checkCornerProximity(e) {
+            if (!scrollTopBtn) return;
+            const threshold = 150;
+            const nearRight = window.innerWidth - e.clientX < threshold;
+            const nearBottom = window.innerHeight - e.clientY < threshold;
+            isNearCorner = nearRight && nearBottom;
+            updateButtonVisibility();
+        }
+
+        function updateButtonVisibility() {
+            if (!scrollTopBtn) return;
+            const scrolledEnough = window.scrollY > 300;
+            const shouldShow = scrolledEnough && (isNearCorner || window.innerWidth <= 900);
+            scrollTopBtn.classList.toggle('visible', shouldShow);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('mousemove', checkCornerProximity);
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (window.innerWidth <= 900) updateButtonVisibility();
+            }, 100);
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 900) {
+                isNearCorner = true;
+                updateButtonVisibility();
+            }
+        });
+
+        // Initialize scroll to top button
+        scrollTopBtn = document.getElementById('scrollTopBtn');
+        if (scrollTopBtn) {
+            scrollTopBtn.addEventListener('click', scrollToTop);
+            if (window.innerWidth <= 900) {
+                isNearCorner = true;
+            }
+        }
     </script>
 </body>
 
