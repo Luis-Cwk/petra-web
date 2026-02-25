@@ -641,10 +641,42 @@
     </section>
 
     <footer>
-        <p>©2026 Petra. All rights reserved</p>
+        <p id="footer-text">©2026 Petra. All rights reserved</p>
     </footer>
 
     <script>
+        // Footer animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const footerText = document.getElementById('footer-text');
+            if (footerText) {
+                const text = footerText.textContent;
+                footerText.innerHTML = '';
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(10px)';
+                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
+                    footerText.appendChild(span);
+                });
+
+                const footerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            footerText.querySelectorAll('span').forEach(span => {
+                                span.style.opacity = '1';
+                                span.style.transform = 'translateY(0)';
+                            });
+                            footerObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                footerObserver.observe(footerText);
+            }
+        });
+
         // Preloader
         window.addEventListener('load', function () {
             const preloader = document.getElementById('preloader');

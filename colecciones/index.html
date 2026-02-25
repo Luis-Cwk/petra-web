@@ -68,6 +68,11 @@
             flex-direction: column;
         }
 
+        #main-content {
+            flex: 1;
+            padding-bottom: 60px;
+        }
+
         /* === NAVIGATION - EXACT FROM INICIO === */
         nav#mainNav {
             position: fixed;
@@ -730,6 +735,8 @@
             color: rgba(0, 0, 0, 0.6);
             width: 100%;
             background: #ffffff;
+            position: relative;
+            z-index: 10;
         }
 
         /* Estilo minimalista para botones de filtro (Arte/Colecciones) */
@@ -1887,22 +1894,13 @@
                     footerText.appendChild(span);
                 });
 
-                // Usar Intersection Observer para activar la animación cuando el footer sea visible
-                const footerObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            footerText.querySelectorAll('span').forEach(span => {
-                                span.style.opacity = '1';
-                                span.style.transform = 'translateY(0)';
-                            });
-                            footerObserver.unobserve(entry.target);
-                        }
+                // Activar animación automáticamente después de un delay
+                setTimeout(() => {
+                    footerText.querySelectorAll('span').forEach(span => {
+                        span.style.opacity = '1';
+                        span.style.transform = 'translateY(0)';
                     });
-                }, {
-                    threshold: 0.5 // Activar cuando al menos 50% del footer sea visible
-                });
-
-                footerObserver.observe(footerText);
+                }, 1000);
             }
         });
     </script>
