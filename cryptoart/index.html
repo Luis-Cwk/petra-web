@@ -4,34 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PETRA - CryptoArt</title>
-    <meta name="description" content="Explora mi colección de CryptoArt en diferentes marketplaces de NFT">
+    <title>PETRA | CryptoArt</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-color: rgba(255, 255, 255, 0.95);
-            --secondary-color: rgba(255, 255, 255, 0.7);
-            --accent-color: #ffffff;
-            --bg-color: #000000;
-            --card-bg: rgba(255, 255, 255, 0.04);
-            --card-hover-bg: rgba(255, 255, 255, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --max-width: 1200px;
+            --bg: #ffffff;
+            --text: #000000;
+            --text-secondary: rgba(0, 0, 0, 0.6);
+            --border: rgba(0, 0, 0, 0.1);
+            --border-strong: rgba(0, 0, 0, 0.2);
         }
 
-        *,
-        *::before,
-        *::after {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -42,778 +30,22 @@
         }
 
         body {
-            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--bg-color);
-            color: #ffffff;
-            min-height: 100vh;
-            padding-top: 0;
-            line-height: 1.6;
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
             overflow-x: hidden;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        h4 {
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        a,
-        a:hover,
-        a:focus {
-            text-decoration: none;
-            color: #fff !important;
-        }
-
-        /* Estilos para la barra de navegación */
-        .navbar {
-            background: transparent !important;
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            transition: all 0.3s ease;
-            z-index: 1001;
-        }
-
-        .navbar.scrolled {
-            background: rgba(0, 0, 0, 0.8) !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-decoration: none;
-            transition: all 0.5s ease;
-            color: #fff !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 100%;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            min-width: 24rem;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 991.98px) {
-            .navbar-brand {
-                min-width: 16rem;
-            }
-        }
-
-        .navbar-brand.brand-small {
-            font-size: clamp(0.8rem, 2vw, 1.2rem);
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .navbar-brand:hover {
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
-            transform: scale(1.05);
-        }
-
-        .navbar-toggler {
-            border: none;
-            color: #fff !important;
-            font-size: 1.5rem;
-            padding: 0.5rem;
-        }
-
-        .navbar-toggler:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        /* Eliminar viñetas de la lista de navegación */
-        .navbar-nav {
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-link {
-            font-weight: 400;
-            margin: 0 8px;
-            padding: 6px 12px;
-            text-transform: none;
-            letter-spacing: 0.5px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7) !important;
-            transition: all 0.3s ease;
-            position: relative;
-            background: transparent;
-            border: none;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* Efecto minimalista con corchetes que aparecen en hover */
-        .nav-link::before {
-            content: '[';
-            position: absolute;
-            left: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .nav-link::after {
-            content: ']';
-            position: absolute;
-            right: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-            width: auto;
-            height: auto;
-            bottom: auto;
-            left: auto;
-            background-color: transparent;
-        }
-
-        .nav-link:hover,
-        .nav-link:focus,
-        .nav-link.active {
-            color: rgba(255, 255, 255, 1) !important;
-        }
-
-        .nav-link:hover::before,
-        .nav-link:focus::before,
-        .nav-link.active::before,
-        .nav-link:hover::after,
-        .nav-link:focus::after,
-        .nav-link.active::after {
-            opacity: 1;
-        }
-
-        /* Estilos para el botón de menú en móviles */
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        /* Estilo minimalista para botones de filtro (Colecciones) */
-        .filter-btn-minimalist {
-            font-weight: 400;
-            margin: 0 8px;
-            padding: 6px 12px;
-            text-transform: none;
-            letter-spacing: 0.5px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7) !important;
-            transition: all 0.3s ease;
-            position: relative;
-            background: transparent;
-            border: none;
-            font-family: 'Space Grotesk', sans-serif;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Efecto minimalista con corchetes que aparecen en hover */
-        .filter-btn-minimalist::before {
-            content: '[';
-            position: absolute;
-            left: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .filter-btn-minimalist::after {
-            content: ']';
-            position: absolute;
-            right: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .filter-btn-minimalist:hover,
-        .filter-btn-minimalist:focus,
-        .filter-btn-minimalist.active {
-            color: rgba(255, 255, 255, 1) !important;
-            background: transparent;
-        }
-
-        .filter-btn-minimalist:hover::before,
-        .filter-btn-minimalist:focus::before,
-        .filter-btn-minimalist.active::before,
-        .filter-btn-minimalist:hover::after,
-        .filter-btn-minimalist:focus::after,
-        .filter-btn-minimalist.active::after {
-            opacity: 1;
-        }
-
-        .filter-buttons-container {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 10px;
-        }
-
-        @media (min-width: 992px) {
-            .filter-buttons-container {
-                border-top: none;
-                border-left: 1px solid rgba(255, 255, 255, 0.1);
-                padding-top: 0;
-                padding-left: 15px;
-            }
-        }
-
-        /* Media queries para zoom alto y pantallas pequeñas */
-        @media (max-width: 1400px) {
-            .navbar-brand {
-                min-width: 16rem;
-                font-size: clamp(1.2rem, 4vw, 2rem);
-            }
-
-            .nav-link {
-                font-size: 0.75rem;
-                margin: 0 5px;
-                padding: 4px 8px;
-            }
-
-            .filter-btn-minimalist {
-                font-size: 0.75rem;
-                margin: 0 5px;
-                padding: 4px 8px;
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .navbar-brand {
-                min-width: 12rem;
-                font-size: clamp(1rem, 3.5vw, 1.6rem);
-            }
-
-            .nav-link {
-                font-size: 0.7rem;
-                margin: 0 3px;
-                padding: 3px 6px;
-                letter-spacing: 0.2px;
-            }
-
-            .filter-btn-minimalist {
-                font-size: 0.7rem;
-                margin: 0 3px;
-                padding: 3px 6px;
-            }
-        }
-
-        /* Para zoom muy alto (200%) - Asegurar que todos los botones sean visibles */
-        @media (max-width: 1100px) {
-            .navbar-brand {
-                min-width: 10rem;
-                font-size: clamp(0.9rem, 3vw, 1.4rem);
-                letter-spacing: 1px;
-            }
-
-            .nav-link {
-                font-size: 0.65rem;
-                margin: 0 2px;
-                padding: 2px 5px;
-                letter-spacing: 0.1px;
-            }
-
-            .filter-btn-minimalist {
-                font-size: 0.65rem;
-                margin: 0 2px;
-                padding: 2px 5px;
-            }
-
-            /* Asegurar que el contenedor de navegación no se corte */
-            .navbar-collapse {
-                flex-basis: auto !important;
-                flex-grow: 1 !important;
-            }
-
-            .navbar .container {
-                max-width: 100% !important;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-        }
-
-        /* ========== MENÚ MÓVIL INTEGRADO EN LA BARRA ========== */
-        @media (max-width: 991.98px) {
-            .navbar {
-                padding: 10px 0 !important;
-                flex-wrap: wrap !important;
-                position: relative !important;
-            }
-
-            .navbar > .container {
-                flex-wrap: wrap !important;
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-
-            .navbar-brand {
-                min-width: auto;
-                font-size: clamp(1.2rem, 5vw, 1.8rem);
-                order: 1;
-            }
-
-            .navbar-toggler {
-                order: 2;
-                padding: 8px;
-                margin-left: auto;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                border-radius: 4px;
-                transition: all 0.3s ease;
-            }
-
-            .navbar-toggler:hover {
-                background: rgba(255, 255, 255, 0.1);
-            }
-
-            .navbar-toggler-icon {
-                width: 24px;
-                height: 24px;
-            }
-
-            /* Menú desplegable - PARTE DEL FLUJO NATURAL DEL DOCUMENTO */
-            .navbar-collapse {
-                order: 3;
-                flex-basis: 100% !important;
-                flex-grow: 1 !important;
-                width: 100% !important;
-                background: rgba(0, 0, 0, 0.98) !important;
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(255, 255, 255, 0.15);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-                margin-top: 10px;
-                padding: 20px 0;
-                position: relative;
-                display: none;
-            }
-
-            .navbar-collapse.show {
-                display: block;
-                animation: slideDown 0.3s ease-out;
-            }
-
-            @keyframes slideDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            /* Contenedor principal de navegación - organizado en 2 filas */
-            .navbar-collapse .d-flex.flex-column.flex-lg-row {
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 0;
-                width: 100%;
-                padding: 0 15px;
-            }
-
-            /* Contenedor de enlaces principales */
-            .navbar-collapse .d-flex.flex-nowrap {
-                flex-wrap: wrap !important;
-                flex-direction: row !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 6px;
-                width: 100%;
-            }
-
-            .navbar-collapse .nav-link {
-                font-size: 0.85rem;
-                padding: 10px 16px;
-                margin: 0;
-                white-space: nowrap;
-                color: rgba(255, 255, 255, 0.85) !important;
-                transition: all 0.2s ease;
-                border-radius: 4px;
-                flex: 0 0 auto;
-            }
-
-            .navbar-collapse .nav-link:hover,
-            .navbar-collapse .nav-link:focus,
-            .navbar-collapse .nav-link.active {
-                color: #ffffff !important;
-                background: rgba(255, 255, 255, 0.15);
-            }
-
-            /* Contenedor de botones de filtro - ahora es parte de la misma fila */
-            .navbar-collapse .filter-buttons-container {
-                border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
-                border-top: none !important;
-                padding-left: 10px !important;
-                padding-top: 0 !important;
-                margin-top: 0 !important;
-                margin-left: 6px !important;
-                display: flex;
-                flex-direction: row !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 6px;
-            }
-
-            .navbar-collapse .filter-btn-minimalist {
-                font-size: 0.85rem;
-                padding: 10px 16px;
-                margin: 0;
-                white-space: nowrap;
-                color: rgba(255, 255, 255, 0.85) !important;
-                flex: 0 0 auto;
-            }
-
-            .navbar-collapse .filter-btn-minimalist:hover {
-                color: #ffffff !important;
-            }
-        }
-
-        /* Ajustes para pantallas muy pequeñas */
-        @media (max-width: 480px) {
-            .navbar-collapse {
-                padding: 15px 0;
-            }
-
-            .navbar-collapse .d-flex.flex-nowrap {
-                gap: 4px;
-            }
-
-            .navbar-collapse .nav-link {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-
-            .navbar-collapse .filter-btn-minimalist {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-
-            .navbar-collapse .filter-buttons-container {
-                padding-left: 8px !important;
-                margin-left: 4px !important;
-                gap: 4px;
-            }
-        }
-
-        /* Ajustes para pantallas extremadamente pequeñas */
-        @media (max-width: 360px) {
-            .navbar-collapse .d-flex.flex-nowrap {
-                gap: 3px;
-            }
-
-            .navbar-collapse .nav-link {
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
-
-            .navbar-collapse .filter-btn-minimalist {
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
-
-            .navbar-collapse .filter-buttons-container {
-                padding-left: 6px !important;
-                margin-left: 3px !important;
-                gap: 3px;
-            }
-        }
-
-        .nav-link {
-            font-size: 0.75rem;
-            margin: 0 5px;
-            padding: 4px 8px;
-        }
-
-        .filter-btn-minimalist {
-            font-size: 0.75rem;
-            margin: 0 5px;
-            padding: 4px 8px;
-        }
-
-        /* Sección principal */
-        .section {
-            padding: 2rem 0 1rem 0;
-            flex: 1;
-            background: #000;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .content-section {
-            display: block;
-            width: 100%;
-            background: transparent;
-            z-index: 100;
-            padding: 40px 0;
-            overflow: visible !important;
-            height: auto !important;
-        }
-
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Tarjetas de marketplaces */
-        .marketplace-container {
-            padding: 2rem 0;
-        }
-
-        .marketplace-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: var(--transition);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            backdrop-filter: blur(8px);
-        }
-
-        .marketplace-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent-color);
-            background: var(--card-hover-bg);
-        }
-
-        .marketplace-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .marketplace-card:hover .marketplace-icon {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .marketplace-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .marketplace-card p {
-            color: var(--secondary-color) !important;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-body {
-            padding: 1rem 1.5rem;
-            margin: 0 1.5rem 2rem 1.5rem;
-            width: calc(100% - 3rem);
-            text-align: center;
-        }
-
-        .project-card {
-            background: transparent !important;
-            border: none;
-            margin: 2.5rem 1.5rem;
-            transition: var(--transition);
-            padding: 0;
-            border-radius: 0 !important;
-            width: calc(100% - 3rem) !important;
-            max-width: calc(100% - 3rem) !important;
-            margin-left: 1.5rem !important;
-            margin-right: 1.5rem !important;
-        }
-
-        .project-title {
-            color: #ffffff;
-            margin: 15px 0 30px 0;
-            font-size: 1.7rem;
-            font-weight: 200;
-            text-align: center;
-            width: 100%;
-        }
-
-        .more-artwork-btn {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            opacity: 0.9;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .more-artwork-btn:hover {
-            opacity: 0.7;
-            transform: translateY(-2px);
-            text-decoration: none;
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .card-body a {
-            color: #ffffff;
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .card-body a:hover {
-            opacity: 0.8;
-            text-decoration: underline;
-        }
-
-        .project-card p {
-            margin: 0 0 10px 0;
-            color: #ffffff;
-            line-height: 1.6;
-        }
-
-        .project-card a {
-            color: #ffffff !important;
-            text-decoration: underline;
-        }
-
-
-
-        .back-to-home,
-        .back-to-top {
-            display: inline-block;
-            padding: 8px 20px;
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.7) !important;
-            text-decoration: none;
-            font-weight: 400;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .back-to-home::before,
-        .back-to-top::before {
-            content: '[';
-            position: absolute;
-            left: 0;
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .back-to-home::after,
-        .back-to-top::after {
-            content: ']';
-            position: absolute;
-            right: 0;
-            opacity: 0;
-            transform: translateX(5px);
-            transition: all 0.3s ease;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .back-to-home:hover,
-        .back-to-top:hover {
-            color: #fff !important;
-            background: transparent;
-        }
-
-        .back-to-home:hover::before,
-        .back-to-top:hover::before,
-        .back-to-home:hover::after,
-        .back-to-top:hover::after {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Footer Unified Style */
-        .footer-unified {
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 10px;
-            opacity: 0.6;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            width: 100%;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .back-to-home {
-                padding: 10px 24px;
-                font-size: 0.85rem;
-            }
-        }
-
-        .marketplace-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Estilos para el Preloader */
+        /* Preloader */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background: var(--bg);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -826,345 +58,487 @@
             visibility: hidden;
         }
 
-        .preloader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
         .preloader-dots {
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
 
         .preloader-dots span {
             width: 6px;
             height: 6px;
-            background-color: #fff;
+            background: var(--text);
             border-radius: 50%;
             opacity: 0.2;
-            filter: blur(1px);
-            animation: dot-glow 3s infinite ease-in-out;
+            animation: dot-pulse 2s infinite ease-in-out;
         }
 
         .preloader-dots span:nth-child(2) {
-            animation-delay: 0.5s;
+            animation-delay: 0.3s;
         }
 
         .preloader-dots span:nth-child(3) {
-            animation-delay: 1s;
+            animation-delay: 0.6s;
         }
 
-        @keyframes dot-glow {
-
+        @keyframes dot-pulse {
             0%,
             100% {
-                opacity: 0.1;
+                opacity: 0.2;
                 transform: scale(1);
-                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
             }
-
             50% {
                 opacity: 1;
                 transform: scale(1.5);
-                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
             }
         }
 
-        /* Evitar scroll mientras carga */
         body.loading {
             overflow: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: transparent;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 100%;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+        }
+
+        .nav-brand span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .nav-brand span:nth-child(1) { transition-delay: 0s; }
+        .nav-brand span:nth-child(2) { transition-delay: 0.1s; }
+        .nav-brand span:nth-child(3) { transition-delay: 0.2s; }
+        .nav-brand span:nth-child(4) { transition-delay: 0.3s; }
+        .nav-brand span:nth-child(5) { transition-delay: 0.4s; }
+
+        .nav-brand.animate span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            margin: 0 8px;
+            position: relative;
+            background: transparent;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .nav-link::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before,
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            opacity: 1;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            margin: 0 6px;
+        }
+
+        .filter-btn {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            margin: 0 8px;
+            position: relative;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn::before {
+            content: '[';
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .filter-btn::after {
+            content: ']';
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .filter-btn:hover {
+            color: var(--text);
+        }
+
+        .filter-btn:hover::before,
+        .filter-btn:hover::after {
+            opacity: 1;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 4px;
+        }
+
+        .nav-toggle:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 3vw 60px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* Marketplace Grid */
+        .marketplace-section {
+            padding: 60px 3vw 100px;
+        }
+
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .marketplace-card {
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .marketplace-card:hover {
+            border-color: var(--text);
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .marketplace-card:hover .marketplace-name,
+        .marketplace-card:hover .marketplace-icon {
+            color: var(--bg);
+        }
+
+        .marketplace-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+
+        .marketplace-name {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 3vw;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-divider {
+                display: none;
+            }
+
+            .nav-link,
+            .filter-btn {
+                padding: 12px 16px;
+                margin: 0;
+                font-size: 0.85rem;
+                border-radius: 4px;
+                color: var(--text-secondary) !important;
+            }
+
+            .nav-link:hover,
+            .nav-link.active,
+            .filter-btn:hover {
+                background: rgba(0, 0, 0, 0.05);
+                color: var(--text) !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 10px 0;
+            }
+
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .nav-brand {
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+            }
+
+            .page-header {
+                padding: 100px 4vw 40px;
+            }
+
+            .marketplace-section {
+                padding: 40px 4vw 60px;
+            }
+
+            .marketplace-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body class="loading">
-    <!-- Pantalla de Carga -->
+
     <div id="preloader">
-        <div class="preloader-content">
-            <div class="preloader-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div class="preloader-dots">
+            <span></span><span></span><span></span>
         </div>
     </div>
-    <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container d-flex align-items-center justify-content-between">
-            <a class="navbar-brand" href="../" id="petra-logo">
-                PETRA
+
+    <nav id="mainNav">
+        <div class="nav-container">
+            <a href="../" class="nav-brand" id="petraLogo">
+                <span>P</span><span>E</span><span>T</span><span>R</span><span>A</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <div class="d-flex flex-column flex-lg-row w-100 justify-content-lg-between">
-                    <div class="d-flex flex-nowrap">
-                        <a class="nav-link" href="../">Arte</a>
-                        <a class="nav-link" href="../about/">Bio</a>
-                        <a class="nav-link" href="../exhibiciones/">Exhibiciones</a>
-                        <a class="nav-link" href="../articulos/">Artículos</a>
-                        <a class="nav-link" href="../noticias/">Noticias</a>
-                        <a class="nav-link" href="../talleres/">Talleres</a>
-                        <a class="nav-link active" href="../cryptoart/">CryptoArt</a>
-                    </div>
-                    <div class="d-flex flex-nowrap filter-buttons-container ms-lg-3 mt-2 mt-lg-0">
-                        <a href="../colecciones/" class="filter-btn-minimalist">Colecciones</a>
-                    </div>
-                </div>
+            <button class="nav-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
+            <div class="nav-links" id="navLinks">
+                <a href="../" class="nav-link">Arte</a>
+                <a href="../about/" class="nav-link">Bio</a>
+                <a href="../exhibiciones/" class="nav-link">Exhibiciones</a>
+                <a href="../articulos/" class="nav-link">Articulos</a>
+                <a href="../noticias/" class="nav-link">Noticias</a>
+                <a href="../talleres/" class="nav-link">Talleres</a>
+                <a href="../cryptoart/" class="nav-link active">CryptoArt</a>
+                <span class="nav-divider"></span>
+                <a href="../colecciones/" class="filter-btn">Colecciones</a>
             </div>
         </div>
     </nav>
 
-    <!-- Sección CryptoArt -->
-    <section id="cryptoart" class="section" style="padding-top: 120px; margin: 0; width: 100%;">
-        <div class="container-fluid p-0" style="width: 100%; max-width: 100%; overflow-x: hidden;">
-            <h2 class="text-center mb-5" style="height: 0; margin: 0; padding: 0; visibility: hidden;"></h2>
+    <header class="page-header">
+        <h1 class="page-title">CryptoArt</h1>
+        <p class="page-subtitle">Explora mi colección de CryptoArt en diferentes marketplaces de NFT</p>
+    </header>
 
-            <div id="cryptoart-container" style="width: 100%; margin-top: 0;">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-lg-10">
-                        <div class="content-section" style="padding: 20px;">
+    <section class="marketplace-section">
+        <div class="marketplace-grid">
+            <a href="https://beta.gamma.io/petra/" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon"><i class="fab fa-bitcoin"></i></div>
+                <div class="marketplace-name">Gamma</div>
+            </a>
 
-                        <div class="marketplace-container">
-                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <a href="https://scarce.city/auctions/stamp-16944-01" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon"><i class="fab fa-bitcoin"></i></div>
+                <div class="marketplace-name">Scarce City</div>
+            </a>
 
-                                <!-- Gamma -->
-                                <div class="col">
-                                    <a href="https://beta.gamma.io/petra/" class="text-decoration-none" target="_blank">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <i class="fab fa-bitcoin"></i>
-                                            </div>
-                                            <h4>Gamma</h4>
-                                        </div>
-                                    </a>
-                                </div>
+            <a href="https://pepe.wtf/1L64Zam9tD/collection/stamps" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon"><i class="fab fa-bitcoin"></i></div>
+                <div class="marketplace-name">Pepe WTF</div>
+            </a>
 
+            <a href="https://manifold.gallery/betapetra.eth" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon">Ξ</div>
+                <div class="marketplace-name">Manifold</div>
+            </a>
 
-                                <!-- Scarce City -->
-                                <div class="col">
-                                    <a href="https://scarce.city/auctions/stamp-16944-01" target="_blank"
-                                        class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <i class="fab fa-bitcoin"></i>
-                                            </div>
-                                            <h4>Scarce City</h4>
-                                        </div>
-                                    </a>
-                                </div>
+            <a href="https://daily.xyz/artist/petra" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon">Ξ</div>
+                <div class="marketplace-name">Daily</div>
+            </a>
 
-                                <!-- Pepe WTF -->
-                                <div class="col">
-                                    <a href="https://pepe.wtf/1L64Zam9tD/collection/stamps" target="_blank"
-                                        class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <i class="fab fa-bitcoin"></i>
-                                            </div>
-                                            <h4>Pepe WTF</h4>
-                                        </div>
-                                    </a>
-                                </div>
+            <a href="https://foundation.app/@petra" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon">Ξ</div>
+                <div class="marketplace-name">Foundation</div>
+            </a>
 
-                                <!-- Manifold -->
-                                <div class="col">
-                                    <a href="https://manifold.gallery/betapetra.eth" target="_blank"
-                                        class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <span
-                                                    style="font-family: Arial, sans-serif; font-weight: bold;">Ξ</span>
-                                            </div>
-                                            <h4>Manifold</h4>
-                                        </div>
-                                    </a>
-                                </div>
+            <a href="https://www.niftygateway.com/collections/fracturedfacades-le" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon">Ξ</div>
+                <div class="marketplace-name">Nifty Gateway</div>
+            </a>
 
-                                <!-- Daily -->
-                                <div class="col">
-                                    <a href="https://daily.xyz/artist/petra" target="_blank"
-                                        class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <span
-                                                    style="font-family: Arial, sans-serif; font-weight: bold;">Ξ</span>
-                                            </div>
-                                            <h4>Daily</h4>
-                                        </div>
-                                    </a>
-                                </div>
+            <a href="https://objkt.com/profile/tz1cSxrvsct9FC33dCMwQGQkcwwHirHV1DzX/created" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon">ꜩ</div>
+                <div class="marketplace-name">Objkt</div>
+            </a>
 
-                                <!-- Foundation -->
-                                <div class="col">
-                                    <a href="https://foundation.app/@petra" target="_blank"
-                                        class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <span
-                                                    style="font-family: Arial, sans-serif; font-weight: bold;">Ξ</span>
-                                            </div>
-                                            <h4>Foundation</h4>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <!-- Nifty Gateway -->
-                                <div class="col">
-                                    <a href="https://www.niftygateway.com/collections/fracturedfacades-le"
-                                        target="_blank" class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <span
-                                                    style="font-family: Arial, sans-serif; font-weight: bold;">Ξ</span>
-                                            </div>
-                                            <h4>Nifty Gateway</h4>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <!-- Objkt -->
-                                <div class="col">
-                                    <a href="https://objkt.com/profile/tz1cSxrvsct9FC33dCMwQGQkcwwHirHV1DzX/created"
-                                        target="_blank" class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <span
-                                                    style="font-family: Arial, sans-serif; font-weight: bold;">ꜩ</span>
-                                            </div>
-                                            <h4>Objkt</h4>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <!-- OpenSea -->
-                                <div class="col">
-                                    <a href="https://opensea.io/0xe99c3ecbc68868602cf558325bc6ab6a9807dfa9"
-                                        target="_blank" class="text-decoration-none">
-                                        <div class="marketplace-card">
-                                            <div class="marketplace-icon" style="color: #ffffff;">
-                                                <span
-                                                    style="font-family: Arial, sans-serif; font-weight: bold;">Ξ</span>
-                                            </div>
-                                            <h4>OpenSea</h4>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <a href="https://opensea.io/0xe99c3ecbc68868602cf558325bc6ab6a9807dfa9" class="marketplace-card" target="_blank">
+                <div class="marketplace-icon">Ξ</div>
+                <div class="marketplace-name">OpenSea</div>
+            </a>
         </div>
     </section>
 
-    <!-- Scripts -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Código de inicialización si es necesario
-            console.log('CryptoArt page loaded');
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Efecto de scroll en el header
-        window.addEventListener('scroll', function () {
-            const header = document.getElementById('mainNav');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
-
-    <!-- Footer -->
-    <footer class="footer-unified">
-        <p class="mb-0" id="footer-text">©2026 Petra. All rights reserved</p>
+    <footer>
+        <p>©2026 Petra. All rights reserved</p>
     </footer>
 
-    <!-- Script de animación del footer -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const footerText = document.getElementById('footer-text');
-            if (footerText) {
-                const text = footerText.textContent;
-                footerText.innerHTML = '';
-
-                text.split('').forEach((char, index) => {
-                    const span = document.createElement('span');
-                    span.textContent = char;
-                    span.style.display = 'inline-block';
-                    span.style.opacity = '0';
-                    span.style.transform = 'translateY(10px)';
-                    span.style.transition = `opacity 0.4s ease ${index * 0.03}s, transform 0.4s ease ${index * 0.03}s`;
-                    footerText.appendChild(span);
-                });
-
-                // Usar Intersection Observer para activar la animación cuando el footer sea visible
-                const footerObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            footerText.querySelectorAll('span').forEach(span => {
-                                span.style.opacity = '1';
-                                span.style.transform = 'translateY(0)';
-                            });
-                            footerObserver.unobserve(entry.target);
-                        }
-                    });
-                }, {
-                    threshold: 0.5
-                });
-
-                footerObserver.observe(footerText);
-            }
-        });
-    </script>
-
-    <!-- Logo Animation Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const logo = document.getElementById('petra-logo');
-            const originalText = "PETRA";
-            const letters = originalText.split('');
-            logo.innerHTML = '';
-
-            letters.forEach((letter, index) => {
-                const span = document.createElement('span');
-                span.textContent = letter;
-                span.style.opacity = '0';
-                span.style.transform = 'translateY(20px)';
-                span.style.transition = `all 0.5s ease ${index * 0.1}s`;
-                logo.appendChild(span);
-            });
-
-            setTimeout(() => {
-                logo.querySelectorAll('span').forEach(span => {
-                    span.style.opacity = '1';
-                    span.style.transform = 'translateY(0)';
-                });
-            }, 500);
-        });
-    </script>
-
-    <!-- Script para ocultar extensiones .html -->
-    <script src="../clean-urls.js"></script>
-    <!-- Lógica para el preloader -->
-    <script>
+        // Preloader
         window.addEventListener('load', function () {
             const preloader = document.getElementById('preloader');
-            const body = document.body;
-
-            // Damos un pequeño margen para asegurar que todo esté renderizado
             setTimeout(() => {
                 preloader.classList.add('loaded');
-                body.classList.remove('loading');
+                document.body.classList.remove('loading');
             }, 800);
         });
+
+        // Logo animation
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                document.getElementById('petraLogo').classList.add('animate');
+            }, 500);
+        });
+
+        // Scroll effect for nav
+        window.addEventListener('scroll', function () {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile nav toggle
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
     </script>
 </body>
 
