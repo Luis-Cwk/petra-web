@@ -631,12 +631,15 @@
             if (footerText) {
                 const text = footerText.querySelector('p');
                 if (text) {
-                    const originalText = text.textContent;
+                    const originalText = text.innerHTML;
                     text.innerHTML = '';
                     originalText.split('').forEach((char, index) => {
                         const span = document.createElement('span');
-                        span.textContent = char;
+                        span.innerHTML = char === ' ' ? '&nbsp;' : char;
                         span.style.display = 'inline-block';
+                        if (char === ' ') {
+                            span.style.width = '0.3em';
+                        }
                         span.style.opacity = '0';
                         span.style.transform = 'translateY(10px)';
                         span.style.transition = 'opacity 0.4s ease ' + (index * 0.03) + 's, transform 0.4s ease ' + (index * 0.03) + 's';
